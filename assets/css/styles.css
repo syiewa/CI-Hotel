@@ -1,0 +1,26 @@
+.panel-default {
+    opacity: 0.9;
+    margin-top:30px;
+}
+.form-group.last { margin-bottom:0px; }
+
+body { padding-top:30px; }
+.form-control { margin-bottom: 10px; }
+
+.label,.glyphicon { margin-right:5px; }
+
+.glyphicon {  margin-bottom: 10px;margin-right: 10px;}
+
+small {
+    display: block;
+    line-height: 1.428571429;
+    color: #999;
+}
+
+.datepicker {z-index: 1151 !important ;}
+
+.modal-dialog {
+    width: 900px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
