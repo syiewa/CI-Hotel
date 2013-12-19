@@ -50,7 +50,7 @@ class Kelas extends Admin_Controller {
             redirect('admin/kelas');
         }
         $this->data['content'] = 'admin/kelas/edit';
-        $this->load->view('admin/modal',$this->data);
+        $this->load->view('admin/modal', $this->data);
     }
 
     public function add() {
@@ -81,6 +81,72 @@ class Kelas extends Admin_Controller {
             $this->session->set_flashdata('success', 'Room deleted');
             redirect('admin/kelas');
         }
+    }
+
+    public function gambar($id = 0) {
+        $id OR redirect(site_url('admin/produk'));
+        $this->data['kelas'] = $this->m_kelas->get($id);
+        $this->data['gambar'] = $this->m_kelas->get_gambar($id);
+
+        $this->load->library('jcrop');
+//
+        $prefix = md5($this->data['kelas']->idclass);
+        $this->data['prefix'] = $prefix;
+        $this->data['target_w'] = 200;
+        $this->data['target_h'] = 200;
+        $setdata = array(
+            'prefix' => $prefix,
+            'folder' => 'assets/img/',
+            'thumb_folder' => 'assets/img/thumbnails/',
+            'target_w' => $this->data['target_w'],
+            'target_h' => $this->data['target_h'],
+            'create_thumb' => TRUE
+        );
+        $this->jcrop->set_data($setdata);
+        $action_form = site_url($this->uri->uri_string());
+
+
+        //Upload Process
+        if (isset($_POST[$prefix . 'submit'])) {
+            $this->jcrop->uploading($status);
+            $this->data['status'] = $status;
+        }
+
+        //Saving data
+        if (isset($_POST[$prefix . 'save'])) {
+
+            $this->jcrop->produce($pic_loc, $pic_path, $thumb_loc, $thumb_path);
+            $input = array('idclass' => $this->data['kelas']->idclass,
+                'image' => $pic_path,
+                'thumb' => $thumb_path);
+
+            $this->m_kelas->tambah_gambar($input);
+
+            //$this->hotels->update($id,$input);
+            redirect(site_url('admin/kelas/gambar/' . $id));
+        }
+
+        //Cancel uploading image
+        if (isset($_POST[$prefix . 'cancel'])) {
+            $this->jcrop->cancel();
+        }
+
+        //Cek if image has uploaded
+        if ($this->jcrop->is_uploaded($thepicture, $orig_w, $orig_h, $ratio)) {
+            $this->data['orig_w'] = $orig_w;
+            $this->data['orig_h'] = $orig_h;
+            $this->data['ratio'] = $ratio;
+            $this->data['thepicture'] = $thepicture;
+            $this->data['form'] = $this->jcrop->show_form($action_form, TRUE);
+        } else {
+            $this->data['form'] = $this->jcrop->show_form($action_form);
+        }
+        $this->data['content'] = 'admin/gambar/index';
+        $this->load->view($this->template, $this->data);
+//
+//
+//
+//        parent::_view('produk/gambar', $this->data);
     }
 
 }

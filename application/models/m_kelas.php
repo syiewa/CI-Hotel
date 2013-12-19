@@ -12,6 +12,8 @@
  */
 class M_kelas extends MY_Model {
 
+    private $tabel_foto = 'foto_produk';
+
     //put your code here
     public function __construct() {
         parent::__construct();
@@ -49,6 +51,16 @@ class M_kelas extends MY_Model {
             $data[$row['idclass']] = $row['title'];
         }
         return $data;
+    }
+
+    public function get_gambar($id = 0) {
+        $this->db->where(array('idclass' => $id));
+        return $this->db->get($this->tabel_foto)->result();
+    }
+
+    public function tambah_gambar($data = array()) {
+        $this->db->insert($this->tabel_foto, $data);
+        $id = $this->db->insert_id();
     }
 
 }

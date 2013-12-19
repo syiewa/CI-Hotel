@@ -11,11 +11,13 @@
         <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-responsive.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/styles.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/datepicker.css'); ?>">
+        <link rel="stylesheet" href="<?php echo base_url('assets/css/jcrop.css'); ?>">
         <script src="<?php echo base_url('assets/js/jquery.js'); ?>" ></script>
         <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/bootstrap-datepicker.js'); ?>"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.27/jquery.form-validator.min.js"></script>
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script src="<?php echo base_url('assets/js/jcrop.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/js/tiny_mce/tiny_mce.js'); ?>"></script>
         <script type="text/javascript">
             tinyMCE.init({
@@ -70,22 +72,3 @@
     </body>
 
 </html>
-
-<div class="modal fade" id="telo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Event</h4>
-            </div>
-            <div class="modal-body">
-                <p>Loading...</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-</div><!-- /.modal-dialog -->
