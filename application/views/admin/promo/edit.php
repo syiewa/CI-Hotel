@@ -7,7 +7,7 @@
         <div class="modal-body">
             <?php
             $attributes = array('class' => 'form-horizontal', 'id' => 'myForm', 'role' => 'form');
-            echo form_open_multipart('admin/promo/edit', $attributes);
+            echo form_open('', $attributes);
             ?>
             <div class="form-group">
                 <label for="inputJab" class="col-lg-2 control-label">Kelas</label>
@@ -91,13 +91,14 @@
             $data = array(
                 "value" => 'Update',
                 "class" => 'btn btn-primary',
-                "id" => 'x',
+                "id" => 'submit_btn',
                 "name" => 'update'
             );
             ?>
             <?php echo form_submit($data); ?>
             <?php echo form_reset('reset', 'Reset', 'class="btn btn-primary"'); ?>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">telo</button>
         </div>
     </div><!-- /.modal-content -->
     <?php echo form_close(); ?>
@@ -113,3 +114,11 @@
         $('.datepicker').datepicker({dateFormat: "yy-mm-dd"});
         $('.datepicker2').datepicker({dateFormat: "yy-mm-dd"});
     });</script>
+<script>
+    $('#telo').on('hidden.bs.modal', function() {
+        $(this).removeData('bs.modal');
+    });
+    $('#btnPrimary').live('click', function() {
+        alert('btnPrimary clicked!');
+    });
+</script>
