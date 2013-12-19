@@ -1,3 +1,7 @@
+<?php
+$attributes = array('class' => 'form-horizontal', 'id' => 'myForm', 'role' => 'form');
+echo form_open('', $attributes);
+?>
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
@@ -5,17 +9,13 @@
             <h4 class="modal-title" id="myModalLabel">Edit Berita & Artikel</h4>
         </div>
         <div class="modal-body">
-            <?php
-            $attributes = array('class' => 'form-horizontal', 'id' => 'myForm', 'role' => 'form');
-            echo form_open('', $attributes);
-            ?>
             <div class="form-group">
                 <label for="inputJab" class="col-lg-2 control-label">Title</label>
                 <div class="col-lg-7">
                     <?php
                     $attr = attr(array('form-control', 'input_nama', 'title', 'length', '3-100', 'Title harus berisi 3-100 karakter'));
                     ?>
-                    <?php echo form_input($attr,$news->title); ?>
+                    <?php echo form_input($attr, $news->title); ?>
                 </div>
             </div>
             <div class="form-group">
@@ -24,7 +24,7 @@
                     <?php
                     $attr = attr(array('form-control', 'input_desc', 'post_entry', 'length', '1-1000', 'Harga harus berisi 3-1000 karakter'));
                     ?>
-                    <?php echo form_textarea($attr,$news->post_entry); ?>
+                    <?php echo form_textarea($attr, $news->post_entry); ?>
                 </div>
             </div>
 
@@ -43,8 +43,8 @@
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
     </div><!-- /.modal-content -->
-    <?php echo form_close(); ?>
 </div><!-- /.modal-dialog -->
+<?php echo form_close(); ?>
 <script>
     $.validate({
         form: '#myForm',

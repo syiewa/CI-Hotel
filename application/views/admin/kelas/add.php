@@ -1,3 +1,7 @@
+<?php
+$attributes = array('class' => 'form-horizontal', 'id' => 'myForm', 'role' => 'form');
+echo form_open_multipart('admin/kelas/add', $attributes);
+?>
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
@@ -5,10 +9,6 @@
             <h4 class="modal-title" id="myModalLabel">Add Class Room</h4>
         </div>
         <div class="modal-body">
-            <?php
-            $attributes = array('class' => 'form-horizontal', 'id' => 'myForm', 'role' => 'form');
-            echo form_open_multipart('admin/kelas/add', $attributes);
-            ?>
             <div class="form-group">
                 <label for="inputJab" class="col-lg-2 control-label">Title</label>
                 <div class="col-lg-7">
@@ -76,8 +76,8 @@
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
     </div><!-- /.modal-content -->
-    <?php echo form_close(); ?>
 </div><!-- /.modal-dialog -->
+<?php echo form_close(); ?>
 <script>
     $.validate({
         form: '#myForm',
