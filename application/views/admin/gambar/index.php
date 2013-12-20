@@ -1,6 +1,6 @@
       
 <div class="col-lg-12">
-    <h1 class="page-header">Gallery Kamar</h1>
+    <h1 class="page-header">Galery Kamar</h1>
 </div>
 <?php if ($gambar) : ?>
     <?php foreach ($gambar as $g): ?>
