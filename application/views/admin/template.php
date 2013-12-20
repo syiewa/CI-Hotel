@@ -12,6 +12,8 @@
         <link rel="stylesheet" href="<?php echo base_url('assets/css/styles.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/datepicker.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/jcrop.css'); ?>">
+        <link rel="stylesheet" href="<?php echo base_url('assets/fancybox/jquery.fancybox.css'); ?>" type="text/css" media="screen" />
+        <link rel="stylesheet" href="<?php echo base_url('assets/fancybox/helpers/jquery.fancybox-thumbs.css'); ?>" type="text/css" media="screen" />
         <script src="<?php echo base_url('assets/js/jquery.js'); ?>" ></script>
         <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/bootstrap-datepicker.js'); ?>"></script>
@@ -19,6 +21,8 @@
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
         <script src="<?php echo base_url('assets/js/jcrop.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/js/tiny_mce/tiny_mce.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/fancybox/jquery.fancybox.pack.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/fancybox/helpers/jquery.fancybox-thumbs.js'); ?>"></script>
         <script type="text/javascript">
             tinyMCE.init({
                 // General options
