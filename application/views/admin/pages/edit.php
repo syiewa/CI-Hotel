@@ -6,27 +6,27 @@ echo form_open_multipart('', $attributes);
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Add Berita & Artikel</h4>
+            <h4 class="modal-title" id="myModalLabel">Edit Halaman</h4>
         </div>
         <div class="modal-body">
             <div class="form-group">
                 <label for="inputName1" class="col-lg-2 control-label">Title</label>
                 <div class="col-lg-7">
                     <?php $data = array('class' => 'form-control', 'id' => 'inputNama', 'name' => 'title'); ?>
-                    <?php echo form_input($data); ?>
+                    <?php echo form_input($data, $page->title); ?>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputName1" class="col-lg-2 control-label">Body</label>
                 <div class="col-lg-7">
                     <?php $data = array('class' => 'form-control tinymce', 'id' => 'inputDesc', 'name' => 'body'); ?>
-                    <?php echo form_textarea($data); ?>
+                    <?php echo form_textarea($data, $page->body); ?>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputName1" class="col-lg-2 control-label">Parent</label>
                 <div class="col-lg-7">
-                    <?php echo form_dropdown('parent', $pages_no_parents, 0 ? 0 : '','class=form-control'); ?>
+                    <?php echo form_dropdown('parent', $pages_no_parents, $this->input->post('parent_id') ? $this->input->post('parent_id') : $page->parent,'class=form-control'); ?>
                 </div>
             </div>
         </div>

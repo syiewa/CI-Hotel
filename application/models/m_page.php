@@ -26,6 +26,7 @@ class M_page extends MY_Model {
     function get_with_parent($id = NULL, $single = FALSE) {
         $this->db->select('pages.*, p.slug as parent_slug, p.title as parent_title');
         $this->db->join('pages as p', 'pages.parent=p.id', 'left');
+        $this->db->order_by('order');
         $query = $this->db->get('pages');
         if ($query->num_rows() > 0) {
             return $query->result_array();
@@ -62,6 +63,25 @@ class M_page extends MY_Model {
                 }
             }
         }
+        return $array;
+    }
+
+    function get_no_parents() {
+        // Fetch pages without parents
+        $this->db->select('id, title');
+        $this->db->where('parent', 0);
+        $pages = $this->db->get('pages');
+
+        // Return key => value pair array
+        $array = array(
+            0 => 'No parent'
+        );
+        if (count($pages->result())) {
+            foreach ($pages->result() as $page) {
+                $array[$page->id] = $page->title;
+            }
+        }
+
         return $array;
     }
 

@@ -21,15 +21,11 @@
                         <li><a href="<?php echo site_url('admin/news'); ?>">Data News/Article</a></li>
                     </ul>
                 </li>
-                <li><a href="<?php echo base_url('index.php/pelatihan'); ?>"><span class="glyphicon glyphicon-book"></span>Data Pelatihan</a></li>
-                <li><a href="<?php echo base_url('index.php/k_jabatan'); ?>"><span class="glyphicon glyphicon-arrow-up"></span>Data Kenaikan Jabatan</a></li>
                 <li class="dropdown"><a href="arnosa.net" class="dropdown-toggle" data-toggle="dropdown"><span
-                            class="glyphicon glyphicon-user"></span>Laporan<b class="caret"></b></a>
+                            class="glyphicon glyphicon-user"></span>Setting Web<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="<?php echo base_url('index.php/pegawai/cetak'); ?>" target="_blank" >Laporan Data Pegawai</a></li>
-                        <li><a href="<?php echo base_url('index.php/dashboard/absen_periode'); ?>" >Laporan Data Absensi</a></li>
-                        <li><a href="<?php echo base_url('index.php/pelatihan/cetak'); ?>" target="_blank">Laporan Data Pelatihan</a></li>
-                        <li><a href="<?php echo base_url('index.php/k_jabatan/cetak'); ?>" target="_blank">Laporan Data Kenaikan Pangkat</a></li>
+                        <li><a href="<?php echo base_url('index.php/admin/pages/'); ?>">Halaman</a></li>
+                        <li><a href="<?php echo base_url('index.php/admin/options/'); ?>">Options</a></li>
                     </ul>
                 </li>
             </ul>

@@ -11,7 +11,9 @@ function get_ol ($array, $status, $child = FALSE)
 			$str .= '<li id="list_' . $item['id'] .'" class="list-group-item" style="border:none;" >';
 			$str .= '<div>' . $item['title'];
                         $str .= '<b class="pull-right">'. btn_delete('admin/pages/delete/' . $item['id']);
-			$str .= '&nbsp'.btn_edit('admin/pages/add/' . $item['id']).'</b></div>' ;
+			$str .= '<a href="'.base_url("index.php/admin/pages/edit/" . $item['id']) .
+                                '" class="btn btn-default btn-xs btn-primary" data-target="#telo" role="button" data-toggle="modal">
+                                    <span class="glyphicon glyphicon-edit"></span> Edit</a></b></div>' ;
 			
 			// Do we have any children?
 			if (isset($item['children']) && count($item['children'])) {
