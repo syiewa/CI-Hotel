@@ -63,6 +63,35 @@ class M_kelas extends MY_Model {
         $id = $this->db->insert_id();
     }
 
+    public function hapus_foto($id_foto = 0) {
+        $this->db->where(array('id_foto_produk' => $id_foto));
+        $data = $this->db->get($this->tabel_foto)->row();
+        if ($this->db->delete($this->tabel_foto, array('id_foto_produk' => $id_foto))) {
+            if (file_exists($data->image)) {
+                unlink($data->image);
+            }
+            if (file_exists($data->thumb)) {
+                unlink($data->thumb);
+            }
+        }
+    }
+
+    public function set_default($id = 0, $id_foto = 0) {
+        $data1 = array('default' => '0');
+        $this->db->where(array('idclass' => $id));
+        if ($this->db->update($this->tabel_foto, $data1)) {
+            $this->_set_to_default($id_foto);
+            return true;
+        }
+        return false;
+    }
+
+    private function _set_to_default($id_foto = 0) {
+        $data2 = array('default' => 1);
+        $this->db->where(array('id_foto_produk' => $id_foto));
+        $this->db->update($this->tabel_foto, $data2);
+    }
+
 }
 
 ?>

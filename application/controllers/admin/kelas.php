@@ -84,7 +84,7 @@ class Kelas extends Admin_Controller {
     }
 
     public function gambar($id = 0) {
-        $id OR redirect(site_url('admin/produk'));
+        $id OR redirect(site_url('admin/kelas'));
         $this->data['kelas'] = $this->m_kelas->get($id);
         $this->data['gambar'] = $this->m_kelas->get_gambar($id);
 
@@ -92,8 +92,8 @@ class Kelas extends Admin_Controller {
 //
         $prefix = md5($this->data['kelas']->idclass);
         $this->data['prefix'] = $prefix;
-        $this->data['target_w'] = 200;
-        $this->data['target_h'] = 200;
+        $this->data['target_w'] = 400;
+        $this->data['target_h'] = 300;
         $setdata = array(
             'prefix' => $prefix,
             'folder' => 'assets/img/',
@@ -121,7 +121,7 @@ class Kelas extends Admin_Controller {
                 'thumb' => $thumb_path);
 
             $this->m_kelas->tambah_gambar($input);
-
+            $this->session->set_flashdata('success', 'Gambar Saved');
             //$this->hotels->update($id,$input);
             redirect(site_url('admin/kelas/gambar/' . $id));
         }
@@ -143,10 +143,22 @@ class Kelas extends Admin_Controller {
         }
         $this->data['content'] = 'admin/gambar/index';
         $this->load->view($this->template, $this->data);
-//
-//
-//
-//        parent::_view('produk/gambar', $this->data);
+    }
+
+    public function hapus_foto($id = 0, $id_foto = 0) {
+        $id OR redirect(site_url('admin/kelas/gambar'));
+
+        $this->m_kelas->hapus_foto($id_foto);
+        $this->session->set_flashdata('success', 'Gambar Deleted');
+        redirect(site_url('admin/kelas/gambar/' . $id));
+    }
+
+    public function set_default($id = 0, $id_foto = 0) {
+        $id OR redirect(site_url('admin/kelas/gambar'));
+
+        $this->m_kelas->set_default($id, $id_foto);
+
+        redirect(site_url('admin/kelas/gambar/' . $id));
     }
 
 }

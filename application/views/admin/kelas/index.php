@@ -10,7 +10,6 @@
         <tr class="success">
             <th>Nama</th>
             <th>Harga</th>    
-            <th>Photo</th>
             <th>LCD</th>
             <th>WIFI</th>
             <th>Breakfast</th>
@@ -31,7 +30,6 @@
                 <tr>
                     <td><?php echo $p->title; ?></td>
                     <td><?php echo $p->price; ?></td>
-                    <td><?php echo $p->photoclass; ?></td>
                     <?php if ($p->fasilitas): ?>
                         <?php foreach ($p->fasilitas as $f): ?>
                             <td><?php echo _toimg($f->status, 0); ?></td>
@@ -43,7 +41,8 @@
                     <?php endif; ?>
                     <td>
                         <a href="<?php echo base_url('index.php/admin/kelas/edit/' . $p->idclass); ?>" class="btn btn-default btn-xs btn-primary" data-target="#telo" role="button" data-toggle="modal"><span class="glyphicon glyphicon-edit"></span> Edit</a>
-                        <?php echo btn_delete('admin/kelas/delete/' . $p->idclass); ?>
+                        <a href="<?php echo base_url('index.php/admin/kelas/gambar/' . $p->idclass); ?>" class="btn btn-default btn-xs btn-primary" ><span class="glyphicon glyphicon-edit"></span> Galery</a>
+                            <?php echo btn_delete('admin/kelas/delete/' . $p->idclass); ?>
                     </td>
                 </tr>
                 <?php
