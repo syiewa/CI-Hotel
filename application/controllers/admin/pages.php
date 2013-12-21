@@ -27,9 +27,9 @@ Class Pages extends Admin_Controller {
 
     public function add() {
         if ($this->input->post('submit')) {
-            $data = $this->m_page->array_from_post(array('title', 'parent', 'body'));
+            $data = $this->m_page->array_from_post(array('title', 'parent', 'body', 'template', 'slug'));
             $data['created'] = date('Y-m-d H:i:s');
-            $data['slug'] = strtolower($data['title']);
+            $data['slug'] = strtolower($data['slug']);
             if ($this->m_page->insert($data)) {
                 $this->session->set_flashdata('message', 'Halaman Baru berhasil ditambahkan');
                 redirect('admin/pages');
@@ -43,10 +43,10 @@ Class Pages extends Admin_Controller {
     public function edit($id = NULL) {
         $this->data['page'] = $this->m_page->get($id);
         if ($this->input->post('submit')) {
-            $data = $this->m_page->array_from_post(array('title', 'parent', 'body'));
+            $data = $this->m_page->array_from_post(array('title', 'parent', 'body','template','slug'));
             $data['created'] = date('Y-m-d H:i:s');
-            $data['slug'] = strtolower($data['title']);
-            if ($this->m_page->insert($data)) {
+            $data['slug'] = strtolower($data['slug']);
+            if ($this->m_page->update($data, $id)) {
                 $this->session->set_flashdata('message', 'Halaman Baru berhasil ditambahkan');
                 redirect('admin/pages');
             }
@@ -68,6 +68,11 @@ Class Pages extends Admin_Controller {
 
         // Load view
         $this->load->view('admin/pages/order_ajax', $this->data);
+    }
+
+    public function delete($id) {
+        $this->m_page->delete($id);
+        redirect('admin/pages');
     }
 
 }

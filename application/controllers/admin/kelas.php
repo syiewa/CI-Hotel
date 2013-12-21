@@ -92,8 +92,8 @@ class Kelas extends Admin_Controller {
 //
         $prefix = md5($this->data['kelas']->idclass);
         $this->data['prefix'] = $prefix;
-        $this->data['target_w'] = 400;
-        $this->data['target_h'] = 300;
+        $this->data['target_w'] = 180;
+        $this->data['target_h'] = 150;
         $setdata = array(
             'prefix' => $prefix,
             'folder' => 'assets/img/',

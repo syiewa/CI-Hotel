@@ -42,7 +42,6 @@ small {
     color: #999;
 }
 
-.datepicker {z-index: 1151 !important ;}
 
 .modal-dialog {
     width: 900px;
@@ -98,7 +97,7 @@ small {
     padding: 313px 0 0 2px;
 }
 .nav li a {
-    background: url("../img/nav-bg1.png") no-repeat scroll left top rgba(0, 0, 0, 0);
+    background: url("../img/nav-bg1.png") repeat scroll left top rgba(0, 0, 0, 0);
     text-transform: uppercase;
 }
 ul.nav {
@@ -110,5 +109,18 @@ ul.nav {
 }
 
 .text-muted a{
-     text-decoration: none;
+    text-decoration: none;
 }
+
+
+ul.room_facilities{ padding-bottom:20px;padding-left: 5px;}
+ul.room_facilities li{ display:block; float:left; height:30px; margin:0 10px 10px 0; text-indent:-9999px; width:30px;}
+ul.room_facilities li a{ cursor:pointer; display:block; height:30px; width:30px;}
+ul.room_facilities li.lcd a{ background:url(../img/icons_room.png) no-repeat -1px 0;}
+ul.room_facilities li.wifi a{ background:url(../img/icons_room.png) no-repeat -50px 0;}
+ul.room_facilities li.safe a{ background:url(../img/icons_room.png) no-repeat -97px 0;}
+ul.room_facilities li.bath a{ background:url(../img/icons_room.png) no-repeat -144px 0;}
+ul.room_facilities li.loundry a{ background:url(../img/icons_room.png) no-repeat -192px 0;}
+ul.room_facilities li.parking a{ background:url(../img/icons_room.png) no-repeat -242px 0;}
+ul.room_facilities li.breakfast a{ background:url(../img/icons_room.png) no-repeat -288px 0;}
+ul.room_facilities li.dinner a{ background:url(../img/icons_room.png) no-repeat -335px 0;} 

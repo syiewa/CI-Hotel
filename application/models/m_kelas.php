@@ -25,6 +25,11 @@ class M_kelas extends MY_Model {
         return $q->result();
     }
 
+    public function get_aktiffac($id = null) {
+        $q = $this->db->query('select * from facilities where idclass = ' . $id . ' AND status = 1');
+        return $q->result();
+    }
+
     public function get_allfac() {
         $q = $this->db->query('select * from facilities');
         return $q->result();
@@ -56,6 +61,37 @@ class M_kelas extends MY_Model {
     public function get_gambar($id = 0) {
         $this->db->where(array('idclass' => $id));
         return $this->db->get($this->tabel_foto)->result();
+    }
+
+    public function get_gambardefault($id = 0) {
+        $data = array();
+        $i = 0;
+        foreach ($this->get_all() as $item) {
+            $data[$i] = $item;
+            $this->db->where(array('idclass' => $item->idclass));
+            if ($this->db->get('foto_produk')->num_rows() > 0) {
+                $this->db->where(array('idclass' => $item->idclass, 'default' => 1));
+                if ($this->db->get('foto_produk')->num_rows() > 0) {
+                    $this->db->where(array('idclass' => $item->idclass, 'default' => 1));
+                    $foto = $this->db->get('foto_produk')->result();
+                    foreach ($foto as $pic) {
+                        $data[$i]->image = $pic->image;
+                        $data[$i]->thumb = $pic->thumb;
+                    }
+                } else {
+                    $foto = $this->db->get('foto_produk')->result();
+                    foreach ($foto as $pic) {
+                        $data[$i]->image = $pic->image;
+                        $data[$i]->thumb = $pic->thumb;
+                    }
+                }
+            } else {
+                $data[$i]->image = '';
+                $data[$i]->thumb = '';
+            }
+            $i++;
+        }
+        return $data;
     }
 
     public function tambah_gambar($data = array()) {

@@ -10,9 +10,22 @@ echo form_open_multipart('', $attributes);
         </div>
         <div class="modal-body">
             <div class="form-group">
+                <label for="inputName1" class="col-lg-2 control-label">Template</label>
+                <div class="col-lg-7">
+                    <?php echo form_dropdown('template', array('page' => 'Page', 'news_archive' => 'News archive', 'homepage' => 'Homepage','service' => 'Service'), $this->input->post('template') ? $this->input->post('template') : '', 'class=form-control'); ?>
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="inputName1" class="col-lg-2 control-label">Title</label>
                 <div class="col-lg-7">
                     <?php $data = array('class' => 'form-control', 'id' => 'inputNama', 'name' => 'title'); ?>
+                    <?php echo form_input($data); ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputName1" class="col-lg-2 control-label">URL</label>
+                <div class="col-lg-7">
+                    <?php $data = array('class' => 'form-control', 'id' => 'inputNama', 'name' => 'slug'); ?>
                     <?php echo form_input($data); ?>
                 </div>
             </div>
@@ -26,7 +39,7 @@ echo form_open_multipart('', $attributes);
             <div class="form-group">
                 <label for="inputName1" class="col-lg-2 control-label">Parent</label>
                 <div class="col-lg-7">
-                    <?php echo form_dropdown('parent', $pages_no_parents, 0 ? 0 : '','class=form-control'); ?>
+                    <?php echo form_dropdown('parent', $pages_no_parents, 0 ? 0 : '', 'class=form-control'); ?>
                 </div>
             </div>
         </div>

@@ -85,6 +85,27 @@ class M_page extends MY_Model {
         return $array;
     }
 
+    function getPagesBySlug($slug) {
+        $this->db->select('*');
+        $this->db->where('slug', $slug);
+        $query = $this->db->get('pages', 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    public function delete($id) {
+        // Delete a page
+        parent::delete($id);
+
+        // Reset parent ID for its children
+        $this->db->set(array(
+            'parent' => 0
+        ))->where('parent', $id)->update('pages');
+    }
+
+
 }
 
 ?>

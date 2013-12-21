@@ -9,6 +9,7 @@
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            
             <ul class="nav navbar-nav">
                 <li><a href="<?php echo base_url('index.php/dashboard'); ?>"><span class="glyphicon glyphicon-home"></span>Dashboard</a></li>
                 <li class="dropdown"><a href="arnosa.net" class="dropdown-toggle" data-toggle="dropdown"><span
