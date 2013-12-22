@@ -6,14 +6,14 @@
             </h3>
         </div>
         <div class="panel-body">
-            <form role="form">
+            <?php echo form_open('booking'); ?>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Check In</label>
-                    <input type="email" class="form-control datepicker" id="from" placeholder="Enter date">
+                    <input type="text" class="form-control datepicker" id="from" placeholder="Enter date" name="from">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Check Out</label>
-                    <input type="email" class="form-control datepicker" id="to" placeholder="Enter date">
+                    <input type="text" class="form-control datepicker" id="to" placeholder="Enter date" name="to">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Pilih Kelas</label>
@@ -21,10 +21,10 @@
 
                 </div>
                 <div class="form-group">
-                    <button class="form-control btn btn-default">Check</button>
+                    <?php echo form_submit('check','Check','class=form-control btn btn-default'); ?>
                 </div>
 
-            </form>
+            <?php echo form_close(); ?>
         </div>
     </div>
 </div>
