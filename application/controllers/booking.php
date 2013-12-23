@@ -23,29 +23,62 @@ Class Booking extends Frontend_Controller {
     }
 
     public function index() {
-//        $this->cart->destroy();
+//        $this->session->sess_destroy();
         if ($this->input->post('check')) {
             $to = $this->input->post('to');
             $from = $this->input->post('from');
-            $id = $this->input->post('idclass');
-            $rooms = $this->m_room->get_room($id);
-            if (!empty($rooms)) {
-                $data = array(
-                    'id' => $id,
-                    'qty' => $this->IntervalDays($from, $to),
-                    'price' => $rooms[0]->net,
-                    'name' => $rooms[0]->title,
-                    'from' => $from,
-                    'to' => $to
-                );
-                $this->cart->insert($data);
-            } else {
-                $this->data['keterangan'] = $this->m_kelas->get($id);
-                $this->data['keterangan']->to = $to;
-                $this->data['keterangan']->from = $from;
+            $tgl = array(
+                'from' => $from,
+                'to' => $to
+            );
+            $this->session->set_userdata($tgl);
+//            $id = $this->input->post('idclass');
+//            $rooms = $this->m_room->get_room($id);
+//            if (!empty($rooms)) {
+//                $data = array(
+//                    'id' => $id,
+//                    'qty' => $this->IntervalDays($from, $to),
+//                    'price' => $rooms[0]->net,
+//                    'name' => $rooms[0]->title,
+//                    'from' => $from,
+//                    'to' => $to
+//                );
+//                $this->cart->insert($data);
+//            } else {
+//                $this->data['keterangan'] = $this->m_kelas->get($id);
+//                $this->data['keterangan']->to = $to;
+//                $this->data['keterangan']->from = $from;
+//            }
+        }
+
+        $this->data['rooms'] = $this->m_room->get_allroom();
+        foreach ($this->data['rooms'] as $k => $v) {
+            $gmbr = $this->m_kelas->get_gambardefault();
+            foreach ($gmbr as  $g => $s){
+                if ($this->data['rooms'][$k]->idclass == $gmbr[$g]->idclass){
+                    $this->data['rooms'][$k]->thumb = $gmbr[$g]->thumb;
+                    $this->data['rooms'][$k]->image = $gmbr[$g]->image;
+                }
             }
         }
         $this->data['content'] = 'web/booking/index';
+        $this->load->view($this->template, $this->data);
+    }
+
+    public function order($id = null) {
+        $from = $this->session->userdata('from');
+        $to = $this->session->userdata('to');
+        $this->data['rooms'] = $this->m_room->get_room($id);
+        if (!empty($this->data['rooms'])) {
+            $data = array(
+                'id' => $id,
+                'qty' => $this->IntervalDays($from, $to) + 1,
+                'price' => $this->data['rooms'][0]->net,
+                'name' => $this->data['rooms'][0]->title,
+            );
+            $this->cart->insert($data);
+        }
+        $this->data['content'] = 'web/booking/booking';
         $this->load->view($this->template, $this->data);
     }
 
@@ -82,4 +115,5 @@ Class Booking extends Frontend_Controller {
     }
 
 }
+
 ?>

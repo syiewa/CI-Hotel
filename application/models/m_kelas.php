@@ -79,6 +79,7 @@ class M_kelas extends MY_Model {
                         $data[$i]->thumb = $pic->thumb;
                     }
                 } else {
+                    $this->db->where(array('idclass' => $item->idclass));
                     $foto = $this->db->get('foto_produk')->result();
                     foreach ($foto as $pic) {
                         $data[$i]->image = $pic->image;

@@ -1,6 +1,6 @@
 <div class="col-md-12">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class='page-header'>
                 <h1><?php echo $page->title; ?></h1>
                 <p><?php echo $page->body; ?></p>
@@ -24,46 +24,11 @@
                                         <li class="<?php echo $f->fac; ?>"><a title="<?php echo $f->title; ?>" href="#" class="tooltip_1"><?php echo $f->title; ?></a></li>
                                     <?php endforeach; ?>
                                 </ul>
-                                <a class="form-control btn btn-success">Order Now</a>
+                                <a href="<?php echo site_url('booking'); ?>"class="form-control btn btn-success">Order Now</a>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Reservation:
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <form role="form">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Check In</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter date">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Check Out</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter date">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Pilih Kelas</label>
-                            <select class="form-control">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <button class="form-control btn btn-default">Check</button>
-                        </div>
-
-                    </form>
-                </div>
             </div>
         </div>
     </div>

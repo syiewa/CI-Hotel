@@ -16,11 +16,6 @@
                     <input type="text" class="form-control datepicker" id="to" placeholder="Enter date" name="to">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Pilih Kelas</label>
-                    <?php echo form_dropdown('idclass', $class, '', 'class="form-control"'); ?>
-
-                </div>
-                <div class="form-group">
                     <?php echo form_submit('check','Check','class=form-control btn btn-default'); ?>
                 </div>
 
@@ -33,6 +28,7 @@
         $("#from").datepicker({
             defaultDate: "+1w",
             changeMonth: true,
+            changeYear: true,
             numberOfMonths: 1,
             onClose: function(selectedDate) {
                 $("#to").datepicker("option", "minDate", selectedDate);
@@ -41,6 +37,7 @@
         $("#to").datepicker({
             defaultDate: "+1w",
             changeMonth: true,
+            changeYear: true,
             numberOfMonths: 1,
             onClose: function(selectedDate) {
                 $("#from").datepicker("option", "maxDate", selectedDate);

@@ -37,6 +37,7 @@ Class Pages extends Frontend_Controller {
     }
 
     private function _homepage() {
+        $this->session->sess_destroy();
         $this->data['promo'] = $this->m_promo->get_promokelas();
     }
 
