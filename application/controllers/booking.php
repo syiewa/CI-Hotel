@@ -24,6 +24,9 @@ Class Booking extends Frontend_Controller {
 
     public function index() {
 //        $this->session->sess_destroy();
+        if ($this->cart->contents()){
+            $this->cart->destroy();
+        }
         if ($this->input->post('check')) {
             $to = $this->input->post('to');
             $from = $this->input->post('from');
@@ -54,8 +57,8 @@ Class Booking extends Frontend_Controller {
         $this->data['rooms'] = $this->m_room->get_allroom();
         foreach ($this->data['rooms'] as $k => $v) {
             $gmbr = $this->m_kelas->get_gambardefault();
-            foreach ($gmbr as  $g => $s){
-                if ($this->data['rooms'][$k]->idclass == $gmbr[$g]->idclass){
+            foreach ($gmbr as $g => $s) {
+                if ($this->data['rooms'][$k]->idclass == $gmbr[$g]->idclass) {
                     $this->data['rooms'][$k]->thumb = $gmbr[$g]->thumb;
                     $this->data['rooms'][$k]->image = $gmbr[$g]->image;
                 }
@@ -66,8 +69,23 @@ Class Booking extends Frontend_Controller {
     }
 
     public function order($id = null) {
-        $from = $this->session->userdata('from');
-        $to = $this->session->userdata('to');
+        $from = $this->input->post('from');
+        $to = $this->input->post('to');
+        $tgl = array(
+            'from' => $from,
+            'to' => $to
+        );
+        $this->session->set_userdata($tgl);
+        $id = $this->input->post('idclass');
+        foreach ($id as $i) {
+            if ($this->input->post('check' . $i)) {
+                $id = $i;
+            }
+        }
+        if ($from == '' AND $to == '') {
+            $this->session->set_flashdata('error', 'Silahkan pilih tgl');
+            redirect('booking');
+        }
         $this->data['rooms'] = $this->m_room->get_room($id);
         if (!empty($this->data['rooms'])) {
             $data = array(

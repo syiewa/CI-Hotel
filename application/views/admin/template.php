@@ -44,36 +44,42 @@
     </head>
 
     <body>
-        <!-- Content -->
-        <!-- Header -->
-        <?php $this->load->view('admin/components/page_head'); ?>
-        <!-- End Header -->
+        <div id="wrap">
+            <div class="container">
+                <!-- Content -->
+                <!-- Header -->
+                <?php $this->load->view('admin/components/page_head'); ?>
+                <!-- End Header -->
 
-        <!-- Sidebar -->
-        <!-- End Sidebar -->
+                <!-- Sidebar -->
 
-        <!-- Content -->
-        <div class="container">
-            <?php echo validation_errors('<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>', '</div>'); ?>
-            <?php
-            if ($this->session->flashdata('success')) {
-                echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>' . $this->session->flashdata('success') . '</div>';
-            }
-            if ($this->session->flashdata('error')) {
-                echo '<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>' . $this->session->flashdata('error') . '</div>';
-            }
-            ?>
-            <?php if (!empty($content)): ?>
-                <?php $this->load->view($content); ?>
-            <?php else: ?>
-                <?php echo 'Halaman tidak ada'; ?>
-            <?php endif; ?>
+                <!-- End Sidebar -->
+                <br />
+                <br />
+                <!-- Content -->
+                <div class="col-lg-12">
+                    <?php echo validation_errors('<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>', '</div>'); ?>
+                    <?php
+                    if ($this->session->flashdata('success')) {
+                        echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>' . $this->session->flashdata('success') . '</div>';
+                    }
+                    if ($this->session->flashdata('error')) {
+                        echo '<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>' . $this->session->flashdata('error') . '</div>';
+                    }
+                    ?>
+                    <?php if (!empty($content)): ?>
+                        <?php $this->load->view($content); ?>
+                    <?php else: ?>
+                        <?php echo 'Halaman tidak ada'; ?>
+                    <?php endif; ?>
+                    <!-- End Content -->
+                </div>
+
+                <!-- Footer -->
+                <?php // $this->load->view('components/footer'); ?>
+                <!-- End Footer -->
+            </div>
         </div>
-        <!-- End Content -->
-
-        <!-- Footer -->
-        <?php // $this->load->view('components/footer'); ?>
-        <!-- End Footer -->
     </body>
 
 </html>
