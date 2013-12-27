@@ -83,7 +83,7 @@
                         <tr>
                             <td><?php echo $r->numbers; ?></td>
                             <td><?php echo $kelasget->title; ?></td>
-                            <td><?php echo _tobooking('admin/rooms/aktif/',$r->idrooms,$r->status); ?></td>
+                            <td><?php echo _tobooking('admin/rooms/aktif/',$r->idclass,$r->idrooms,$r->status); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

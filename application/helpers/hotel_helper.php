@@ -75,12 +75,12 @@ function _toaktif($url = null, $id = null, $str = 0) {
     return $im;
 }
 
-function _tobooking($url = null, $id = null, $str = 0) {
+function _tobooking($url = null, $idclass = null , $id = null, $str = 0) {
     $im = "";
     if ($str == "0") {
-        $im = '<a href = ' . site_url($url . '' . $id . '/1') . ' class="btn btn-default btn-xs btn-warning">Kosong</a>';
+        $im = '<a href = ' . site_url($url .$idclass .'/' . $id . '/1') . ' class="btn btn-default btn-xs btn-warning">Kosong</a>';
     } elseif ($str == "1") {
-        $im = '<a href = ' . site_url($url . '' . $id . '/0') . ' class="btn btn-default btn-xs btn-success">Booked</a>';
+        $im = '<a href = ' . site_url($url .$idclass .'/'  . $id . '/0') . ' class="btn btn-default btn-xs btn-success">Booked</a>';
     }
     return $im;
 }

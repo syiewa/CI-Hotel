@@ -46,10 +46,10 @@ class Rooms extends Admin_Controller {
         $this->load->view($this->template, $this->data);
     }
 
-    public function aktif($id = 0, $aktif = 0) {
+    public function aktif($idclass = 0 ,$id = 0, $aktif = 0) {
         $id OR redirect(site_url('admin/rooms'));
         $this->m_room->update(array('status' => $aktif), $id);
-        redirect(site_url('admin/rooms'));
+        redirect(site_url('admin/rooms?id='.$idclass));
     }
 
 }
