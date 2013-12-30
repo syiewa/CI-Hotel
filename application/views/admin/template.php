@@ -9,7 +9,9 @@
         <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-responsive.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url('assets/css/styles.css'); ?>">
+        <link rel="stylesheet" href="<?php echo base_url('assets/css/sb-admin.css'); ?>">
+        <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+        <link rel="stylesheet" href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/datepicker.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/jcrop.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/fancybox/jquery.fancybox.css'); ?>" type="text/css" media="screen" />
@@ -44,19 +46,20 @@
     </head>
 
     <body>
-        <div id="wrap">
-            <div class="container">
-                <!-- Content -->
-                <!-- Header -->
-                <?php $this->load->view('admin/components/page_head'); ?>
-                <!-- End Header -->
+        <div id="wrapper">
+            <!-- Content -->
+            <!-- Header -->
+            <?php $this->load->view('admin/components/page_head'); ?>
+            <!-- End Header -->
 
-                <!-- Sidebar -->
+            <!-- Sidebar -->
 
-                <!-- End Sidebar -->
-                <br />
-                <br />
-                <!-- Content -->
+            <!-- End Sidebar -->
+            <br />
+            <br />
+            <!-- Content -->
+
+            <div id="page-wrapper">
                 <div class="col-lg-12">
                     <?php echo validation_errors('<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>', '</div>'); ?>
                     <?php
@@ -74,11 +77,11 @@
                     <?php endif; ?>
                     <!-- End Content -->
                 </div>
-
-                <!-- Footer -->
-                <?php // $this->load->view('components/footer'); ?>
-                <!-- End Footer -->
             </div>
+
+            <!-- Footer -->
+            <?php // $this->load->view('components/footer'); ?>
+            <!-- End Footer -->
         </div>
     </body>
 
