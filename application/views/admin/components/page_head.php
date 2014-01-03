@@ -26,6 +26,7 @@
             <li class="dropdown"><a href="arnosa.net" class="dropdown-toggle" data-toggle="dropdown">Setting Web<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li><a href="<?php echo base_url('index.php/admin/pages/'); ?>">Halaman</a></li>
+                    <li><a href="<?php echo base_url('index.php/admin/slider/'); ?>">Slides Gallery</a></li>
                     <li><a href="<?php echo base_url('index.php/admin/options/'); ?>">Options</a></li>
                 </ul>
             </li>

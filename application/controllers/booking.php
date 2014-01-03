@@ -24,7 +24,7 @@ Class Booking extends Frontend_Controller {
 
     public function index() {
 //        $this->session->sess_destroy();
-        if ($this->cart->contents()){
+        if ($this->cart->contents()) {
             $this->cart->destroy();
         }
         if ($this->input->post('check')) {
@@ -68,7 +68,7 @@ Class Booking extends Frontend_Controller {
         $this->load->view($this->template, $this->data);
     }
 
-    public function order($id = null) {
+    public function guest($id = null) {
         $from = $this->input->post('from');
         $to = $this->input->post('to');
         $tgl = array(
@@ -96,7 +96,34 @@ Class Booking extends Frontend_Controller {
             );
             $this->cart->insert($data);
         }
-        $this->data['content'] = 'web/booking/booking';
+        $this->data['content'] = 'web/booking/guest_summary';
+        $this->load->view($this->template, $this->data);
+    }
+
+    public function payment($id = null) {
+        $from = date('Y/m/d', strtotime($this->session->userdata('from')));
+        $to = date('Y/m/d', strtotime($this->session->userdata('to')));
+        $id = $this->input->post('idclass');
+        foreach ($id as $i) {
+            if ($this->input->post('check' . $i)) {
+                $id = $i;
+            }
+        }
+        if ($from == '' AND $to == '') {
+            $this->session->set_flashdata('error', 'Silahkan pilih tgl');
+            redirect('booking');
+        }
+        $this->data['rooms'] = $this->m_room->get_room($id);
+        if (!empty($this->data['rooms'])) {
+            $data = array(
+                'id' => $id,
+                'qty' => $this->IntervalDays($from, $to) + 1,
+                'price' => $this->data['rooms'][0]->net,
+                'name' => $this->data['rooms'][0]->title,
+            );
+            $this->cart->insert($data);
+        }
+        $this->data['content'] = 'web/booking/payment';
         $this->load->view($this->template, $this->data);
     }
 

@@ -3,7 +3,7 @@
     <?php if ($this->session->userdata('from') && $this->session->userdata('to')) : ?>
         <p><?php echo 'Rooms tersedia tgl ' . $this->session->userdata('from') . ' s/d ' . $this->session->userdata('to'); ?></p>
     <?php endif; ?>
-    <?php echo form_open('booking/order'); ?>
+    <?php echo form_open('booking/guest'); ?>
     <div class="form-group">
         <label for="exampleInputEmail1">Check In</label>
         <input type="text" value="<?php echo $this->session->userdata('from') ? $this->session->userdata('from') : date('Y/m/d', now()); ?>" class="form-control datepicker" id="from" placeholder="Enter date" name="from">
@@ -35,7 +35,7 @@
                     <td><?php echo $p->title; ?></td>
                     <td><?php echo $p->net; ?></td>
                     <td>
-                        <?php echo form_submit('check'.$p->idclass, 'Check', 'class=form-control btn btn-default'); ?>
+                        <?php echo form_submit('check' . $p->idclass, 'Check', 'class=form-control btn btn-default'); ?>
                     </td>
                 </tr>
                 <?php
