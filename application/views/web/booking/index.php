@@ -1,3 +1,23 @@
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="nav nav-pills nav-justified thumbnail">
+                <li class="active"><a href="#">
+                        <h4 class="list-group-item-heading">Step 1</h4>
+                        <p class="list-group-item-text">Pilih Kamar</p>
+                    </a></li>
+                <li class="disabled"><a href="#">
+                        <h4 class="list-group-item-heading">Step 2</h4>
+                        <p class="list-group-item-text">Informasi Tamu</p>
+                    </a></li>
+                <li class="disabled"><a href="#">
+                        <h4 class="list-group-item-heading">Step 3</h4>
+                        <p class="list-group-item-text">Pembayaran</p>
+                    </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 <div class="page-header">
     <h1>Kamar tersedia</h1>
     <?php if ($this->session->userdata('from') && $this->session->userdata('to')) : ?>
@@ -17,6 +37,7 @@
     <thead>
         <tr class="success">
             <th></th>
+            <th></th>
             <th>Rooms</th>
             <th>Harga</th>    
             <th>&nbsp;</th>
@@ -29,14 +50,11 @@
             foreach ($rooms as $p) :
                 ?>
                 <tr>
-                    <?php echo form_hidden('idclass[]', $p->idclass); ?>
+                    <td><?php echo form_radio('idclass', $p->idclass); ?></td>
                     <td class="col-md-3"><a href="<?php echo ($p->image == '' ? 'http://placehold.it/180x150&text=Belum+ada+gambar' : base_url($p->image) ); ?>" class="thumbnail fancybox">
                             <img class="img-responsive" src='<?php echo ($p->thumb == '' ? 'http://placehold.it/180x150&text=Belum+ada+gambar' : base_url($p->thumb) ); ?>'></a></td>
                     <td><?php echo $p->title; ?></td>
                     <td><?php echo $p->net; ?></td>
-                    <td>
-                        <?php echo form_submit('check' . $p->idclass, 'Check', 'class=form-control btn btn-default'); ?>
-                    </td>
                 </tr>
                 <?php
                 $i++;
@@ -47,6 +65,9 @@
         <?php endif; ?>
     </tbody>
 </table>
+<div class="col-md-12">
+    <input type="submit" class="btn btn-primary btn-sm pull-right" value="Next" name="next"></button>
+</div>
 <?php echo form_close(); ?>
 <!-- Modal -->
 

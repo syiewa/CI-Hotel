@@ -20,6 +20,7 @@ Class Booking extends Frontend_Controller {
         $this->load->model('m_page');
         $this->load->model('m_promo');
         $this->load->model('m_room');
+        $this->load->model('m_order');
     }
 
     public function index() {
@@ -27,33 +28,6 @@ Class Booking extends Frontend_Controller {
         if ($this->cart->contents()) {
             $this->cart->destroy();
         }
-        if ($this->input->post('check')) {
-            $to = $this->input->post('to');
-            $from = $this->input->post('from');
-            $tgl = array(
-                'from' => $from,
-                'to' => $to
-            );
-            $this->session->set_userdata($tgl);
-//            $id = $this->input->post('idclass');
-//            $rooms = $this->m_room->get_room($id);
-//            if (!empty($rooms)) {
-//                $data = array(
-//                    'id' => $id,
-//                    'qty' => $this->IntervalDays($from, $to),
-//                    'price' => $rooms[0]->net,
-//                    'name' => $rooms[0]->title,
-//                    'from' => $from,
-//                    'to' => $to
-//                );
-//                $this->cart->insert($data);
-//            } else {
-//                $this->data['keterangan'] = $this->m_kelas->get($id);
-//                $this->data['keterangan']->to = $to;
-//                $this->data['keterangan']->from = $from;
-//            }
-        }
-
         $this->data['rooms'] = $this->m_room->get_allroom();
         foreach ($this->data['rooms'] as $k => $v) {
             $gmbr = $this->m_kelas->get_gambardefault();
@@ -71,21 +45,17 @@ Class Booking extends Frontend_Controller {
     public function guest($id = null) {
         $from = $this->input->post('from');
         $to = $this->input->post('to');
-        $tgl = array(
-            'from' => $from,
-            'to' => $to
-        );
-        $this->session->set_userdata($tgl);
-        $id = $this->input->post('idclass');
-        foreach ($id as $i) {
-            if ($this->input->post('check' . $i)) {
-                $id = $i;
-            }
-        }
+        $id = $this->input->post('idclass') == '' ? $this->session->userdata('idclass') : $this->input->post('idclass');
         if ($from == '' AND $to == '') {
             $this->session->set_flashdata('error', 'Silahkan pilih tgl');
             redirect('booking');
         }
+        $tgl = array(
+            'from' => $from,
+            'to' => $to,
+            'idclass' => $id,
+        );
+        $this->session->set_userdata($tgl);
         $this->data['rooms'] = $this->m_room->get_room($id);
         if (!empty($this->data['rooms'])) {
             $data = array(
@@ -103,48 +73,65 @@ Class Booking extends Frontend_Controller {
     public function payment($id = null) {
         $from = date('Y/m/d', strtotime($this->session->userdata('from')));
         $to = date('Y/m/d', strtotime($this->session->userdata('to')));
-        $id = $this->input->post('idclass');
-        foreach ($id as $i) {
-            if ($this->input->post('check' . $i)) {
-                $id = $i;
-            }
+        if ($this->input->post('submit')) {
+            $data = $this->m_order->array_from_post(array(
+                'idclass', 'prefix_nama', 'nama_depan', 'nama_belakang', 'email', 'telepon', 'alamat', 'zip', 'kota', 'provinsi', 'negara'
+            ));
+            $this->session->set_userdata($data);
+            $this->data['rooms'] = $this->m_room->get_room($data['idclass']);
         }
-        if ($from == '' AND $to == '') {
-            $this->session->set_flashdata('error', 'Silahkan pilih tgl');
-            redirect('booking');
-        }
-        $this->data['rooms'] = $this->m_room->get_room($id);
-        if (!empty($this->data['rooms'])) {
-            $data = array(
-                'id' => $id,
-                'qty' => $this->IntervalDays($from, $to) + 1,
-                'price' => $this->data['rooms'][0]->net,
-                'name' => $this->data['rooms'][0]->title,
-            );
-            $this->cart->insert($data);
-        }
+//        $id = $this->input->post('idclass');
+//        foreach ($id as $i) {
+//            if ($this->input->post('check' . $i)) {
+//                $id = $i;
+//            }
+//        }
+//        if ($from == '' AND $to == '') {
+//            $this->session->set_flashdata('error', 'Silahkan pilih tgl');
+//            redirect('booking');
+//        }
+//        $this->data['rooms'] = $this->m_room->get_room($id);
+//        if (!empty($this->data['rooms'])) {
+//            $data = array(
+//                'id' => $id,
+//                'qty' => $this->IntervalDays($from, $to) + 1,
+//                'price' => $this->data['rooms'][0]->net,
+//                'name' => $this->data['rooms'][0]->title,
+//            );
+//            $this->cart->insert($data);
+//        }
         $this->data['content'] = 'web/booking/payment';
         $this->load->view($this->template, $this->data);
     }
 
-    function delete($rowId) {
-        $data = array('rowid' => $rowId, 'qty' => 0);
-
-        $this->cart->update($data);
-        $this->session->set_flashdata('success', 'Item deleted');
-    }
-
-    function update() {
-        $data = $this->input->post('approve');
-        if ($data) {
-            for ($i = 0; $i <= sizeof($data); $i++) {
-                $this->delete($data[$i]);
-            }
-            redirect('booking/index');
-        } else {
-            $this->cart->update($_POST);
-            $this->session->set_flashdata('success', 'Shopping cart updated');
-            redirect('booking/index');
+    public function complete() {
+        $data_user = array(
+            'prefix_nama' => $this->session->userdata('prefix_nama'),
+            'prefix_nama' => $this->session->userdata('nama_depan'),
+            'nama_depan' => $this->session->userdata('prefix_nama'),
+            'nama_belakang' => $this->session->userdata('nama_belakang'),
+            'email' => $this->session->userdata('email'),
+            'telepon' => $this->session->userdata('telepon'),
+            'alamat' => $this->session->userdata('alamat'),
+            'kota' => $this->session->userdata('kota'),
+            'provinsi' => $this->session->userdata('provinsi'),
+            'negara' => $this->session->userdata('negara'),
+            'zip' => $this->session->userdata('zip'),
+        );
+        if ($this->m_order->insert_guest($data_user)) {
+            $iduser = $this->db->insert_id();
+            $data_order = array(
+                'guest_id' => $iduser,
+                'class_id' => $this->session->userdata('idclass'),
+                'tgl_order' => date('Y-m-d'),
+                'payment_id' => '1',
+                'payment_total' => $this->cart->total(),
+                'order_status' => 0,
+                'check_in' => date('Y-m-d',strtotime($this->session->userdata('from'))),
+                'check_out' => date('Y-m-d',strtotime($this->session->userdata('to'))),
+            );
+            $this->m_order->insert($data_order);
+            echo $this->db->last_query();
         }
     }
 
