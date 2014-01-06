@@ -120,18 +120,41 @@ Class Booking extends Frontend_Controller {
         );
         if ($this->m_order->insert_guest($data_user)) {
             $iduser = $this->db->insert_id();
-            $data_order = array(
-                'guest_id' => $iduser,
-                'class_id' => $this->session->userdata('idclass'),
-                'tgl_order' => date('Y-m-d'),
-                'payment_id' => '1',
-                'payment_total' => $this->cart->total(),
-                'order_status' => 0,
-                'check_in' => date('Y-m-d',strtotime($this->session->userdata('from'))),
-                'check_out' => date('Y-m-d',strtotime($this->session->userdata('to'))),
-            );
-            $this->m_order->insert($data_order);
-            echo $this->db->last_query();
+            $data_cc = $this->m_order->array_from_post(array(
+                'cc_type', 'cc_number', 'cvv', 'cc_name'
+            ));
+            $data_cc['cc_date'] = date('Y-m-d', strtotime($date = '01-' . implode('-', $this->input->post('date'))));
+            $data_cc['cc_userid'] = $iduser;
+            if ($this->m_order->insert_cc($data_cc)) {
+                $data_order = array(
+                    'guest_id' => $iduser,
+                    'class_id' => $this->session->userdata('idclass'),
+                    'tgl_order' => date('Y-m-d'),
+                    'payment_id' => '1',
+                    'payment_total' => $this->cart->total(),
+                    'order_status' => 0,
+                    'check_in' => date('Y-m-d', strtotime($this->session->userdata('from'))),
+                    'check_out' => date('Y-m-d', strtotime($this->session->userdata('to'))),
+                );
+                $this->m_order->insert($data_order);
+                $idorder = $this->db->insert_id();
+                $this->load->library('email');
+                $config['protocol'] = 'mail';
+                $config['mailtype'] = 'html';
+                $this->email->initialize($config);
+                $this->email->to($this->session->userdata('email'));
+                $this->email->from('ada@test.com');
+                $this->email->subject('Invoice - Hotel Edan');
+                $message = '';
+                $email['order'] = $this->m_order->get($idorder);
+                $email['kelas'] = $this->m_kelas->get($this->session->userdata('idclass'));
+                $email['paymentMethods'] = $this->m_order->paymentMethods;
+                $email['status'] = $this->m_order->status;
+                $message .= $this->load->view('web/booking/email', $email, TRUE);
+
+                $this->email->message($message);
+                $this->email->send();
+            }
         }
     }
 

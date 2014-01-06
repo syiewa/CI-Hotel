@@ -43,10 +43,10 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                     </select>
                 </div>
                 <div class="col-sm-5">
-                    <input name="nama_depan" type="text" class="form-control" id="inputFirstName" placeholder="First Name">
+                    <input name="nama_depan" data-validation="required" type="text" class="form-control" id="inputFirstName" placeholder="First Name">
                 </div>
                 <div class="col-sm-5">
-                    <input name="nama_belakang" type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+                    <input name="nama_belakang" data-validation="required" type="text" class="form-control" id="inputLastName" placeholder="Last Name">
                 </div>
             </div>
             <div class="form-group">
@@ -55,15 +55,15 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">Email address</label>
-                    <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+                    <input name="email" data-validation="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">Email address Confirmation</label>
-                    <input type="email" class="form-control" id="inputEmailConfirm" placeholder="Email Confirmation">
+                    <input type="email" data-validation="email confirmation" class="form-control" id="inputEmailConfirm" placeholder="Email Confirmation">
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">Telephone</label>
-                    <input type="text" name="telepon" class="form-control" id="inputTelp" placeholder="Telephone">
+                    <input type="text" name="telepon" data-validation="number" class="form-control" id="inputTelp" placeholder="Telephone">
                 </div>
             </div>
             <div class="form-group">
@@ -72,22 +72,20 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">Address</label>
-                    <textarea name="alamat" rows="5" class="form-control" id="inputEmail3"></textarea>
+                    <textarea name="alamat" rows="5" data-validation="required" class="form-control" id="inputEmail3"></textarea>
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">City</label>
-                    <input type="text" name="kota" class="form-control" id="inputEmail3">
+                    <input type="text" name="kota" data-validation="required" class="form-control" id="inputEmail3">
                     <label for="exampleInputEmail1">Zip/Postal</label>
-                    <input type="text" name="zip" class="form-control" id="inputEmail3">
+                    <input type="text" name="zip" data-validation="number" class="form-control" id="inputEmail3">
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">State/Province</label>
-                    <input type="text" name="provinsi" class="form-control" id="inputEmail3">
+                    <input type="text" name="provinsi" data-validation="required" class="form-control" id="inputEmail3">
                     <label for="exampleInputEmail1">Country</label>
                     <select class="form-control" name="negara">
                         <option>Indonesia</option>
-                        <option>Malaysia</option>
-                        <option>Singapore</option>
                     </select>
                 </div>
             </div>
@@ -114,3 +112,7 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
         </div>
     </div>
 </div>
+<script>
+$.validate({
+});
+</script>

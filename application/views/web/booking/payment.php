@@ -58,11 +58,11 @@
 <div class="col-md-12">	
     <div class="col-md-8">
         <h3><i>Payment</i> Information</h3>				
-        <form class="form-horizontal" role="form">
+        <?php echo form_open('booking/complete','class="form-horizontal"'); ?>
             <div class="form-group">
                 <label for="inputEmail3" class="col-sm-3 control-label">Card Type</label>
                 <div class="col-sm-8">
-                    <select class="form-control">
+                    <select class="form-control" name="cc_type">
                         <option>Visa</option>
                         <option>Mastercard</option>
                     </select>
@@ -71,30 +71,45 @@
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-3 control-label">Card Number</label>
                 <div class="col-sm-4">
-                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                    <input type="text" data-validation="number" name="cc_number" class="form-control" id="inputPassword3" ">
                 </div>
                 <label for="inputPassword3" class="col-sm-1 control-label">CVV</label>
                 <div class="col-sm-3">
-                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                    <input type="text" class="form-control" data-validation="number" name="cvv" id="inputPassword3" >
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-3 control-label">Expiration Date</label>
                 <div class="col-sm-5">
-                    <select class="form-control">
-                        <option>Month</option>
+                    </select>
+                    <select class="form-control" name="date[]">
+                        <?php
+                        for ($i = 0; $i < 12; $i++) {
+                            $time = strtotime(sprintf('+%d months', $i));
+                            $value = date('m', $time);
+                            $label = date('F', $time);
+                            printf('<option value="%s">%s</option>', $value, $label);
+                        }
+                        ?>
                     </select>
                 </div>
                 <div class="col-sm-3">
-                    <select class="form-control">
-                        <option>Year</option>
+                    <select class="form-control" name="date[]">
+                        <?php
+                        for ($i = 0; $i <= 5; $i++) {
+                            $time = strtotime(sprintf('+%d years', $i));
+                            $value = date('Y', $time);
+                            $label = date('Y', $time);
+                            printf('<option value="%s">%s</option>', $value, $label);
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-3 control-label">Card Holder Name</label>
                 <div class="col-sm-8">
-                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                    <input type="text" data-validation="required" name="cc_name" class="form-control">
                 </div>
             </div>
     </div>
@@ -111,3 +126,7 @@
     </div>
 </form>
 </div>
+<script>
+$.validate({
+});
+</script>

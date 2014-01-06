@@ -50,7 +50,14 @@
             foreach ($rooms as $p) :
                 ?>
                 <tr>
-                    <td><?php echo form_radio('idclass', $p->idclass); ?></td>
+                    <?php
+                    $radio = array(
+                        'name' => 'idclass',
+                        'value' => $p->idclass,
+                        'checked' => $p->idclass == 1 ? TRUE : FALSE,
+                    );
+                    ?>
+                    <td><?php echo form_radio($radio); ?></td>
                     <td class="col-md-3"><a href="<?php echo ($p->image == '' ? 'http://placehold.it/180x150&text=Belum+ada+gambar' : base_url($p->image) ); ?>" class="thumbnail fancybox">
                             <img class="img-responsive" src='<?php echo ($p->thumb == '' ? 'http://placehold.it/180x150&text=Belum+ada+gambar' : base_url($p->thumb) ); ?>'></a></td>
                     <td><?php echo $p->title; ?></td>
@@ -62,7 +69,7 @@
             ?>
         <?php else: ?>
             <tr><td>Belum ada data !</td></tr> 
-        <?php endif; ?>
+<?php endif; ?>
     </tbody>
 </table>
 <div class="col-md-12">
@@ -73,11 +80,14 @@
 
 <script>
     $(function() {
+        var today = new Date();
         $("#from").datepicker({
-            defaultDate: "+1w",
+            defaultDate: today,
             changeMonth: true,
             changeYear: true,
+            minDate: today,
             numberOfMonths: 1,
+            dateFormat: "yy/mm/dd",
             onClose: function(selectedDate) {
                 $("#to").datepicker("option", "minDate", selectedDate);
             }
@@ -87,6 +97,7 @@
             changeMonth: true,
             changeYear: true,
             numberOfMonths: 1,
+            dateFormat: "yy/mm/dd",
             onClose: function(selectedDate) {
                 $("#from").datepicker("option", "maxDate", selectedDate);
             }
