@@ -22,7 +22,7 @@ class M_order extends MY_Model {
         4 => 'Waiting Approval'
     );
         var $paymentMethods = array(
-        1 => 'Bank Transfer'
+        1 => 'Credit Card'
     );
 
     //put your code here

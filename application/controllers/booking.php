@@ -143,7 +143,7 @@ Class Booking extends Frontend_Controller {
                 $config['mailtype'] = 'html';
                 $this->email->initialize($config);
                 $this->email->to($this->session->userdata('email'));
-                $this->email->from('ada@test.com');
+                $this->email->from('test@test.net');
                 $this->email->subject('Invoice - Hotel Edan');
                 $message = '';
                 $email['order'] = $this->m_order->get($idorder);
@@ -154,6 +154,8 @@ Class Booking extends Frontend_Controller {
 
                 $this->email->message($message);
                 $this->email->send();
+                $this->data['content'] = 'web/booking/complete';
+                $this->load->view($this->template, $this->data);
             }
         }
     }

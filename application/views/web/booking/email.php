@@ -21,7 +21,7 @@ Below is reservation on Hotel Adem :<br/>
 <table class="cart_table">
     <tr class="cart_title">
 
-        <td>Title</td>
+        <td>Kamar</td>
         <td>Tgl Check In</td>
         <td>Tgl Check Out</td>
         <td>Total Bayar</td>
@@ -29,7 +29,7 @@ Below is reservation on Hotel Adem :<br/>
     </tr>
         <tr>
 
-            <td><?php echo $kelas->Title; ?></td>
+            <td><?php echo $kelas->title; ?></td>
             <td><?php echo $order->check_in; ?></td>
             <td><?php echo $order->check_out; ?></td>
             <td style="text-align:right"><?php echo $this->cart->format_number($order->payment_total); ?></td>
