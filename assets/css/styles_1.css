@@ -106,9 +106,8 @@ ul.room_facilities li.dinner a{ background:url(../img/icons_room.png) no-repeat 
 }
 
 #rooms {
-   margin-bottom: 3px;
+    margin-bottom: 4px;
 }
-
 #rooms .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
     color: white;
     background-color: black;
