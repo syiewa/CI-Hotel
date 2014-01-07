@@ -5,11 +5,11 @@
             <legend>Reservation</legend>
             <div class="form-group">
                 <label for="exampleInputEmail1">Check In</label>
-                <input type="text" class="form-control datepicker" id="from" placeholder="Enter date" name="from">
+                <input type="text" class="form-control datepicker input-sm" data-validation="date" data-validation-format="dd/mm/yyyy" id="from" placeholder="Enter date" name="from">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Check Out</label>
-                <input type="text" class="form-control datepicker" id="to" placeholder="Enter date" name="to">
+                <input type="text" class="form-control datepicker input-sm" data-validation="date" data-validation-format="dd/mm/yyyy" id="to" placeholder="Enter date" name="to">
             </div>
             <div class="form-group">
                 <?php echo form_submit('check', 'Check', 'class=form-control btn btn-default'); ?>
@@ -18,6 +18,10 @@
         <?php echo form_close(); ?>
     </div>
 </div>
+<script>
+    $.validate({
+    });
+</script>
 <script>
     $(function() {
         var currentDate = new Date();

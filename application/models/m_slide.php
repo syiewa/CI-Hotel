@@ -17,10 +17,12 @@ class M_slide extends MY_Model {
         parent::__construct();
         parent::set_tabel('slides', 'slide_id');
     }
-    public function get_all(){
+
+    public function get_all() {
         $this->db->order_by('slide_order');
         return parent::get_all();
     }
+
     public function save_order($slides) {
         if (count($slides)) {
             foreach ($slides as $order => $slide) {
@@ -32,6 +34,17 @@ class M_slide extends MY_Model {
                 }
             }
         }
+    }
+
+    public function hapus_slide($id = 0) {
+        $data = parent::get($id);
+        if (file_exists($data->slide_image)) {
+            unlink($data->slide_image);
+        }
+        if (file_exists($data->slide_thumb)) {
+            unlink($data->slide_thumb);
+        }
+        parent::delete($id);
     }
 
 }

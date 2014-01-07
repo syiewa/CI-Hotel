@@ -16,6 +16,7 @@ Class Booking extends Frontend_Controller {
 
     public function __construct() {
         parent::__construct();
+        add_meta_title('Booking');
         $this->load->library('cart');
         $this->load->model('m_page');
         $this->load->model('m_promo');
@@ -43,8 +44,8 @@ Class Booking extends Frontend_Controller {
     }
 
     public function guest($id = null) {
-        $from = $this->input->post('from');
-        $to = $this->input->post('to');
+        $from = $this->input->post('from',TRUE);
+        $to = $this->input->post('to',TRUE);
         $id = $this->input->post('idclass') == '' ? $this->session->userdata('idclass') : $this->input->post('idclass');
         if ($from == '' AND $to == '') {
             $this->session->set_flashdata('error', 'Silahkan pilih tgl');
@@ -123,7 +124,7 @@ Class Booking extends Frontend_Controller {
             $data_cc = $this->m_order->array_from_post(array(
                 'cc_type', 'cc_number', 'cvv', 'cc_name'
             ));
-            $data_cc['cc_date'] = date('Y-m-d', strtotime($date = '01-' . implode('-', $this->input->post('date'))));
+            $data_cc['cc_date'] = date('Y-m-d', strtotime($date = '01-' . implode('-', $this->input->post('date',TRUE))));
             $data_cc['cc_userid'] = $iduser;
             if ($this->m_order->insert_cc($data_cc)) {
                 $data_order = array(

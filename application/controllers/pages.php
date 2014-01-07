@@ -37,8 +37,8 @@ Class Pages extends Frontend_Controller {
     }
 
     private function _homepage() {
-        $this->session->sess_destroy();
-        $this->data['promo'] = $this->m_promo->get_promokelas();
+        $this->load->model('m_slide');
+        $this->data['slides'] = $this->m_slide->get_all();
     }
 
     private function _page() {

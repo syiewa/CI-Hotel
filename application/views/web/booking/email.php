@@ -8,7 +8,7 @@ Below is reservation on Hotel Adem :<br/>
         <td>Date</td><td><?php echo $order->tgl_order; ?></td>
     </tr>
     <tr>
-        <td>Total</td><td><?php echo $order->payment_total; ?></td>
+        <td>Total</td><td><?php echo getOptions('currency'). ' '. $this->cart->format_number($order->payment_total); ?></td>
     </tr>
     <tr>
         <td>Method</td><td><?php echo $paymentMethods[$order->payment_id]; ?></td>
@@ -32,7 +32,7 @@ Below is reservation on Hotel Adem :<br/>
             <td><?php echo $kelas->title; ?></td>
             <td><?php echo $order->check_in; ?></td>
             <td><?php echo $order->check_out; ?></td>
-            <td style="text-align:right"><?php echo $this->cart->format_number($order->payment_total); ?></td>
+            <td style="text-align:right"><?php echo getOptions('currency'). ' '.$this->cart->format_number($order->payment_total); ?></td>
 
         </tr>                
 

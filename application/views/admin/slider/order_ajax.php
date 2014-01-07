@@ -12,15 +12,16 @@ function get_ol($array, $child = FALSE) {
 
         foreach ($array as $item) {
             $str .= '<li id="list_' . $item->slide_id . '" class="media list-group-item">';
-            $media = '';
-            if (!empty($media['path'])):
-                $str .= '<a class="pull-left" href="'. base_url('index.php/admin/slides/add/' . $item->slide_id) . '"><img class="media-object" src="' . base_url() . $media['path'] . '" height="120" width="100"></a>';
+            if (!empty($item->slide_image)):
+                $str .= '<a class="pull-left" href="'. base_url('index.php/admin/slides/add/' . $item->slide_id) . '"><img class="media-object" src="' . base_url($item->slide_thumb) . '"></a>';
             else :
                 $str .= '<a class="pull-left" href="'. base_url('index.php/admin/slides/add/' . $item->slide_id) . '"><img alt="" src="http://placehold.it/100x120"></a>';
             endif;
-            $str .= '<div class="media-body"><h4 class="media-heading">' . $item->slide_title . '<span class="pull-right">' .btn_delete('admin/slides/delete_slide/' . $item->slide_id) . '</span></h4>';
+            $str .= '<div class="media-body"><h4 class="media-heading">' . $item->slide_title . '<span class="pull-right">' .btn_delete('admin/slider/delete_slide/' . $item->slide_id) . '</span></h4>';
             $str .= '<p>' . $item->slide_desc . '</p>';
-            $str .= '&nbsp' . btn_edit('admin/slides/add/' . $item->slide_id) . '</div>';
+            $str .= '&nbsp<a href=' . base_url('index.php/admin/slider/edit/'.$item->slide_id) .' class="btn btn-primary btn-xs" data-toggle="modal" data-target="#telo">
+                Edit
+            </a></div>';
 
             $str .= '</li>';
         }

@@ -30,7 +30,7 @@ class MY_Model extends CI_Model {
     public function array_from_post($fields) {
         $data = array();
         foreach ($fields as $field) {
-            $data[$field] = $this->input->post($field);
+            $data[$field] = $this->input->post($field,TRUE);
         }
         return $data;
     }

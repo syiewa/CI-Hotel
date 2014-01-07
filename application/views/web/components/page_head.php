@@ -3,8 +3,8 @@
         <div class="col-lg-8 logo">
             <a href="index.html">
                 <div class="row">
-                    <div class="col-lg-3 logo">
-                        <h1>Bootstrap<span>Hotel</span></h1>
+                    <div class="col-lg-4 logo">
+                        <h1><?php echo getOptions('company_name'); ?></h1>
                         <p>★★★★☆</p>
                     </div>
                 </div>
@@ -12,8 +12,8 @@
         </div>
         <div class="col-lg-4 pull-right">
             <br>
-            <h4>Customer service: 0800 8475 548</h4>
-            <h4><small>24 hours a day, 7 days a week</small></h4>
+            <h4>Customer service: <?php echo getOptions('company_number'); ?></h4>
+            <address><small><?php echo getOptions('company_address'); ?></small></address>
         </div>
     </div>
     <div class="row">

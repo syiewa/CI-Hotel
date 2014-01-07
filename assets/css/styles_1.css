@@ -102,7 +102,17 @@ ul.room_facilities li.dinner a{ background:url(../img/icons_room.png) no-repeat 
 
 
 #panel-home {
-    height: 350px;
+    height: 330px;
+}
+
+#rooms {
+   margin-bottom: 3px;
+}
+
+#rooms .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+    color: white;
+    background-color: black;
+    border-color: #bbb;
 }
 .container {
     width: 960px;
@@ -110,9 +120,18 @@ ul.room_facilities li.dinner a{ background:url(../img/icons_room.png) no-repeat 
 .thumbnail {
     border: none;
 }
+.peopleCarouselImg img {
+    width: 650px;
+    height: 330px;
+    max-height: 350px;
+}
 @media (max-width: 768px) {
     .carousel {
         width: auto;
+    }
+    .peopleCarouselImg img {
+        width: auto;
+        min-height: auto;
     }
     .container {
         width: auto
@@ -123,14 +142,23 @@ ul.room_facilities li.dinner a{ background:url(../img/icons_room.png) no-repeat 
     .carousel {
         width: auto;
     }
+    .peopleCarouselImg img {
+        width: auto;
+        min-height: auto;
+    }
     .container {
         width: auto
+
     }
 }
 
 @media (max-width: 1200px) {
     .carousel {
         width: auto;
+    }
+    .peopleCarouselImg img {
+        width: auto;
+        min-height: auto;
     }
     .container {
         width: auto

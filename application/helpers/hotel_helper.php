@@ -10,6 +10,13 @@
  *
  * @author Syiewa
  */
+function getOptions($key) {
+    $CI = & get_instance();
+    $CI->load->model('m_option');
+    $setting = $CI->m_option->get_by(array('options_name' => $key));
+    return $setting->value;
+}
+
 function menu() {
     $CI = & get_instance();
     $CI->load->model('m_page');

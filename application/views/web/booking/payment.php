@@ -33,7 +33,7 @@
     </div>
     <div class="col-md-3 pull-right">
         <h3>Base price</h3>
-        <i class="price"><?php echo $this->cart->format_number($this->cart->total()); ?></i>
+        <i class="price"><?php echo getOptions('currency'). ' '.$this->cart->format_number($this->cart->total()); ?></i>
     </div>	
 </div>
 <div class="col-md-12">
@@ -115,7 +115,7 @@
     </div>
     <div class="col-md-3 pull-right">
         <h3>Total Price</h3>
-        <i class="price"><?php echo $this->cart->format_number($this->cart->total()); ?></i>
+        <i class="price"><?php echo getOptions('currency'). ' '.$this->cart->format_number($this->cart->total()); ?></i>
     </div>	
 </div>
 <div class="col-md-12">

@@ -1,12 +1,12 @@
 <?php
 $attributes = array('class' => 'form-horizontal', 'id' => 'myForm', 'role' => 'form');
-echo form_open_multipart('admin/slider/add', $attributes);
+echo form_open_multipart('', $attributes);
 ?>
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Add Slide</h4>
+            <h4 class="modal-title" id="myModalLabel">Edit Slide</h4>
         </div>
         <div class="modal-body">
             <?php
@@ -17,14 +17,14 @@ echo form_open_multipart('admin/slider/add', $attributes);
                 <label for="inputName1" class="col-lg-2 control-label">Title</label>
                 <div class="col-lg-7">
                     <?php $data = array('class' => 'form-control', 'id' => 'inputNama', 'name' => 'slide_title','data-validation' => "required"); ?>
-                    <?php echo form_input($data); ?>
+                    <?php echo form_input($data,  set_value('slide_title',$slide->slide_title)); ?>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputName1" class="col-lg-2 control-label">Body</label>
                 <div class="col-lg-7">
                     <?php $data = array('class' => 'form-control tinymce', 'id' => 'inputDesc', 'name' => 'slide_desc'); ?>
-                    <?php echo form_textarea($data); ?>
+                    <?php echo form_textarea($data,set_value('slide_desc',$slide->slide_desc)); ?>
                 </div>
             </div>
             <div class="form-group">
