@@ -23,6 +23,13 @@
                     <li><a href="<?php echo site_url('admin/news'); ?>">Data News/Article</a></li>
                 </ul>
             </li>
+            <li class="dropdown"><a href="arnosa.net" class="dropdown-toggle" data-toggle="dropdown">Orders & Users<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="<?php echo base_url('index.php/admin/kelas/'); ?>">All Order</a></li>
+                    <li class="divider"></li>
+                    <li><a href="<?php echo site_url('admin/news'); ?>">All Users</a></li>
+                </ul>
+            </li>
             <li class="dropdown"><a href="arnosa.net" class="dropdown-toggle" data-toggle="dropdown">Setting Web<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li><a href="<?php echo base_url('index.php/admin/pages/'); ?>">Halaman</a></li>

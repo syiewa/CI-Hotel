@@ -30,6 +30,7 @@ class M_order extends MY_Model {
         parent::__construct();
         parent::set_tabel('order', 'order_id');
     }
+    
 
     public function insert_guest($data = array()) {
         $this->db->insert($this->tabel_user, $data);

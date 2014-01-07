@@ -17,7 +17,6 @@
         <script src="<?php echo base_url('assets/js/jquery.js'); ?>" ></script>
         <script src="<?php echo base_url('assets/js/jquery-ui.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
-        <script src="<?php echo base_url('assets/js/bootstrap-datepicker.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/jquery.form-validator.min.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/jcrop.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/jquery.mjs.nestedSortable.js'); ?>"></script>
