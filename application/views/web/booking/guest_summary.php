@@ -22,6 +22,30 @@
 $from = date('D j, F Y ', strtotime($this->session->userdata('from')));
 $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
 ?>
+<style>
+    #myTextBox
+    {
+        display: none;
+    }
+    #myTextBox2
+    {
+        display: none;
+    }
+</style>
+
+<script>
+    function ShowTextBox(checkbox)
+    {
+        if (checkbox.checked) {
+            document.getElementById('myTextBox').style.display = 'inline';
+            document.getElementById('myTextBox2').style.display = 'inline';
+        } else {
+            document.getElementById('myTextBox').style.display = 'none';
+            document.getElementById('myTextBox2').style.display = 'none';
+        }
+    }
+</script>
+
 <div class="page-header">
     <h3>Guest Information</h3>
     <small>FILL OUT THE FORM TO COMPLETE YOUR RESERVATION.</small>
@@ -55,15 +79,35 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">Email address</label>
-                    <input name="email" data-validation="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+                    <input name="email_confirmation" data-validation="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">Email address Confirmation</label>
-                    <input type="email" data-validation="email confirmation" class="form-control" id="inputEmailConfirm" placeholder="Email Confirmation">
+                    <input type="email" name="email" data-validation="confirmation" class="form-control" id="inputEmailConfirm" placeholder="Email Confirmation">
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">Telephone</label>
                     <input type="text" name="telepon" data-validation="number" class="form-control" id="inputTelp" placeholder="Telephone">
+                </div>
+                <div class="col-sm-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="myCheckBox" onclick="ShowTextBox(this)" >
+                            Sign Up as Member ?
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group" id="myTextBox">
+                        <label for="exampleInputPassword2">Password</label>
+                        <input name="pass_confirmation" type="password" data-validation="length" data-validation-optional="true" data-validation-length="min8" class="form-control" id="exampleInputPassword2" placeholder="Password">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group" id="myTextBox2">
+                        <label for="exampleInputPassword2">Confirm Password</label>
+                        <input type="password" name="pass" data-validation="confirmation" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -113,6 +157,7 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
     </div>
 </div>
 <script>
-$.validate({
-});
+    $.validate({
+        modules: 'security'
+    });
 </script>
