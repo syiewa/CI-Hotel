@@ -55,8 +55,6 @@
             <!-- Sidebar -->
 
             <!-- End Sidebar -->
-            <br />
-            <br />
             <!-- Content -->
 
             <div id="page-wrapper">

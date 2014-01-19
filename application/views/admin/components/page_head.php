@@ -27,7 +27,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="<?php echo base_url('index.php/admin/kelas/'); ?>">All Order</a></li>
                     <li class="divider"></li>
-                    <li><a href="<?php echo site_url('admin/news'); ?>">All Users</a></li>
+                    <li><a href="<?php echo site_url('admin/users'); ?>">All Users</a></li>
                 </ul>
             </li>
             <li class="dropdown"><a href="arnosa.net" class="dropdown-toggle" data-toggle="dropdown">Setting Web<b class="caret"></b></a>
@@ -87,13 +87,13 @@
                 </ul>
             </li>
             <li class="dropdown user-dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><?php echo ' '.ucwords($this->session->userdata('username')); ?> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+                    <li><a href="<?php echo site_url("admin/users/edit_user/".$this->session->userdata('user_id')); ?>"><i class="fa fa-user"></i> Edit Profile</a></li>
                     <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
                     <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
                     <li class="divider"></li>
-                    <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
+                    <li><a href="<?php echo site_url('auth/logout'); ?>"><i class="fa fa-power-off"></i> Log Out</a></li>
                 </ul>
             </li>
         </ul>
