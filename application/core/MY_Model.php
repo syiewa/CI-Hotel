@@ -30,7 +30,7 @@ class MY_Model extends CI_Model {
     public function array_from_post($fields) {
         $data = array();
         foreach ($fields as $field) {
-            $data[$field] = $this->input->post($field,TRUE);
+            $data[$field] = $this->input->post($field, TRUE);
         }
         return $data;
     }
@@ -60,6 +60,14 @@ class MY_Model extends CI_Model {
         if (is_array($param)) {
             $this->db->where($param);
             return $this->get_all();
+        }
+        return FALSE;
+    }
+
+    public function get_many_by_array($param) {
+        if (is_array($param)) {
+            $this->db->where($param);
+            return $this->get_array();
         }
         return FALSE;
     }

@@ -1,3 +1,4 @@
+#login-nav input,button { margin-bottom: 15px;margin-left: 10px; }
 .mjs-nestedSortable-error {
     background: #fbe3e4; border-color: transparent;
 }
@@ -135,6 +136,10 @@ ul.room_facilities li.dinner a{ background:url(../img/icons_room.png) no-repeat 
     .container {
         width: auto
     }
+    #login-nav input { 
+        margin-bottom: 15px; 
+        margin-left: auto;
+    }
 }
 
 @media (max-width: 992px) {
@@ -149,6 +154,10 @@ ul.room_facilities li.dinner a{ background:url(../img/icons_room.png) no-repeat 
         width: auto
 
     }
+    #login-nav input { 
+        margin-bottom: 15px; 
+        margin-left: auto;
+    }
 }
 
 @media (max-width: 1200px) {
@@ -161,5 +170,9 @@ ul.room_facilities li.dinner a{ background:url(../img/icons_room.png) no-repeat 
     }
     .container {
         width: auto
+    }
+    #login-nav input,button { 
+        margin-bottom: 15px; 
+        margin-left: auto;
     }
 }

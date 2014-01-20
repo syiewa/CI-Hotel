@@ -26,6 +26,13 @@ Class Booking extends Frontend_Controller {
 
     public function index() {
 //        $this->session->sess_destroy();
+        $from = $this->input->post('from', TRUE) == '' ? $this->session->userdata('from') : $this->input->post('from', TRUE);
+        $to = $this->input->post('to', TRUE) == '' ? $this->session->userdata('to') : $this->input->post('to', TRUE);
+        $tgl = array(
+            'from' => $from,
+            'to' => $to,
+        );
+        $this->session->set_userdata($tgl);
         if ($this->cart->contents()) {
             $this->cart->destroy();
         }
@@ -44,19 +51,17 @@ Class Booking extends Frontend_Controller {
     }
 
     public function guest($id = null) {
-        $from = $this->input->post('from',TRUE);
-        $to = $this->input->post('to',TRUE);
+        $this->load->model('m_provinsi');
+        $from = $this->input->post('from', TRUE) == '' ? $this->session->userdata('from') : $this->input->post('from', TRUE);
+        $to = $this->input->post('to', TRUE) == '' ? $this->session->userdata('to') : $this->input->post('to', TRUE);
         $id = $this->input->post('idclass') == '' ? $this->session->userdata('idclass') : $this->input->post('idclass');
-        if ($from == '' AND $to == '') {
-            $this->session->set_flashdata('error', 'Silahkan pilih tgl');
-            redirect('booking');
-        }
         $tgl = array(
             'from' => $from,
             'to' => $to,
             'idclass' => $id,
         );
         $this->session->set_userdata($tgl);
+        $this->data['provinsi'] = $this->m_provinsi->get_provinsi();
         $this->data['rooms'] = $this->m_room->get_room($id);
         if (!empty($this->data['rooms'])) {
             $data = array(
@@ -124,7 +129,7 @@ Class Booking extends Frontend_Controller {
             $data_cc = $this->m_order->array_from_post(array(
                 'cc_type', 'cc_number', 'cvv', 'cc_name'
             ));
-            $data_cc['cc_date'] = date('Y-m-d', strtotime($date = '01-' . implode('-', $this->input->post('date',TRUE))));
+            $data_cc['cc_date'] = date('Y-m-d', strtotime($date = '01-' . implode('-', $this->input->post('date', TRUE))));
             $data_cc['cc_userid'] = $iduser;
             if ($this->m_order->insert_cc($data_cc)) {
                 $data_order = array(
@@ -170,6 +175,13 @@ Class Booking extends Frontend_Controller {
 
 // returns numberofdays
         return $interval;
+    }
+
+    public function list_dropdown() {
+        $this->load->model('m_provinsi');
+        $id = $this->input->post('tnmnt');
+        $this->data['kota'] = $this->m_provinsi->get_kota($id);
+        $this->load->view('web/booking/kota',  $this->data);
     }
 
 }

@@ -46,6 +46,9 @@
                     if ($this->session->flashdata('error')) {
                         echo '<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>' . $this->session->flashdata('error') . '</div>';
                     }
+                    if ($this->session->flashdata('message')) {
+                        echo '<div class="alert alert-dismissable alert-warning"><button type="button" class="close" data-dismiss="alert">×</button>' . $this->session->flashdata('message') . '</div>';
+                    }
                     ?>
                     <?php if (!empty($content)): ?>
                         <?php $this->load->view($content); ?>

@@ -5,11 +5,11 @@
             <legend>Reservation</legend>
             <div class="form-group">
                 <label for="exampleInputEmail1">Check In</label>
-                <input type="text" class="form-control datepicker input-sm" data-validation="date" data-validation-format="mm/dd/yyyy" id="from" placeholder="Enter date" name="from">
+                <input type="text" class="form-control datepicker input-sm" data-validation="date" data-validation-format="yyyy/mm/dd" id="from" placeholder="Enter date" name="from">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Check Out</label>
-                <input type="text" class="form-control datepicker input-sm" data-validation="date" data-validation-format="mm/dd/yyyy" id="to" placeholder="Enter date" name="to">
+                <input type="text" class="form-control datepicker input-sm" data-validation="date" data-validation-format="yyyy/mm/dd" id="to" placeholder="Enter date" name="to">
             </div>
             <div class="form-group">
                 <?php echo form_submit('check', 'Check', 'class=form-control btn btn-default'); ?>
@@ -31,6 +31,7 @@
             changeYear: true,
             numberOfMonths: 1,
             minDate: currentDate,
+            dateFormat: "yy/mm/dd",
             onClose: function(selectedDate) {
                 $("#to").datepicker("option", "minDate", selectedDate);
             }
@@ -40,6 +41,7 @@
             changeMonth: true,
             changeYear: true,
             numberOfMonths: 1,
+            dateFormat: "yy/mm/dd",
             onClose: function(selectedDate) {
                 $("#from").datepicker("option", "maxDate", selectedDate);
             }

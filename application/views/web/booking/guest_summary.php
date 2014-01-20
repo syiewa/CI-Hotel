@@ -1,3 +1,46 @@
+<style>
+    #myTextBox
+    {
+        display: none;
+    }
+    #myTextBox2
+    {
+        display: none;
+    }
+</style>
+
+<script>
+    function ShowTextBox(checkbox)
+    {
+        if (checkbox.checked) {
+            document.getElementById('myTextBox').style.display = 'inline';
+            document.getElementById('myTextBox2').style.display = 'inline';
+        } else {
+            document.getElementById('myTextBox').style.display = 'none';
+            document.getElementById('myTextBox2').style.display = 'none';
+        }
+    }
+</script>
+<script type="text/javascript">
+    $(function() {
+//When the DOM is ready, we disable the matches list
+        $('select#match_list').attr('disabled', true);
+    });
+
+    function activate_match()
+    {
+        var tnmt_id = $('select#tournament_list').val(); //Get the id of the tournament selected in the list
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url(); ?>index.php/booking/list_dropdown', //We are going to make the request to the method "list_dropdown" in the match controller
+            data: 'tnmnt=' + tnmt_id, //POST parameter to be sent with the tournament id
+            success: function(resp) { //When the request is successfully completed, this function will be executed
+                //Activate and fill in the matches list
+                $('select#match_list').attr('disabled', false).html(resp); //With the ".html()" method we include the html code returned by AJAX into the matches list
+            }
+        });
+    }
+</script>
 <div class="col-md-12">
     <div class="row">
         <div class="col-xs-12">
@@ -22,30 +65,6 @@
 $from = date('D j, F Y ', strtotime($this->session->userdata('from')));
 $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
 ?>
-<style>
-    #myTextBox
-    {
-        display: none;
-    }
-    #myTextBox2
-    {
-        display: none;
-    }
-</style>
-
-<script>
-    function ShowTextBox(checkbox)
-    {
-        if (checkbox.checked) {
-            document.getElementById('myTextBox').style.display = 'inline';
-            document.getElementById('myTextBox2').style.display = 'inline';
-        } else {
-            document.getElementById('myTextBox').style.display = 'none';
-            document.getElementById('myTextBox2').style.display = 'none';
-        }
-    }
-</script>
-
 <div class="page-header">
     <h3>Guest Information</h3>
     <small>FILL OUT THE FORM TO COMPLETE YOUR RESERVATION.</small>
@@ -89,26 +108,6 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                     <label for="exampleInputEmail1">Telephone</label>
                     <input type="text" name="telepon" data-validation="number" class="form-control" id="inputTelp" placeholder="Telephone">
                 </div>
-                <div class="col-sm-12">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" id="myCheckBox" onclick="ShowTextBox(this)" >
-                            Sign Up as Member ?
-                        </label>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group" id="myTextBox">
-                        <label for="exampleInputPassword2">Password</label>
-                        <input name="pass_confirmation" type="password" data-validation="length" data-validation-optional="true" data-validation-length="min8" class="form-control" id="exampleInputPassword2" placeholder="Password">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group" id="myTextBox2">
-                        <label for="exampleInputPassword2">Confirm Password</label>
-                        <input type="password" name="pass" data-validation="confirmation" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
-                    </div>
-                </div>
             </div>
             <div class="form-group">
                 <div class="col-md-12">
@@ -120,18 +119,44 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">City</label>
-                    <input type="text" name="kota" data-validation="required" class="form-control" id="inputEmail3">
+                    <select name="kota" id="match_list" class="form-control" onchange="show_clips()">
+            </select>
                     <label for="exampleInputEmail1">Zip/Postal</label>
                     <input type="text" name="zip" data-validation="number" class="form-control" id="inputEmail3">
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">State/Province</label>
-                    <input type="text" name="provinsi" data-validation="required" class="form-control" id="inputEmail3">
+                    <?php
+                    $js = 'id="tournament_list" class="form-control" onChange="activate_match();"';
+                    echo form_dropdown('provinsi', $provinsi, '', $js);
+                    ?>
                     <label for="exampleInputEmail1">Country</label>
                     <select class="form-control" name="negara">
-                        <option>Indonesia</option>
+                        <option value="1">Indonesia</option>
                     </select>
                 </div>
+                <?php if (!$this->ion_auth->logged_in()): ?>
+                    <div class="col-sm-12">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="myCheckBox" onclick="ShowTextBox(this)" >
+                                Sign Up as Member ?
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group" id="myTextBox">
+                            <label for="exampleInputPassword2">Password</label>
+                            <input name="pass_confirmation" type="password" data-validation="length" data-validation-optional="true" data-validation-length="min8" class="form-control" id="exampleInputPassword2" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group" id="myTextBox2">
+                            <label for="exampleInputPassword2">Confirm Password</label>
+                            <input type="password" name="pass" data-validation="confirmation" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="form-group">
                 <div class="col-md-12">
@@ -139,6 +164,33 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                 </div>
             </div>
             </form>
+            <?php if (!$this->ion_auth->logged_in()): ?>
+                <div class="col-md-12">
+                    <legend>Already have an Account ?</legend>
+                </div>
+                <?php echo form_open('users/login'); ?>
+                <?php echo form_hidden('uri', uri_string()); ?>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="exampleInputPassword2" class="sr-only">Email</label>
+                        <input type="email" class="form-control" data-validation="required" id="exampleInputEmail1" placeholder="Enter email" name="identity" required>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="exampleInputPassword2" class="sr-only">Confirm Password</label>
+                        <input type="password" name="password" data-validation="required" class="form-control" id="exampleInputPassword2" placeholder="Password">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="checkbox">
+                        <?php echo form_checkbox('remember', '1', FALSE, 'id="remember" class="form-group"'); ?> 
+                        <label>Remember Me</label>
+                    </div>
+                    <button type="submit" class="btn btn-xs btn-primary pull-right">Login</button>
+                </div>
+                <?php echo form_close(); ?>
+            <?php endif; ?>
         </div>
         <div class="col-md-3">
             <h3>
