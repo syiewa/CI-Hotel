@@ -12,10 +12,13 @@
 <script>
     function ShowTextBox(checkbox)
     {
+        var pass = document.getElementById('pass');
         if (checkbox.checked) {
+            pass.setAttribute('data-validation-optional', 'false');
             document.getElementById('myTextBox').style.display = 'inline';
             document.getElementById('myTextBox2').style.display = 'inline';
         } else {
+            pass.setAttribute('data-validation-optional', 'true');
             document.getElementById('myTextBox').style.display = 'none';
             document.getElementById('myTextBox2').style.display = 'none';
         }
@@ -119,8 +122,8 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">City</label>
-                    <select name="kota" id="match_list" class="form-control" onchange="show_clips()">
-            </select>
+                    <select name="kota" id="match_list" class="form-control">
+                    </select>
                     <label for="exampleInputEmail1">Zip/Postal</label>
                     <input type="text" name="zip" data-validation="number" class="form-control" id="inputEmail3">
                 </div>
@@ -132,7 +135,7 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                     ?>
                     <label for="exampleInputEmail1">Country</label>
                     <select class="form-control" name="negara">
-                        <option value="1">Indonesia</option>
+                        <option value="Indonesia">Indonesia</option>
                     </select>
                 </div>
                 <?php if (!$this->ion_auth->logged_in()): ?>
@@ -147,7 +150,7 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                     <div class="col-sm-4">
                         <div class="form-group" id="myTextBox">
                             <label for="exampleInputPassword2">Password</label>
-                            <input name="pass_confirmation" type="password" data-validation="length" data-validation-optional="true" data-validation-length="min8" class="form-control" id="exampleInputPassword2" placeholder="Password">
+                            <input name="pass_confirmation" type="password" data-validation="length" data-validation-optional="true" data-validation-length="min8" class="form-control" id="pass" placeholder="Password">
                         </div>
                     </div>
                     <div class="col-sm-4">

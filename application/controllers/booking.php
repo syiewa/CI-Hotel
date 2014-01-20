@@ -77,6 +77,8 @@ Class Booking extends Frontend_Controller {
     }
 
     public function payment($id = null) {
+        $this->load->model('m_provinsi');
+        $this->data['provinsi'] = $this->m_provinsi->get_provinsi();
         $from = date('Y/m/d', strtotime($this->session->userdata('from')));
         $to = date('Y/m/d', strtotime($this->session->userdata('to')));
         if ($this->input->post('submit')) {
@@ -169,8 +171,8 @@ Class Booking extends Frontend_Controller {
     private function IntervalDays($CheckIn, $CheckOut) {
         $CheckInX = explode("/", $CheckIn);
         $CheckOutX = explode("/", $CheckOut);
-        $date1 = mktime(0, 0, 0, $CheckInX[0], $CheckInX[1], $CheckInX[2]);
-        $date2 = mktime(0, 0, 0, $CheckOutX[0], $CheckOutX[1], $CheckOutX[2]);
+        $date1 = mktime(0, 0, 0, $CheckInX[1], $CheckInX[2], $CheckInX[0]);
+        $date2 = mktime(0, 0, 0, $CheckOutX[1], $CheckOutX[2], $CheckOutX[0]);
         $interval = ($date2 - $date1) / (3600 * 24);
 
 // returns numberofdays
@@ -181,7 +183,7 @@ Class Booking extends Frontend_Controller {
         $this->load->model('m_provinsi');
         $id = $this->input->post('tnmnt');
         $this->data['kota'] = $this->m_provinsi->get_kota($id);
-        $this->load->view('web/booking/kota',  $this->data);
+        $this->load->view('web/booking/kota', $this->data);
     }
 
 }

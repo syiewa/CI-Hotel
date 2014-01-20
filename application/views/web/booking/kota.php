@@ -1,6 +1,6 @@
 <?php
 
 foreach ($kota as $k) {
-    echo "<option value='{$k["lokasi_kabupatenkota"]}'>{$k["lokasi_nama"]}</option>";
+    echo "<option value='{$k["lokasi_nama"]}'>{$k["lokasi_nama"]}</option>";
 }
 ?>
