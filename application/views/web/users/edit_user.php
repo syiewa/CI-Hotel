@@ -14,30 +14,23 @@
         <?php echo form_open(uri_string(), 'class="form-horizontal" role="form"'); ?>
         <div class="col-md-12">
             <div class="form-group">
-                <label for="inputEmail3" class="col-md-2"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" name="prefix_name">
-                        <option value="Mr.">Mr.</option>
-                        <option value="Mrs.">Mrs.</option>
-                        <option value="Miss.">Miss.</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
                 <label for="inputEmail3" class="col-md-2">First Name</label>
+                <div class="col-sm-2">
+                    <?php
+                    $prefix = array('Mr.', 'Mrs.', 'Miss.');
+                    echo form_dropdown($prefix_name['name'], $prefix, $prefix_name['value'], 'class=' . $prefix_name['class']);
+                    ?>
+                </div>
                 <div class="col-sm-3">
                     <?php
-                    $class = 'form-control';
-                    $first_name['class'] = $class;
                     echo form_input($first_name);
                     ?>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputEmail3" class="col-md-2">Last Name</label>
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                     <?php
-                    $last_name['class'] = $class;
                     echo form_input($last_name);
                     ?>
                 </div>
@@ -46,7 +39,6 @@
                 <label for="inputEmail3" class="col-md-2">Phone</label>
                 <div class="col-sm-3">
                     <?php
-                    $phone['class'] = $class;
                     echo form_input($phone);
                     ?>
                 </div>
@@ -55,7 +47,6 @@
                 <label for="inputEmail3" class="col-md-2">Password</label>
                 <div class="col-sm-3">
                     <?php
-                    $password['class'] = $class;
                     echo form_input($password);
                     ?>
                 </div>
@@ -65,7 +56,6 @@
                 <label for="inputEmail3" class="col-md-2">Confirm Password</label>
                 <div class="col-sm-3">
                     <?php
-                    $password_confirm['class'] = $class;
                     echo form_input($password_confirm);
                     ?>
                 </div>
@@ -103,7 +93,8 @@
             <div class="row">
                 <div class="col-md-9">
                     <?php echo form_open('users/address', 'class =form-horizontal'); ?>
-                    <?php echo form_hidden('id', $user->id); ?>
+                    <?php echo form_hidden('user_id', $user->id); ?>
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
                     <div class="form-group">
                         <div class="col-md-12">
                             <legend></legend>
@@ -117,7 +108,7 @@
                                 'rows' => 5,
                                 'class' => 'form-control',
                             );
-                            echo form_textarea($attr, set_value('address', ''));
+                            echo form_textarea($attr, set_value('address',$address->alamat));
                             ?>
                         </div>
                         <div class="col-sm-4">
@@ -132,14 +123,14 @@
                                 'rows' => 5,
                                 'class' => 'form-control',
                             );
-                            echo form_input($attr, set_value('zip', ''));
+                            echo form_input($attr, set_value('zip', $address->zip));
                             ?>
                         </div>
                         <div class="col-sm-4">
                             <label for="exampleInputEmail1">State/Province</label>
                             <?php
                             $js = 'id="tournament_list" class="form-control" onChange="activate_match();"';
-                            echo form_dropdown('provinsi', $provinsi, '', $js);
+                            echo form_dropdown('provinsi', $provinsi, $address->provinsi, $js);
                             ?>
                             <label for="exampleInputEmail1">Country</label>
                             <select class="form-control" name="negara">
@@ -162,15 +153,16 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        $('select#match_list').attr('disabled', true)
+        activate_match();
     });
     function activate_match()
     {
         var tnmt_id = $('select#tournament_list').val(); //Get the id of the tournament selected in the list
+        var cct = $("input[name=csrf_test_name]").val();
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url(); ?>index.php/booking/list_dropdown', //We are going to make the request to the method "list_dropdown" in the match controller
-            data: 'tnmnt=' + tnmt_id, //POST parameter to be sent with the tournament id
+            url: '<?php echo base_url(); ?>index.php/users/list_dropdown', //We are going to make the request to the method "list_dropdown" in the match controller
+            data: {'tnmnt': tnmt_id, 'csrf_test_name': cct}, //POST parameter to be sent with the tournament id
             success: function(resp) { //When the request is successfully completed, this function will be executed
                 //Activate and fill in the matches list
                 $('select#match_list').attr('disabled', false).html(resp); //With the ".html()" method we include the html code returned by AJAX into the matches list

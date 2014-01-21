@@ -18,6 +18,7 @@ Class Booking extends Frontend_Controller {
         parent::__construct();
         add_meta_title('Booking');
         $this->load->library('cart');
+        $this->load->model('m_user');
         $this->load->model('m_page');
         $this->load->model('m_promo');
         $this->load->model('m_room');
@@ -61,6 +62,46 @@ Class Booking extends Frontend_Controller {
             'idclass' => $id,
         );
         $this->session->set_userdata($tgl);
+        if ($this->ion_auth->logged_in()) {
+            $iduser = $this->session->userdata('user_id');
+            $this->data['address'] = $this->m_user->get_by(array('user_id' => $iduser));
+            $this->data['user'] = $this->ion_auth->user($iduser)->row();
+            $user = $this->ion_auth->user($iduser)->row();
+            $this->data['prefix_name'] = array(
+                'name' => 'prefix_name',
+                'id' => 'prefix_name',
+                'class' => 'form-control',
+                'value' => $this->form_validation->set_value('prefix_name', $user->prefix_name),
+            );
+            $this->data['first_name'] = array(
+                'name' => 'first_name',
+                'id' => 'first_name',
+                'class' => 'form-control',
+                'type' => 'text',
+                'value' => $this->form_validation->set_value('first_name', $user->first_name),
+            );
+            $this->data['last_name'] = array(
+                'name' => 'last_name',
+                'id' => 'last_name',
+                'class' => 'form-control',
+                'type' => 'text',
+                'value' => $this->form_validation->set_value('last_name', $user->last_name),
+            );
+            $this->data['email'] = array(
+                'name' => 'email',
+                'id' => 'email',
+                'class' => 'form-control',
+                'type' => 'email',
+                'value' => $this->form_validation->set_value('email', $user->email),
+            );
+            $this->data['phone'] = array(
+                'name' => 'phone',
+                'id' => 'phone',
+                'class' => 'form-control',
+                'type' => 'text',
+                'value' => $this->form_validation->set_value('phone', $user->phone),
+            );
+        }
         $this->data['provinsi'] = $this->m_provinsi->get_provinsi();
         $this->data['rooms'] = $this->m_room->get_room($id);
         if (!empty($this->data['rooms'])) {
@@ -83,10 +124,29 @@ Class Booking extends Frontend_Controller {
         $to = date('Y/m/d', strtotime($this->session->userdata('to')));
         if ($this->input->post('submit')) {
             $data = $this->m_order->array_from_post(array(
-                'idclass', 'prefix_nama', 'nama_depan', 'nama_belakang', 'email', 'telepon', 'alamat', 'zip', 'kota', 'provinsi', 'negara'
+                'idclass', 'prefix_nama', 'first_name', 'last_name', 'email', 'phone', 'alamat', 'zip', 'kota', 'provinsi', 'negara'
             ));
+            if ($this->input->post('signup') != false) {
+                $username = strtolower($data['nama_depan']) . ' ' . strtolower($data['nama_belakang']);
+                $email = strtolower($data['email']);
+                $password = $this->input->post('pass');
+                $additional_data = array(
+                    'first_name' => $data['nama_depan'],
+                    'last_name' => $data['nama_belakang'],
+                    'prefix_name' => $data['prefix_nama'],
+                    'phone' => $data['telepon'],
+                );
+                if ($this->ion_auth->register($username, $password, $email, $additional_data)) {
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                } else {
+                    $this->session->set_flashdata('error', $this->ion_auth->errors());
+                    redirect('booking/guest');
+                }
+            }
             $this->session->set_userdata($data);
             $this->data['rooms'] = $this->m_room->get_room($data['idclass']);
+            $this->data['content'] = 'web/booking/payment';
+            $this->load->view($this->template, $this->data);
         }
 //        $id = $this->input->post('idclass');
 //        foreach ($id as $i) {
@@ -108,18 +168,15 @@ Class Booking extends Frontend_Controller {
 //            );
 //            $this->cart->insert($data);
 //        }
-        $this->data['content'] = 'web/booking/payment';
-        $this->load->view($this->template, $this->data);
     }
 
     public function complete() {
         $data_user = array(
             'prefix_nama' => $this->session->userdata('prefix_nama'),
-            'prefix_nama' => $this->session->userdata('nama_depan'),
-            'nama_depan' => $this->session->userdata('prefix_nama'),
-            'nama_belakang' => $this->session->userdata('nama_belakang'),
+            'nama_depan' => $this->session->userdata('first_name'),
+            'nama_belakang' => $this->session->userdata('last_name'),
             'email' => $this->session->userdata('email'),
-            'telepon' => $this->session->userdata('telepon'),
+            'telepon' => $this->session->userdata('phone'),
             'alamat' => $this->session->userdata('alamat'),
             'kota' => $this->session->userdata('kota'),
             'provinsi' => $this->session->userdata('provinsi'),
@@ -182,6 +239,7 @@ Class Booking extends Frontend_Controller {
     public function list_dropdown() {
         $this->load->model('m_provinsi');
         $id = $this->input->post('tnmnt');
+        $cct = $this->input->post('csrf_test_name');
         $this->data['kota'] = $this->m_provinsi->get_kota($id);
         $this->load->view('web/booking/kota', $this->data);
     }

@@ -100,10 +100,22 @@ class Users extends Frontend_Controller {
         redirect('users/login', 'refresh');
     }
 
+    public function address() {
+        $data = $this->m_user->array_from_post(array(
+            'alamat', 'kota', 'provinsi', 'negara', 'user_id'
+        ));
+        if ($this->m_user->get_by(array('user_id' => $data['user_id']))) {
+            $this->m_user->update_by(array('user_id' => $data['user_id']), $data);
+            $this->session->set_flashdata('success', 'Data Saved');
+            redirect('users/edit_user/' . $data['user_id'], 'refresh');
+        }
+    }
+
     public function edit_user($id) {
         $this->data['meta_title'] = "Edit Profile";
         $this->data['content'] = 'web/users/edit_user';
         $this->data['provinsi'] = $this->m_provinsi->get_provinsi();
+        $this->data['address'] = $this->m_user->get_by(array('user_id' => $id));
 
         if (!$this->ion_auth->logged_in()) {
             redirect('users', 'refresh');
@@ -160,8 +172,8 @@ class Users extends Frontend_Controller {
                 $this->session->set_userdata($username);
                 //check to see if we are creating the user
                 //redirect them back to the admin page
-                $this->session->set_flashdata('message', "User Saved");
-                redirect("users", 'refresh');
+                $this->session->set_flashdata('success', "User Saved");
+                redirect("users/edit_user/" . $id, 'refresh');
             }
         }
 
@@ -175,33 +187,43 @@ class Users extends Frontend_Controller {
         $this->data['user'] = $user;
         $this->data['groups'] = $groups;
         $this->data['currentGroups'] = $currentGroups;
-
+        $this->data['prefix_name'] = array(
+            'name' => 'prefix_name',
+            'id' => 'prefix_name',
+            'class' => 'form-control',
+            'value' => $this->form_validation->set_value('prefix_name', $user->prefix_name),
+        );
         $this->data['first_name'] = array(
             'name' => 'first_name',
             'id' => 'first_name',
+            'class' => 'form-control',
             'type' => 'text',
             'value' => $this->form_validation->set_value('first_name', $user->first_name),
         );
         $this->data['last_name'] = array(
             'name' => 'last_name',
             'id' => 'last_name',
+            'class' => 'form-control',
             'type' => 'text',
             'value' => $this->form_validation->set_value('last_name', $user->last_name),
         );
         $this->data['phone'] = array(
             'name' => 'phone',
             'id' => 'phone',
+            'class' => 'form-control',
             'type' => 'text',
             'value' => $this->form_validation->set_value('phone', $user->phone),
         );
         $this->data['password'] = array(
             'name' => 'password',
             'id' => 'password',
+            'class' => 'form-control',
             'type' => 'password'
         );
         $this->data['password_confirm'] = array(
             'name' => 'password_confirm',
             'id' => 'password_confirm',
+            'class' => 'form-control',
             'type' => 'password'
         );
 
@@ -270,12 +292,7 @@ class Users extends Frontend_Controller {
     }
 
     public function _valid_csrf_nonce() {
-        if ($this->input->post($this->session->flashdata('csrfkey')) !== FALSE &&
-                $this->input->post($this->session->flashdata('csrfkey')) == $this->session->flashdata('csrfvalue')) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+        return TRUE;
     }
 
     public function _render_page($view, $data = null, $render = false) {
@@ -286,6 +303,14 @@ class Users extends Frontend_Controller {
 
         if (!$render)
             return $view_html;
+    }
+
+    public function list_dropdown() {
+        $this->load->model('m_provinsi');
+        $id = $this->input->post('tnmnt');
+        $cct = $this->input->post('csrf_test_name');
+        $this->data['kota'] = $this->m_provinsi->get_kota($id);
+        $this->load->view('web/booking/kota', $this->data);
     }
 
 }

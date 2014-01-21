@@ -26,17 +26,16 @@
 </script>
 <script type="text/javascript">
     $(function() {
-//When the DOM is ready, we disable the matches list
-        $('select#match_list').attr('disabled', true);
+        activate_match();
     });
-
     function activate_match()
     {
         var tnmt_id = $('select#tournament_list').val(); //Get the id of the tournament selected in the list
+        var cct = $("input[name=csrf_test_name]").val();
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url(); ?>index.php/booking/list_dropdown', //We are going to make the request to the method "list_dropdown" in the match controller
-            data: 'tnmnt=' + tnmt_id, //POST parameter to be sent with the tournament id
+            url: '<?php echo base_url(); ?>index.php/users/list_dropdown', //We are going to make the request to the method "list_dropdown" in the match controller
+            data: {'tnmnt': tnmt_id, 'csrf_test_name': cct}, //POST parameter to be sent with the tournament id
             success: function(resp) { //When the request is successfully completed, this function will be executed
                 //Activate and fill in the matches list
                 $('select#match_list').attr('disabled', false).html(resp); //With the ".html()" method we include the html code returned by AJAX into the matches list
@@ -77,22 +76,26 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
         <div class="col-md-9">
             <?php echo form_open('booking/payment', 'class =form-horizontal'); ?>
             <?php echo form_hidden('idclass', $rooms[0]->idclass); ?>
+            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
             <div class="form-group">
                 <div class="col-md-12">
                     <legend>Your Name</legend>
                 </div>
                 <div class="col-sm-2">
-                    <select class="form-control" name="prefix_nama">
-                        <option>Mr.</option>
-                        <option>Mrs.</option>
-                        <option>Miss.</option>
-                    </select>
+                    <?php
+                    $prefix = array('Mr.', 'Mrs.', 'Miss.');
+                    echo form_dropdown($prefix_name['name'], $prefix, $prefix_name['value'], 'class=' . $prefix_name['class']);
+                    ?>
                 </div>
                 <div class="col-sm-5">
-                    <input name="nama_depan" data-validation="required" type="text" class="form-control" id="inputFirstName" placeholder="First Name">
+                    <?php
+                    echo form_input($first_name);
+                    ?>
                 </div>
                 <div class="col-sm-5">
-                    <input name="nama_belakang" data-validation="required" type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+                    <?php
+                    echo form_input($last_name);
+                    ?>
                 </div>
             </div>
             <div class="form-group">
@@ -101,15 +104,21 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">Email address</label>
-                    <input name="email_confirmation" data-validation="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+                    <?php
+                    echo form_input($email);
+                    ?>
                 </div>
-                <div class="col-sm-4">
-                    <label for="exampleInputEmail1">Email address Confirmation</label>
-                    <input type="email" name="email" data-validation="confirmation" class="form-control" id="inputEmailConfirm" placeholder="Email Confirmation">
-                </div>
+                <?php if (!$this->ion_auth->logged_in()): ?>
+                    <div class="col-sm-4">
+                        <label for="exampleInputEmail1">Email address Confirmation</label>
+                        <input type="email" name="email" data-validation="confirmation" class="form-control" id="inputEmailConfirm" placeholder="Email Confirmation">
+                    </div>
+                <?php endif; ?>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">Telephone</label>
-                    <input type="text" name="telepon" data-validation="number" class="form-control" id="inputTelp" placeholder="Telephone">
+                    <?php
+                    echo form_input($phone);
+                    ?>
                 </div>
             </div>
             <div class="form-group">
@@ -118,20 +127,36 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">Address</label>
-                    <textarea name="alamat" rows="5" data-validation="required" class="form-control" id="inputEmail3"></textarea>
+                    <?php
+                    $attr = array(
+                        'name' => 'alamat',
+                        'data-validation' => 'required',
+                        'rows' => 5,
+                        'class' => 'form-control',
+                    );
+                    echo form_textarea($attr, set_value('address', $address->alamat));
+                    ?>
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">City</label>
                     <select name="kota" id="match_list" class="form-control">
                     </select>
                     <label for="exampleInputEmail1">Zip/Postal</label>
-                    <input type="text" name="zip" data-validation="number" class="form-control" id="inputEmail3">
+                    <?php
+                    $attr = array(
+                        'name' => 'zip',
+                        'data-validation' => 'number',
+                        'rows' => 5,
+                        'class' => 'form-control',
+                    );
+                    echo form_input($attr, set_value('zip', $address->zip));
+                    ?>
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">State/Province</label>
                     <?php
                     $js = 'id="tournament_list" class="form-control" onChange="activate_match();"';
-                    echo form_dropdown('provinsi', $provinsi, '', $js);
+                    echo form_dropdown('provinsi', $provinsi, $address->provinsi, $js);
                     ?>
                     <label for="exampleInputEmail1">Country</label>
                     <select class="form-control" name="negara">
@@ -142,7 +167,7 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                     <div class="col-sm-12">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" id="myCheckBox" onclick="ShowTextBox(this)" >
+                                <input type="checkbox" id="myCheckBox" onclick="ShowTextBox(this)" value="1" name="signup" >
                                 Sign Up as Member ?
                             </label>
                         </div>

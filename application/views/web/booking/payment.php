@@ -42,9 +42,9 @@
 <div class="col-md-12">		
     <div class="col-md-6">
         <h3><i>Guest</i> Information</h3>				
-        <div class="pull-left strong">Full Name</div><div class="pull-right "><?php echo $this->session->userdata('prefix_nama') . ' ' . $this->session->userdata('nama_depan') . ' ' . $this->session->userdata('nama_belakang'); ?></div><br>
+        <div class="pull-left strong">Full Name</div><div class="pull-right "><?php echo $this->session->userdata('prefix_nama') . ' ' . $this->session->userdata('first_name') . ' ' . $this->session->userdata('last_name'); ?></div><br>
         <div class="pull-left strong">Email</div><div class="pull-right"><?php echo $this->session->userdata('email'); ?></div><br>
-        <div class="pull-left strong">Telephone</div><div class="pull-right"><?php echo $this->session->userdata('telepon') ?></div><br>
+        <div class="pull-left strong">Telephone</div><div class="pull-right"><?php echo $this->session->userdata('phone') ?></div><br>
         <div class="pull-left strong">Alamat</div><div class="pull-right"><?php echo $this->session->userdata('alamat'); ?></div><br>
         <div class="pull-left strong">Kota</div><div class="pull-right"><?php echo $this->session->userdata('kota'); ?></div><br>
         <div class="pull-left strong">Province</div><div class="pull-right"><?php echo $provinsi[$this->session->userdata('provinsi')]; ?></div><br>

@@ -15,7 +15,7 @@ class M_User extends MY_Model {
     //put your code here
     public function __construct() {
         parent::__construct();
-        parent::set_tabel('class', 'idclass');
+        parent::set_tabel('guest', 'id');
     }
 
     public function get_fac($id = null) {
