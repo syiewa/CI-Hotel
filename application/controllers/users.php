@@ -18,6 +18,7 @@ class Users extends Frontend_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('m_user');
+        $this->load->model('m_provinsi');
     }
 
     public function index() {
@@ -102,6 +103,7 @@ class Users extends Frontend_Controller {
     public function edit_user($id) {
         $this->data['meta_title'] = "Edit Profile";
         $this->data['content'] = 'web/users/edit_user';
+        $this->data['provinsi'] = $this->m_provinsi->get_provinsi();
 
         if (!$this->ion_auth->logged_in()) {
             redirect('users', 'refresh');
@@ -124,11 +126,11 @@ class Users extends Frontend_Controller {
             }
 
             $data = array(
+                'prefix_name' => $this->input->post('prefix_name'),
                 'first_name' => $this->input->post('first_name'),
                 'last_name' => $this->input->post('last_name'),
                 'phone' => $this->input->post('phone'),
             );
-
             //Update the groups user belongs to
             $groupData = $this->input->post('groups');
 

@@ -14,6 +14,16 @@
         <?php echo form_open(uri_string(), 'class="form-horizontal" role="form"'); ?>
         <div class="col-md-12">
             <div class="form-group">
+                <label for="inputEmail3" class="col-md-2"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" name="prefix_name">
+                        <option value="Mr.">Mr.</option>
+                        <option value="Mrs.">Mrs.</option>
+                        <option value="Miss.">Miss.</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="inputEmail3" class="col-md-2">First Name</label>
                 <div class="col-sm-3">
                     <?php
@@ -83,11 +93,93 @@
             <?php echo form_hidden('id', $user->id); ?>
             <?php echo form_hidden($csrf); ?>
 
-            <p><?php echo form_submit('submit', lang('edit_user_submit_btn'),'class="btn btn-xs btn-default"'); ?></p>
+            <?php echo form_submit('submit', lang('edit_user_submit_btn'), 'class="btn btn-xs btn-default"'); ?>
             <?php echo form_close(); ?>
         </div>
     </div>
-    <div class="tab-pane" id="profile">...</div>
+
+    <div class="tab-pane" id="profile">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-9">
+                    <?php echo form_open('users/address', 'class =form-horizontal'); ?>
+                    <?php echo form_hidden('id', $user->id); ?>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <legend></legend>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="exampleInputEmail1">Address</label>
+                            <?php
+                            $attr = array(
+                                'name' => 'alamat',
+                                'data-validation' => 'required',
+                                'rows' => 5,
+                                'class' => 'form-control',
+                            );
+                            echo form_textarea($attr, set_value('address', ''));
+                            ?>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="exampleInputEmail1">City</label>
+                            <select name="kota" id="match_list" class="form-control">
+                            </select>
+                            <label for="exampleInputEmail1">Zip/Postal</label>
+                            <?php
+                            $attr = array(
+                                'name' => 'zip',
+                                'data-validation' => 'number',
+                                'rows' => 5,
+                                'class' => 'form-control',
+                            );
+                            echo form_input($attr, set_value('zip', ''));
+                            ?>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="exampleInputEmail1">State/Province</label>
+                            <?php
+                            $js = 'id="tournament_list" class="form-control" onChange="activate_match();"';
+                            echo form_dropdown('provinsi', $provinsi, '', $js);
+                            ?>
+                            <label for="exampleInputEmail1">Country</label>
+                            <select class="form-control" name="negara">
+                                <option value="Indonesia">Indonesia</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input name="submit" type="submit" class="btn btn-default pull-right" value="Save">
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="tab-pane" id="messages">...</div>
     <div class="tab-pane" id="settings">...</div>
 </div>
+<script type="text/javascript">
+    $(function() {
+        $('select#match_list').attr('disabled', true)
+    });
+    function activate_match()
+    {
+        var tnmt_id = $('select#tournament_list').val(); //Get the id of the tournament selected in the list
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url(); ?>index.php/booking/list_dropdown', //We are going to make the request to the method "list_dropdown" in the match controller
+            data: 'tnmnt=' + tnmt_id, //POST parameter to be sent with the tournament id
+            success: function(resp) { //When the request is successfully completed, this function will be executed
+                //Activate and fill in the matches list
+                $('select#match_list').attr('disabled', false).html(resp); //With the ".html()" method we include the html code returned by AJAX into the matches list
+            }
+        });
+    }
+</script>
+<script>
+    $.validate({
+        modules: 'security'
+    });
+</script>
