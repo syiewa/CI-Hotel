@@ -67,41 +67,45 @@ Class Booking extends Frontend_Controller {
             $this->data['address'] = $this->m_user->get_by(array('user_id' => $iduser));
             $this->data['user'] = $this->ion_auth->user($iduser)->row();
             $user = $this->ion_auth->user($iduser)->row();
-            $this->data['prefix_name'] = array(
-                'name' => 'prefix_name',
-                'id' => 'prefix_name',
-                'class' => 'form-control',
-                'value' => $this->form_validation->set_value('prefix_name', $user->prefix_name),
-            );
-            $this->data['first_name'] = array(
-                'name' => 'first_name',
-                'id' => 'first_name',
-                'class' => 'form-control',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('first_name', $user->first_name),
-            );
-            $this->data['last_name'] = array(
-                'name' => 'last_name',
-                'id' => 'last_name',
-                'class' => 'form-control',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('last_name', $user->last_name),
-            );
-            $this->data['email'] = array(
-                'name' => 'email',
-                'id' => 'email',
-                'class' => 'form-control',
-                'type' => 'email',
-                'value' => $this->form_validation->set_value('email', $user->email),
-            );
-            $this->data['phone'] = array(
-                'name' => 'phone',
-                'id' => 'phone',
-                'class' => 'form-control',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('phone', $user->phone),
-            );
         }
+        $this->data['prefix_name'] = array(
+            'name' => 'prefix_name',
+            'id' => 'prefix_name',
+            'class' => 'form-control',
+            'value' => $this->form_validation->set_value('prefix_name', empty($user->prefix_name) ? '' : $user->prefix_name),
+        );
+        $this->data['first_name'] = array(
+            'name' => 'first_name',
+            'data-validation' => 'required',
+            'id' => 'first_name',
+            'class' => 'form-control',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('first_name', empty($user->first_name) ? '' : $user->first_name),
+        );
+        $this->data['last_name'] = array(
+            'name' => 'last_name',
+            'data-validation' => 'required',
+            'id' => 'last_name',
+            'class' => 'form-control',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('last_name', empty($user->last_name) ? '' : $user->last_name),
+        );
+        $this->data['email'] = array(
+            'name' => $this->ion_auth->logged_in() ? 'email' : 'email_confirmation',
+            'data-validation' => 'email',
+            'id' => 'email',
+            'class' => 'form-control',
+            'type' => 'email',
+            'value' => $this->form_validation->set_value('email_confirmation', empty($user->email) ? '' : $user->email),
+        );
+        $this->data['phone'] = array(
+            'name' => 'phone',
+            'data-validation' => 'required number',
+            'id' => 'phone',
+            'class' => 'form-control',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('phone', empty($user->phone) ? '' : $user->phone),
+        );
         $this->data['provinsi'] = $this->m_provinsi->get_provinsi();
         $this->data['rooms'] = $this->m_room->get_room($id);
         if (!empty($this->data['rooms'])) {
@@ -127,16 +131,17 @@ Class Booking extends Frontend_Controller {
                 'idclass', 'prefix_nama', 'first_name', 'last_name', 'email', 'phone', 'alamat', 'zip', 'kota', 'provinsi', 'negara'
             ));
             if ($this->input->post('signup') != false) {
-                $username = strtolower($data['nama_depan']) . ' ' . strtolower($data['nama_belakang']);
+                $username = strtolower($data['first_name']) . ' ' . strtolower($data['last_name']);
                 $email = strtolower($data['email']);
                 $password = $this->input->post('pass');
                 $additional_data = array(
-                    'first_name' => $data['nama_depan'],
-                    'last_name' => $data['nama_belakang'],
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
                     'prefix_name' => $data['prefix_nama'],
-                    'phone' => $data['telepon'],
+                    'phone' => $data['phone'],
                 );
                 if ($this->ion_auth->register($username, $password, $email, $additional_data)) {
+                    $data['user_id'] = $this->m_user->getid_users($email);
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
                 } else {
                     $this->session->set_flashdata('error', $this->ion_auth->errors());
@@ -171,6 +176,7 @@ Class Booking extends Frontend_Controller {
     }
 
     public function complete() {
+
         $data_user = array(
             'prefix_nama' => $this->session->userdata('prefix_nama'),
             'nama_depan' => $this->session->userdata('first_name'),
@@ -182,6 +188,7 @@ Class Booking extends Frontend_Controller {
             'provinsi' => $this->session->userdata('provinsi'),
             'negara' => $this->session->userdata('negara'),
             'zip' => $this->session->userdata('zip'),
+            'user_id' => $this->session->userdata('user_id'),
         );
         if ($this->m_order->insert_guest($data_user)) {
             $iduser = $this->db->insert_id();

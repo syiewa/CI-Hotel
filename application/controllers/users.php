@@ -102,10 +102,14 @@ class Users extends Frontend_Controller {
 
     public function address() {
         $data = $this->m_user->array_from_post(array(
-            'alamat', 'kota', 'provinsi', 'negara', 'user_id'
+            'alamat', 'kota', 'provinsi', 'negara', 'user_id' ,'zip'
         ));
         if ($this->m_user->get_by(array('user_id' => $data['user_id']))) {
             $this->m_user->update_by(array('user_id' => $data['user_id']), $data);
+            $this->session->set_flashdata('success', 'Data Saved');
+            redirect('users/edit_user/' . $data['user_id'], 'refresh');
+        } else {
+            $this->m_user->insert($data);
             $this->session->set_flashdata('success', 'Data Saved');
             redirect('users/edit_user/' . $data['user_id'], 'refresh');
         }
