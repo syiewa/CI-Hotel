@@ -46,7 +46,7 @@
         <div class="pull-left strong">Email</div><div class="pull-right"><?php echo $this->session->userdata('email'); ?></div><br>
         <div class="pull-left strong">Telephone</div><div class="pull-right"><?php echo $this->session->userdata('phone') ?></div><br>
         <div class="pull-left strong">Alamat</div><div class="pull-right"><?php echo $this->session->userdata('alamat'); ?></div><br>
-        <div class="pull-left strong">Kota</div><div class="pull-right"><?php echo $this->session->userdata('kota'); ?></div><br>
+        <div class="pull-left strong">Kota</div><div class="pull-right"><?php echo $kota[$this->session->userdata('kota')]; ?></div><br>
         <div class="pull-left strong">Province</div><div class="pull-right"><?php echo $provinsi[$this->session->userdata('provinsi')]; ?></div><br>
         <div class="pull-left strong">Country</div><div class="pull-right"><?php echo $this->session->userdata('negara'); ?></div><br>
         <div class="pull-left strong">ZIP/Postal</div><div class="pull-right"><?php echo $this->session->userdata('zip'); ?></div><br>

@@ -15,15 +15,24 @@ class M_provinsi extends MY_Model {
 
     public function get_provinsi() {
         $data = array();
-        $this->db->order_by('lokasi_ID','esc');
+        $this->db->order_by('lokasi_ID', 'esc');
         foreach (parent::get_many_by_array(array('lokasi_kabupatenkota' => 0, 'lokasi_kecamatan' => 0, 'lokasi_kelurahan' => 0)) as $row) {
             $data[$row['lokasi_propinsi']] = $row['lokasi_nama'];
         }
         return $data;
     }
-    
+
+    public function get_allkota() {
+        $data = array();
+        $this->db->order_by('lokasi_ID', 'esc');
+        foreach (parent::get_array() as $row) {
+            $data[$row['lokasi_ID']] = $row['lokasi_nama'];
+        }
+        return $data;
+    }
+
     public function get_kota($id) {
-        return parent::get_many_by_array(array('lokasi_kabupatenkota !=' => 0,'lokasi_propinsi' => $id, 'lokasi_kecamatan' => 0, 'lokasi_kelurahan' => 0));
+        return parent::get_many_by_array(array('lokasi_kabupatenkota !=' => 0, 'lokasi_propinsi' => $id, 'lokasi_kecamatan' => 0, 'lokasi_kelurahan' => 0));
     }
 
 }

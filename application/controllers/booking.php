@@ -124,6 +124,7 @@ Class Booking extends Frontend_Controller {
     public function payment($id = null) {
         $this->load->model('m_provinsi');
         $this->data['provinsi'] = $this->m_provinsi->get_provinsi();
+        $this->data['kota'] = $this->m_provinsi->get_allkota();
         $from = date('Y/m/d', strtotime($this->session->userdata('from')));
         $to = date('Y/m/d', strtotime($this->session->userdata('to')));
         if ($this->input->post('submit')) {
