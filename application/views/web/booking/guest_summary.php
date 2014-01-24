@@ -34,7 +34,7 @@
         var cct = $("input[name=csrf_test_name]").val();
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url(); ?>index.php/users/list_dropdown', //We are going to make the request to the method "list_dropdown" in the match controller
+            url: '<?php echo base_url(); ?>index.php/booking/list_dropdown', //We are going to make the request to the method "list_dropdown" in the match controller
             data: {'tnmnt': tnmt_id, 'csrf_test_name': cct}, //POST parameter to be sent with the tournament id
             success: function(resp) { //When the request is successfully completed, this function will be executed
                 //Activate and fill in the matches list
@@ -134,7 +134,7 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                         'rows' => 5,
                         'class' => 'form-control',
                     );
-                    echo form_textarea($attr, set_value('address', empty($address->alamat)?'':$address->alamat));
+                    echo form_textarea($attr, set_value('address', empty($address->alamat) ? '' : $address->alamat));
                     ?>
                 </div>
                 <div class="col-sm-4">
@@ -149,14 +149,14 @@ $to = date('D j, F Y ', strtotime($this->session->userdata('to')));
                         'rows' => 5,
                         'class' => 'form-control',
                     );
-                    echo form_input($attr, set_value('zip', empty($address->zip)?'':$address->zip));
+                    echo form_input($attr, set_value('zip', empty($address->zip) ? '' : $address->zip));
                     ?>
                 </div>
                 <div class="col-sm-4">
                     <label for="exampleInputEmail1">State/Province</label>
                     <?php
                     $js = 'id="tournament_list" class="form-control" onChange="activate_match();"';
-                    echo form_dropdown('provinsi', $provinsi, empty($address->provinsi)?'':$address->provinsi, $js);
+                    echo form_dropdown('provinsi', $provinsi, empty($address->provinsi) ? '' : $address->provinsi, $js);
                     ?>
                     <label for="exampleInputEmail1">Country</label>
                     <select class="form-control" name="negara">

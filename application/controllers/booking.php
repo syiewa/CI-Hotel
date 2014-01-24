@@ -245,10 +245,12 @@ Class Booking extends Frontend_Controller {
     }
 
     public function list_dropdown() {
+        $user_id = $this->session->userdata('user_id');
         $this->load->model('m_provinsi');
         $id = $this->input->post('tnmnt');
         $cct = $this->input->post('csrf_test_name');
         $this->data['kota'] = $this->m_provinsi->get_kota($id);
+        $this->data['user'] = $this->m_user->get_by(array('user_id'=>$user_id));
         $this->load->view('web/booking/kota', $this->data);
     }
 
