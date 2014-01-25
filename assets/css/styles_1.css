@@ -1,3 +1,70 @@
+
+.thumbnails:before, .thumbnails:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.thumbnails:before, .thumbnails:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.thumbnails:after {
+    clear: both;
+}
+.thumbnails:before, .thumbnails:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.thumbnails:after {
+    clear: both;
+}
+.thumbnails:before, .thumbnails:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.thumbnails.hotel-options {
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+.row-fluid .thumbnails {
+    margin-left: 0;
+}
+.row-fluid .thumbnails {
+    margin-left: 0;
+}
+.row-fluid .thumbnails {
+    margin-left: 0;
+}
+.no_margin_left {
+    margin-left: 0 !important;
+}
+
+.thumbnails {
+    list-style: none outside none;
+    margin-left: -20px;
+}
+.thumbnails {
+    margin-left: -30px;
+}
+.thumbnails {
+    list-style: none outside none;
+    margin-left: -20px;
+}
+ul, ol {
+    margin: 0 0 10px 25px;
+    padding: 0;
+}
+ul, ol {
+    margin: 0 0 10px 25px;
+    padding: 0;
+}
+.center {
+    margin: 0 auto;
+    text-align: center;
+}
 #login-nav input,button { margin-bottom: 15px;margin-left: 10px; }
 .mjs-nestedSortable-error {
     background: #fbe3e4; border-color: transparent;
@@ -89,7 +156,7 @@ small {
 }
 
 
-ul.room_facilities{ padding-bottom:20px;padding-left: 5px;}
+ul.room_facilities{ padding-top: 10px;}
 ul.room_facilities li{ display:block; float:left; height:30px; margin:0 10px 10px 0; text-indent:-9999px; width:30px;}
 ul.room_facilities li a{ cursor:pointer; display:block; height:30px; width:30px;}
 ul.room_facilities li.lcd a{ background:url(../img/icons_room.png) no-repeat -1px 0;}
