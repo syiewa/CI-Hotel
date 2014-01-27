@@ -27,7 +27,20 @@ echo form_open_multipart('admin/news/add', $attributes);
                     <?php echo form_textarea($attr); ?>
                 </div>
             </div>
-
+            <div class="form-group">
+                <label for="inputName1" class="col-lg-2 control-label">Picture</label>
+                <div class="col-lg-2">
+                    <?php
+                    $data = array(
+                        'name' => 'featurephoto',
+                        'data-validation' => "required mime size",
+                        'data-validation-allowing' => "jpg, png, gif",
+                        'data-validation-max-size' => "2M"
+                    );
+                    ?>
+                    <?php echo form_upload($data); ?>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <?php
