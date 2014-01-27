@@ -100,9 +100,76 @@ class Users extends Frontend_Controller {
         redirect('users/login', 'refresh');
     }
 
+    public function register() {
+        $this->data['meta_title'] = "Register";
+        $this->data['content'] = 'web/users/registration';
+        $this->data['provinsi'] = $this->m_provinsi->get_provinsi();
+        if ($this->input->post('submit')) {
+            $data = $this->m_user->array_from_post(array(
+                'idclass', 'prefix_nama', 'first_name', 'last_name', 'email', 'phone', 'alamat', 'zip', 'kota', 'provinsi', 'negara'
+            ));
+            $username = strtolower($data['first_name']) . ' ' . strtolower($data['last_name']);
+            $email = strtolower($data['email']);
+            $password = $this->input->post('pass');
+            $additional_data = array(
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'prefix_name' => $data['prefix_nama'],
+                'phone' => $data['phone'],
+            );
+            if ($this->ion_auth->register($username, $password, $email, $additional_data)) {
+                $data['user_id'] = $this->m_user->getid_users($email);
+                $this->session->set_flashdata('message', $this->ion_auth->messages());
+            } else {
+                $this->session->set_flashdata('error', $this->ion_auth->errors());
+                redirect('users/register');
+            }
+        }
+        $this->data['prefix_name'] = array(
+            'name' => 'prefix_name',
+            'id' => 'prefix_name',
+            'class' => 'form-control',
+            'value' => $this->form_validation->set_value('prefix_name', empty($user->prefix_name) ? '' : $user->prefix_name),
+        );
+        $this->data['first_name'] = array(
+            'name' => 'first_name',
+            'data-validation' => 'required',
+            'id' => 'first_name',
+            'class' => 'form-control',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('first_name', empty($user->first_name) ? '' : $user->first_name),
+        );
+        $this->data['last_name'] = array(
+            'name' => 'last_name',
+            'data-validation' => 'required',
+            'id' => 'last_name',
+            'class' => 'form-control',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('last_name', empty($user->last_name) ? '' : $user->last_name),
+        );
+        $this->data['email'] = array(
+            'name' => 'email',
+            'data-validation' => 'email server',
+            'data-validation-url' => site_url('users/cek_email'),
+            'id' => 'email',
+            'class' => 'form-control',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('email_confirmation', empty($user->email) ? '' : $user->email),
+        );
+        $this->data['phone'] = array(
+            'name' => 'phone',
+            'data-validation' => 'required number',
+            'id' => 'phone',
+            'class' => 'form-control',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('phone', empty($user->phone) ? '' : $user->phone),
+        );
+        $this->load->view($this->template, $this->data);
+    }
+
     public function address() {
         $data = $this->m_user->array_from_post(array(
-            'alamat', 'kota', 'provinsi', 'negara', 'user_id' ,'zip'
+            'alamat', 'kota', 'provinsi', 'negara', 'user_id', 'zip'
         ));
         if ($this->m_user->get_by(array('user_id' => $data['user_id']))) {
             $this->m_user->update_by(array('user_id' => $data['user_id']), $data);
@@ -315,6 +382,22 @@ class Users extends Frontend_Controller {
         $cct = $this->input->post('csrf_test_name');
         $this->data['kota'] = $this->m_provinsi->get_kota($id);
         $this->load->view('web/booking/kota', $this->data);
+    }
+
+    public function cek_email() {
+        $response = array(
+            'valid' => false,
+            'message' => 'Post argument "user" is missing.'
+        );
+        $email = $this->input->post('email');
+        if ($this->m_user->cek_email($email)) {
+            // User name is registered on another account
+            $response = array('valid' => false, 'message' => 'This user name is already registered.');
+        } else {
+            // User name is available
+            $response = array('valid' => true);
+        }
+        echo json_encode($response);
     }
 
 }

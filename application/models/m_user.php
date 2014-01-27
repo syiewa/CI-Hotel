@@ -30,32 +30,13 @@ class M_User extends MY_Model {
         }
     }
 
-    public function get_allfac() {
-        $q = $this->db->query('select * from facilities');
-        return $q->result();
-    }
-
-    public function insert_fac($data = array()) {
-        if ($this->db->insert('facilities', $data)) {
+    public function cek_email($email) {
+        $this->db->where(array('email' => $email));
+        if ($this->db->get($this->tabel_users)->num_rows > 0) {
             return TRUE;
+        } else {
+            return FALSE;
         }
-        return FALSE;
-    }
-
-    public function del_fac($id = null) {
-        $q = $this->db->query('Delete from facilities where idclass = ' . $id);
-        if ($this->db->affected_rows() > 0) {
-            return TRUE;
-        }
-        return FALSE;
-    }
-
-    public function get_dropdown() {
-        $data = array();
-        foreach (parent::get_array() as $row) {
-            $data[$row['idclass']] = $row['title'];
-        }
-        return $data;
     }
 
 }

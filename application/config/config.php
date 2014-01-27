@@ -301,7 +301,7 @@ $config['global_xss_filtering'] = TRUE;
 | 'csrf_cookie_name' = The cookie name
 | 'csrf_expire' = The number in seconds the token should expire.
 */
- if(stripos($_SERVER["REQUEST_URI"],'/admin') === FALSE)
+ if(stripos($_SERVER["REQUEST_URI"],'/admin') === FALSE && stripos($_SERVER["REQUEST_URI"],'/users/cek_email') === FALSE)
 {
     $config['csrf_protection'] = TRUE;
 }
