@@ -96,6 +96,7 @@ Class Booking extends Frontend_Controller {
             'id' => 'email',
             'class' => 'form-control',
             'type' => 'email',
+            !$this->ion_auth->logged_in() ? ' ' : 'readonly' => 'readonly',
             'value' => $this->form_validation->set_value('email_confirmation', empty($user->email) ? '' : $user->email),
         );
         $this->data['phone'] = array(
@@ -129,8 +130,16 @@ Class Booking extends Frontend_Controller {
         $to = date('Y/m/d', strtotime($this->session->userdata('to')));
         if ($this->input->post('submit')) {
             $data = $this->m_order->array_from_post(array(
-                'idclass', 'prefix_nama', 'first_name', 'last_name', 'email', 'phone', 'alamat', 'zip', 'kota', 'provinsi', 'negara'
+                'idclass', 'prefix_name', 'first_name', 'last_name', 'email', 'phone', 'alamat', 'zip', 'kota', 'provinsi', 'negara'
             ));
+            if ($this->ion_auth->logged_in()) {
+                $user_id = $this->session->userdata('user_id');
+                $this->ion_auth->update($user_id, $data);
+
+                //check to see if we are creating the user
+                //redirect them back to the admin page
+                $this->session->set_flashdata('message', "User Updated");
+            }
             if ($this->input->post('signup') != false) {
                 $username = strtolower($data['first_name']) . ' ' . strtolower($data['last_name']);
                 $email = strtolower($data['email']);
@@ -191,45 +200,49 @@ Class Booking extends Frontend_Controller {
             'zip' => $this->session->userdata('zip'),
             'user_id' => $this->session->userdata('user_id'),
         );
-        if ($this->m_order->insert_guest($data_user)) {
-            $iduser = $this->db->insert_id();
-            $data_cc = $this->m_order->array_from_post(array(
-                'cc_type', 'cc_number', 'cvv', 'cc_name'
-            ));
-            $data_cc['cc_date'] = date('Y-m-d', strtotime($date = '01-' . implode('-', $this->input->post('date', TRUE))));
-            $data_cc['cc_userid'] = $iduser;
-            if ($this->m_order->insert_cc($data_cc)) {
-                $data_order = array(
-                    'guest_id' => $iduser,
-                    'class_id' => $this->session->userdata('idclass'),
-                    'tgl_order' => date('Y-m-d'),
-                    'payment_id' => '1',
-                    'payment_total' => $this->cart->total(),
-                    'order_status' => 0,
-                    'check_in' => date('Y-m-d', strtotime($this->session->userdata('from'))),
-                    'check_out' => date('Y-m-d', strtotime($this->session->userdata('to'))),
-                );
-                $this->m_order->insert($data_order);
-                $idorder = $this->db->insert_id();
-                $this->load->library('email');
-                $config['protocol'] = 'mail';
-                $config['mailtype'] = 'html';
-                $this->email->initialize($config);
-                $this->email->to($this->session->userdata('email'));
-                $this->email->from('test@test.net');
-                $this->email->subject('Invoice - Hotel Edan');
-                $message = '';
-                $email['order'] = $this->m_order->get($idorder);
-                $email['kelas'] = $this->m_kelas->get($this->session->userdata('idclass'));
-                $email['paymentMethods'] = $this->m_order->paymentMethods;
-                $email['status'] = $this->m_order->status;
-                $message .= $this->load->view('web/booking/email', $email, TRUE);
+        if ($this->m_user->cek_guest($data_user['user_id'])) {
+            $this->m_user->update_by(array('user_id' => $data_user['user_id']), $data_user);
+            $idguest = $this->m_user->get_by(array('user_id'=> $data_user['user_id']))->id;
+        } else {
+            $this->m_user->insert($data_user);
+            $idguest = $this->db->insert_id();
+        }
+        $data_cc = $this->m_order->array_from_post(array(
+            'cc_type', 'cc_number', 'cvv', 'cc_name'
+        ));
+        $data_cc['cc_date'] = date('Y-m-d', strtotime($date = '01-' . implode('-', $this->input->post('date', TRUE))));
+        $data_cc['cc_userid'] = $idguest;
+        if ($this->m_order->insert_cc($data_cc)) {
+            $data_order = array(
+                'guest_id' => $idguest,
+                'class_id' => $this->session->userdata('idclass'),
+                'tgl_order' => date('Y-m-d'),
+                'payment_id' => '1',
+                'payment_total' => $this->cart->total(),
+                'order_status' => 0,
+                'check_in' => date('Y-m-d', strtotime($this->session->userdata('from'))),
+                'check_out' => date('Y-m-d', strtotime($this->session->userdata('to'))),
+            );
+            $this->m_order->insert($data_order);
+            $idorder = $this->db->insert_id();
+            $this->load->library('email');
+            $config['protocol'] = 'mail';
+            $config['mailtype'] = 'html';
+            $this->email->initialize($config);
+            $this->email->to($this->session->userdata('email'));
+            $this->email->from('test@test.net');
+            $this->email->subject('Invoice - Hotel Edan');
+            $message = '';
+            $email['order'] = $this->m_order->get($idorder);
+            $email['kelas'] = $this->m_kelas->get($this->session->userdata('idclass'));
+            $email['paymentMethods'] = $this->m_order->paymentMethods;
+            $email['status'] = $this->m_order->status;
+            $message .= $this->load->view('web/booking/email', $email, TRUE);
 
-                $this->email->message($message);
-                $this->email->send();
-                $this->data['content'] = 'web/booking/complete';
-                $this->load->view($this->template, $this->data);
-            }
+            $this->email->message($message);
+            $this->email->send();
+            $this->data['content'] = 'web/booking/complete';
+            $this->load->view($this->template, $this->data);
         }
     }
 
@@ -250,7 +263,7 @@ Class Booking extends Frontend_Controller {
         $id = $this->input->post('tnmnt');
         $cct = $this->input->post('csrf_test_name');
         $this->data['kota'] = $this->m_provinsi->get_kota($id);
-        $this->data['user'] = $this->m_user->get_by(array('user_id'=>$user_id));
+        $this->data['user'] = $this->m_user->get_by(array('user_id' => $user_id));
         $this->load->view('web/booking/kota', $this->data);
     }
 

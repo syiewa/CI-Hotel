@@ -30,6 +30,15 @@ class M_User extends MY_Model {
         }
     }
 
+    public function cek_guest($userid) {
+        $this->db->where(array('user_id' => $userid, 'user_id !=' => 0));
+        if ($this->db->get('guest')->num_rows > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
     public function get_allfac() {
         $q = $this->db->query('select * from facilities');
         return $q->result();
