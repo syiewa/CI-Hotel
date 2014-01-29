@@ -104,27 +104,6 @@ class Users extends Frontend_Controller {
         $this->data['meta_title'] = "Register";
         $this->data['content'] = 'web/users/registration';
         $this->data['provinsi'] = $this->m_provinsi->get_provinsi();
-        if ($this->input->post('submit')) {
-            $data = $this->m_user->array_from_post(array(
-                'idclass', 'prefix_nama', 'first_name', 'last_name', 'email', 'phone', 'alamat', 'zip', 'kota', 'provinsi', 'negara'
-            ));
-            $username = strtolower($data['first_name']) . ' ' . strtolower($data['last_name']);
-            $email = strtolower($data['email']);
-            $password = $this->input->post('pass');
-            $additional_data = array(
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
-                'prefix_name' => $data['prefix_nama'],
-                'phone' => $data['phone'],
-            );
-            if ($this->ion_auth->register($username, $password, $email, $additional_data)) {
-                $data['user_id'] = $this->m_user->getid_users($email);
-                $this->session->set_flashdata('message', $this->ion_auth->messages());
-            } else {
-                $this->session->set_flashdata('error', $this->ion_auth->errors());
-                redirect('users/register');
-            }
-        }
         $this->data['prefix_name'] = array(
             'name' => 'prefix_name',
             'id' => 'prefix_name',
@@ -148,12 +127,13 @@ class Users extends Frontend_Controller {
             'value' => $this->form_validation->set_value('last_name', empty($user->last_name) ? '' : $user->last_name),
         );
         $this->data['email'] = array(
-            'name' => 'email',
+            'name' => $this->ion_auth->logged_in() ? 'email' : 'email_confirmation',
             'data-validation' => 'email server',
             'data-validation-url' => site_url('users/cek_email'),
             'id' => 'email',
             'class' => 'form-control',
-            'type' => 'text',
+            'type' => 'email',
+            !$this->ion_auth->logged_in() ? ' ' : 'readonly' => 'readonly',
             'value' => $this->form_validation->set_value('email_confirmation', empty($user->email) ? '' : $user->email),
         );
         $this->data['phone'] = array(
@@ -164,6 +144,33 @@ class Users extends Frontend_Controller {
             'type' => 'text',
             'value' => $this->form_validation->set_value('phone', empty($user->phone) ? '' : $user->phone),
         );
+        if ($this->input->post('submit')) {
+            $data = $this->m_user->array_from_post(array(
+                'idclass', 'prefix_name', 'first_name', 'last_name', 'email', 'phone', 'alamat', 'zip', 'kota', 'provinsi', 'negara'
+            ));
+            $username = strtolower($data['first_name']) . ' ' . strtolower($data['last_name']);
+            $email = strtolower($data['email']);
+            $password = $this->input->post('pass');
+            $additional_data = array(
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'prefix_name' => $data['prefix_name'],
+                'phone' => $data['phone'],
+            );
+            if ($this->ion_auth->register($username, $password, $email, $additional_data)) {
+                $this->session->set_flashdata('message', $this->ion_auth->messages());
+                $this->load->library('email');
+                $config['protocol'] = 'mail';
+                $config['mailtype'] = 'html';
+                $this->email->initialize($config);
+                $this->email->send();
+
+                redirect('users/register');
+            } else {
+                $this->session->set_flashdata('error', $this->ion_auth->errors());
+                redirect('users/register');
+            }
+        }
         $this->load->view($this->template, $this->data);
     }
 
@@ -304,14 +311,15 @@ class Users extends Frontend_Controller {
     public function activate($id, $code = false) {
         if ($code !== false) {
             $activation = $this->ion_auth->activate($id, $code);
+            $this->ion_auth->logout();
         } else if ($this->ion_auth->is_admin()) {
             $activation = $this->ion_auth->activate($id);
         }
 
         if ($activation) {
             //redirect them to the auth page
-            $this->session->set_flashdata('message', $this->ion_auth->messages());
-            redirect("users", 'refresh');
+            $this->session->set_flashdata('message', 'Activation Succesful Please Login');
+            redirect("users/login", 'refresh');
         } else {
             //redirect them to the forgot password page
             $this->session->set_flashdata('message', $this->ion_auth->errors());
@@ -352,6 +360,131 @@ class Users extends Frontend_Controller {
         }
     }
 
+    function forgot_password() {
+        if ($this->ion_auth->logged_in()) {
+            redirect('users');
+        }
+        $this->data['meta_title'] = 'Forgot Password';
+        $this->data['content'] = 'web/users/forgot_password';
+        $this->form_validation->set_rules('email', $this->lang->line('forgot_password_validation_email_label'), 'required');
+        if ($this->form_validation->run() == false) {
+            //setup the input
+            $this->data['email'] = array('name' => 'email',
+                'id' => 'email', 'class' => 'form-control',
+            );
+
+            if ($this->config->item('identity', 'ion_auth') == 'username') {
+                $this->data['identity_label'] = $this->lang->line('forgot_password_username_identity_label');
+            } else {
+                $this->data['identity_label'] = $this->lang->line('forgot_password_email_identity_label');
+            }
+
+            //set any errors and display the form
+            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            $this->_render_page($this->template, $this->data);
+        } else {
+            // get identity for that email
+            $identity = $this->ion_auth->where('email', strtolower($this->input->post('email')))->users()->row();
+            if (empty($identity)) {
+                $this->ion_auth->set_message('forgot_password_email_not_found');
+                $this->session->set_flashdata('message', $this->ion_auth->messages());
+                redirect("users/forgot_password", 'refresh');
+            }
+
+            //run the forgotten password method to email an activation code to the user
+            $forgotten = $this->ion_auth->forgotten_password($identity->{$this->config->item('identity', 'ion_auth')});
+
+            if ($forgotten) {
+                //if there were no errors
+                $this->session->set_flashdata('message', $this->ion_auth->messages());
+                redirect("users/login", 'refresh'); //we should display a confirmation page here instead of the login page
+            } else {
+                $this->session->set_flashdata('message', $this->ion_auth->errors());
+                redirect("users/forgot_password", 'refresh');
+            }
+        }
+    }
+
+    public function reset_password($code = NULL) {
+        if ($this->ion_auth->logged_in()) {
+            redirect('users');
+        }
+        $this->data['meta_title'] = 'Reset Password';
+        $this->data['content'] = 'web/users/reset_password';
+        if (!$code) {
+            show_404();
+        }
+
+        $user = $this->ion_auth->forgotten_password_check($code);
+
+        if ($user) {
+            //if the code is valid then display the password reset form
+
+            $this->form_validation->set_rules('new', $this->lang->line('reset_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
+            $this->form_validation->set_rules('new_confirm', $this->lang->line('reset_password_validation_new_password_confirm_label'), 'required');
+
+            if ($this->form_validation->run() == false) {
+                //display the form
+                //set the flash data error message if there is one
+                $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+                $this->data['min_password_length'] = $this->config->item('min_password_length', 'ion_auth');
+                $this->data['new_password'] = array(
+                    'name' => 'new',
+                    'id' => 'new',
+                    'class' => 'form-control',
+                    'type' => 'password',
+                    'pattern' => '^.{' . $this->data['min_password_length'] . '}.*$',
+                );
+                $this->data['new_password_confirm'] = array(
+                    'name' => 'new_confirm',
+                    'id' => 'new_confirm',
+                    'class' => 'form-control',
+                    'type' => 'password',
+                    'pattern' => '^.{' . $this->data['min_password_length'] . '}.*$',
+                );
+                $this->data['user_id'] = array(
+                    'name' => 'user_id',
+                    'id' => 'user_id',
+                    'type' => 'hidden',
+                    'value' => $user->id,
+                );
+                $this->data['csrf'] = $this->_get_csrf_nonce();
+                $this->data['code'] = $code;
+
+                //render
+                $this->_render_page($this->template, $this->data);
+            } else {
+                // do we have a valid request?
+                if ($this->_valid_csrf_nonce() === FALSE || $user->id != $this->input->post('user_id')) {
+
+                    //something fishy might be up
+                    $this->ion_auth->clear_forgotten_password_code($code);
+
+                    show_error($this->lang->line('error_csrf'));
+                } else {
+                    // finally change the password
+                    $identity = $user->{$this->config->item('identity', 'ion_auth')};
+
+                    $change = $this->ion_auth->reset_password($identity, $this->input->post('new'));
+
+                    if ($change) {
+                        //if the password was successfully changed
+                        $this->session->set_flashdata('message', $this->ion_auth->messages());
+                        $this->logout();
+                    } else {
+                        $this->session->set_flashdata('message', $this->ion_auth->errors());
+                        redirect('users/reset_password/' . $code, 'refresh');
+                    }
+                }
+            }
+        } else {
+            //if the code is invalid then send them back to the forgot password page
+            $this->session->set_flashdata('message', $this->ion_auth->errors());
+            redirect("users/forgot_password", 'refresh');
+        }
+    }
+
     public function _get_csrf_nonce() {
         $this->load->helper('string');
         $key = random_string('alnum', 8);
@@ -385,17 +518,17 @@ class Users extends Frontend_Controller {
     }
 
     public function cek_email() {
+        $email = $this->input->post('email');
         $response = array(
             'valid' => false,
             'message' => 'Post argument "user" is missing.'
         );
-        $email = $this->input->post('email');
-        if ($this->m_user->cek_email($email)) {
-            // User name is registered on another account
-            $response = array('valid' => false, 'message' => 'This user name is already registered.');
-        } else {
-            // User name is available
-            $response = array('valid' => true);
+        if (isset($email)) {
+            if ($this->ion_auth->email_check($email)) {
+                $response = array('valid' => false, 'message' => 'Email already exist');
+            } else {
+                $response = array('valid' => true);
+            }
         }
         echo json_encode($response);
     }

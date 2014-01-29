@@ -32,6 +32,7 @@
                     </div>
                     <button type="submit" class="btn btn-xs btn-primary pull-right">Submit</button>
                     <?php echo form_close(); ?>
+                    <p><small><a href="forgot_password"><?php echo lang('login_forgot_password'); ?></a></small></p>
                 </div>
             </div>
         </div>

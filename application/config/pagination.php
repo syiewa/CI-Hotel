@@ -8,7 +8,6 @@ $config['first_tag_close'] = '</li>';
 $config['last_link'] = 'Last &raquo;';
 $config['last_tag_open'] = '<li class="next page">';
 $config['last_tag_close'] = '</li>';
-$config['last_link'] = FALSE;
 $config['next_tag_open'] = '<li>';
 $config['next_tag_close'] = '</li>';
 $config['prev_tag_open'] = '<li>';

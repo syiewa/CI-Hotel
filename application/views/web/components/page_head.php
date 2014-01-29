@@ -48,10 +48,13 @@
                                             </div>
                                             <div class="checkbox">
                                                 <label style="color:whitesmoke">
-                                                    <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"'); ?> Remember Me
+                                                    <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"'); ?>
+                                                    Remember Me
+                                                    <p><small><a href="<?php echo site_url('users/forgot_password'); ?>"><?php echo lang('login_forgot_password'); ?></a></small></p>
                                                 </label>
                                             </div>
                                             <div class="form-group col-md-12">
+                                              
                                                 <button type="submit" class="btn btn-success btn-block btn-xs">Sign in</button>
                                             </div>
                                             </form>

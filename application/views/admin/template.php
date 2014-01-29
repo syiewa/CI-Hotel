@@ -56,26 +56,25 @@
 
             <!-- End Sidebar -->
             <!-- Content -->
-
-            <div id="page-wrapper">
-                <div class="col-lg-12">
-                    <?php echo validation_errors('<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>', '</div>'); ?>
-                    <?php
-                    if ($this->session->flashdata('success')) {
-                        echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>' . $this->session->flashdata('success') . '</div>';
-                    }
-                    if ($this->session->flashdata('error')) {
-                        echo '<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>' . $this->session->flashdata('error') . '</div>';
-                    }
-                    ?>
-                    <?php if (!empty($content)): ?>
-                        <?php $this->load->view($content); ?>
-                    <?php else: ?>
-                        <?php echo 'Halaman tidak ada'; ?>
-                    <?php endif; ?>
-                    <!-- End Content -->
+                <div id="page-wrapper">
+                    <div class="col-lg-12">
+                        <?php echo validation_errors('<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>', '</div>'); ?>
+                        <?php
+                        if ($this->session->flashdata('success')) {
+                            echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>' . $this->session->flashdata('success') . '</div>';
+                        }
+                        if ($this->session->flashdata('error')) {
+                            echo '<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>' . $this->session->flashdata('error') . '</div>';
+                        }
+                        ?>
+                        <?php if (!empty($content)): ?>
+                            <?php $this->load->view($content); ?>
+                        <?php else: ?>
+                            <?php echo 'Halaman tidak ada'; ?>
+                        <?php endif; ?>
+                        <!-- End Content -->
+                    </div>
                 </div>
-            </div>
 
             <!-- Footer -->
             <?php // $this->load->view('components/footer'); ?>

@@ -1,48 +1,35 @@
+<div id = 'display-content'>
 <div class="page-header">
-    <h1>Data Class Room Hotel</h1>
+    <h1>Data Order</h1>
 </div>
-<a href="<?php echo base_url('index.php/admin/kelas/add'); ?>" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#telo">
-    Tambah Data
-</a>
 <br /><br />
-<table class="table table-hover table-responsive">
+<table class="table table-hover table-responsive" id="containerid">
     <thead>
         <tr class="success">
-            <th>Nama</th>
-            <th>Harga</th>    
-            <th>LCD</th>
-            <th>WIFI</th>
-            <th>Breakfast</th>
-            <th>Safe</th>
-            <th>Bath</th>
-            <th>Dinner</th>
-            <th>Parking</th>
-            <th>Laundry</th>
-            <th>&nbsp;</th>
+            <th>ID Order</th>
+            <th>Order Name</th>    
+            <th>Type Class</th>
+            <th>Order Date</th>
+            <th>Status</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        <?php if ($kelas): ?>
+        <?php if ($orders): ?>
             <?php
             $i = 1;
-            foreach ($kelas as $p) :
+            foreach ($orders as $p) :
                 ?>
                 <tr>
-                    <td><?php echo $p->title; ?></td>
-                    <td><?php echo $p->price; ?></td>
-                    <?php if ($p->fasilitas): ?>
-                        <?php foreach ($p->fasilitas as $f): ?>
-                            <td><?php echo _toimg($f->status, 0); ?></td>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <?php for ($i = 0; $i < 8; $i++) : ?>
-                            <td><?php echo _toimg('0', 0); ?></td>
-                        <?php endfor; ?>
-                    <?php endif; ?>
+                    <td><?php echo $p->order_id; ?></td>
+                    <td><?php echo $p->first_name . ' ' . $p->last_name; ?></td>
+                    <td><?php echo $p->class_title; ?></td>
+                    <td><?php echo $p->tgl_order; ?></td>
+                    <td><?php echo $status[$p->order_status]; ?></td>
                     <td>
-                        <a href="<?php echo base_url('index.php/admin/kelas/edit/' . $p->idclass); ?>" class="btn btn-default btn-xs btn-primary" data-target="#telo" role="button" data-toggle="modal"><span class="glyphicon glyphicon-edit"></span> Edit</a>
-                        <a href="<?php echo base_url('index.php/admin/kelas/gambar/' . $p->idclass); ?>" class="btn btn-default btn-xs btn-primary" ><span class="glyphicon glyphicon-edit"></span> Galery</a>
-                            <?php echo btn_delete('admin/kelas/delete/' . $p->idclass); ?>
+                        <a href="<?php echo base_url('index.php/admin/orders/edit/' . $p->order_id); ?>" class="btn btn-default btn-xs btn-primary" data-target="#telo" role="button" data-toggle="modal"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                        <a href="<?php echo base_url('index.php/admin/orders/gambar/' . $p->order_id); ?>" class="btn btn-default btn-xs btn-primary" ><span class="glyphicon glyphicon-edit"></span> Galery</a>
+                        <?php echo btn_delete('admin/orders/delete/' . $p->order_id); ?>
                     </td>
                 </tr>
                 <?php
@@ -54,7 +41,6 @@
         <?php endif; ?>
     </tbody>
 </table>
-
 <!-- Modal -->
 
 <div class="modal fade" id="telo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -76,6 +62,10 @@
         <!-- /.modal-content -->
     </div>
 </div><!-- /.modal-dialog -->
+<?php
+echo $pagination
+?> 
+</div>
 <script>
     $('#telo').on('hidden.bs.modal', function() {
         $(this).removeData('bs.modal');
