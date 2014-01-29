@@ -30,9 +30,22 @@ class M_User extends MY_Model {
         }
     }
 
-    public function cek_email($email) {
-        $this->db->where(array('email' => $email));
-        if ($this->db->get($this->tabel_users)->num_rows > 0) {
+    public function cek_guest($userid) {
+        $this->db->where(array('user_id' => $userid, 'user_id !=' => 0));
+        if ($this->db->get('guest')->num_rows > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function get_allfac() {
+        $q = $this->db->query('select * from facilities');
+        return $q->result();
+    }
+
+    public function insert_fac($data = array()) {
+        if ($this->db->insert('facilities', $data)) {
             return TRUE;
         } else {
             return FALSE;
