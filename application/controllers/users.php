@@ -101,6 +101,10 @@ class Users extends Frontend_Controller {
     }
 
     public function register() {
+        if ($this->ion_auth->logged_in()) {
+            //redirect them to the login page
+            redirect('users/index', 'refresh');
+        }
         $this->data['meta_title'] = "Register";
         $this->data['content'] = 'web/users/registration';
         $this->data['provinsi'] = $this->m_provinsi->get_provinsi();
@@ -127,7 +131,7 @@ class Users extends Frontend_Controller {
             'value' => $this->form_validation->set_value('last_name', empty($user->last_name) ? '' : $user->last_name),
         );
         $this->data['email'] = array(
-            'name' => $this->ion_auth->logged_in() ? 'email' : 'email_confirmation',
+            'name' => 'email',
             'data-validation' => 'email server',
             'data-validation-url' => site_url('users/cek_email'),
             'id' => 'email',

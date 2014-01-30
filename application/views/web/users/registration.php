@@ -139,8 +139,5 @@ $telo = $this->session->userdata('telo');
 <script>
     $.validate({
         modules: 'security',
-        onError: function() {
-            alert('Validation failed');
-        },
     });
 </script>
