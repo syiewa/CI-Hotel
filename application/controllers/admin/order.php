@@ -22,8 +22,6 @@ class Order extends Admin_Controller {
         $this->load->model('m_user');
     }
 
-    
-
     public function index() {
 
 //        $this->data['status'] = $this->m_order->status;
