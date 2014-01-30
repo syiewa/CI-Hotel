@@ -22,47 +22,7 @@ class Order extends Admin_Controller {
         $this->load->model('m_user');
     }
 
-    public function index() {
-        $count = $this->m_order->get_all();
-        $perpage = 1;
-        if (count($count) > $perpage) {
-            $this->load->library('pagination');
-            $config['base_url'] = site_url('admin/order/index');
-            $config['total_rows'] = count($count);
-            $config['per_page'] = $perpage;
-            $config['uri_segment'] = 4;
-            $q = $this->pagination->initialize($config);
-            $offset = $this->uri->segment(4);
-        } else {
-            $this->data['pagination'] = '';
-            $offset = 0;
-        }
-        $this->data['status'] = $this->m_order->status;
-        $this->data['orders'] = $this->m_order->get_recents($offset, $perpage);
-        $this->data['pagination'] = $this->pagination->create_links();
-        $this->data['content'] = 'admin/orders/index';
-        $this->load->view($this->template, $this->data);
-//        $this->load->library('Jquery_pagination');
-//        $config['base_url'] = site_url('admin/order/ajax_page');
-//        /* Here i am indicating to the url from where the pagination links and the table section will be fetched */
-//        $config['full_tag_open'] = '<ul class="pagination">';
-//        $config['full_tag_close'] = '</ul>';
-//        $config['last_tag_close'] = '</li>';
-//        $config['next_tag_open'] = '<li>';
-//        $config['next_tag_close'] = '</li>';
-//        $config['prev_tag_open'] = '<li>';
-//        $config['prev_tag_close'] = '</li>';
-//        $config['cur_tag_open'] = '<li><a href="#">';
-//        $config['cur_tag_close'] = '</a></li>';
-//        $config['num_tag_open'] = '<li>';
-//        $config['num_tag_close'] = '</li>';
-//        $config['div'] = '#display-content';
-//        /* CSS selector  for the AJAX content */
-//
-//        $config['total_rows'] = count($this->m_order->get_all());
-//        $config['per_page'] = 1;
-//        $this->jquery_pagination->initialize($config);
-    }
+    
 
     public function index() {
 
