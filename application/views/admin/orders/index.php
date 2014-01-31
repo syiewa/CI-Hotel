@@ -14,37 +14,38 @@
             </tr>
         </thead>
         <tbody id="data">
-            <?php if ($orders): ?>
-                <?php
+        <div class="log"></div>
+        <?php if ($orders): ?>
+            <?php
 //                $i = 1;
 //                foreach ($orders as $p) :
 //                    
-                ?>
-<!--                <tr class="data">
-                            <td id="order_id"><?php // echo $p->order_id;    ?></td>
-                    <td id="order_name"><?php // echo $p->first_name . ' ' . $p->last_name;    ?></td>
-                    <td id="class_title"><?php // echo $p->class_title;    ?></td>
-                    <td id="tgl_order"><?php // echo $p->tgl_order;    ?></td>
-                    <td id="order_status"><?php // echo $status[$p->order_status];    ?></td>
-                    <td>
-                        <a href="<?php // echo base_url('index.php/admin/orders/edit/' . $p->order_id);  ?>" class="btn btn-default btn-xs btn-primary" data-target="#telo" role="button" data-toggle="modal"><span class="glyphicon glyphicon-edit"></span> Edit</a>
-                        <a href="<?php // echo base_url('index.php/admin/orders/gambar/' . $p->order_id);  ?>" class="btn btn-default btn-xs btn-primary" ><span class="glyphicon glyphicon-edit"></span> Galery</a>
-                        <?php // echo btn_delete('admin/orders/delete/' . $p->order_id); ?>
-                    </td>
-                </tr>-->
-                <?php
+            ?>
+        <!--                <tr class="data">
+                        <td id="order_id"><?php // echo $p->order_id;      ?></td>
+                <td id="order_name"><?php // echo $p->first_name . ' ' . $p->last_name;      ?></td>
+                <td id="class_title"><?php // echo $p->class_title;      ?></td>
+                <td id="tgl_order"><?php // echo $p->tgl_order;      ?></td>
+                <td id="order_status"><?php // echo $status[$p->order_status];      ?></td>
+                <td>
+                    <a href="<?php // echo base_url('index.php/admin/orders/edit/' . $p->order_id);    ?>" class="btn btn-default btn-xs btn-primary" data-target="#telo" role="button" data-toggle="modal"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                    <a href="<?php // echo base_url('index.php/admin/orders/gambar/' . $p->order_id);    ?>" class="btn btn-default btn-xs btn-primary" ><span class="glyphicon glyphicon-edit"></span> Galery</a>
+            <?php // echo btn_delete('admin/orders/delete/' . $p->order_id); ?>
+                </td>
+            </tr>-->
+            <?php
 //                    $i++;
 //                endforeach;
 //                
-                ?>
-            <?php else: ?>
-                <tr><td>Belum ada data !</td></tr> 
-            <?php endif; ?>
+            ?>
+        <?php else: ?>
+            <tr><td>Belum ada data !</td></tr> 
+        <?php endif; ?>
         </tbody>
     </table>
     <!-- Modal -->
 
-    <div class="modal fade" id="telo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade bs-modal-sm" id="telo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -74,6 +75,13 @@
     });</script>
 <script>
     $(document).ready(function() {
+        $(document).ajaxStart(function() {
+            $('#telo').modal('show');
+
+        });
+        $(document).ajaxStop(function() {
+            $('#telo').modal('hide');
+        });
         var source = $("#result_table").html();
         if (source) {
             function load_result(index) {
@@ -94,8 +102,8 @@
                             html += '<td>' + data[i].class_title + '</td>';
                             html += '<td>' + data[i].tgl_order + '</td>';
                             html += '<td>' + returnedData['status'][data[i].order_status] + '</td>';
-                            html += '<td><a href="' + base_url+'/detail/'+ data[i].order_id + '" class="btn btn-default btn-xs btn-primary" >Detail</a> ';
-                            html += '<a href="' + base_url+'/delete/'+ data[i].order_id + '" class="btn btn-default btn-xs btn-danger" >Delete</a></td>'
+                            html += '<td><a href="' + base_url + '/detail/' + data[i].order_id + '" class="btn btn-default btn-xs btn-primary" >Detail</a> ';
+                            html += '<a href="' + base_url + '/delete/' + data[i].order_id + '" class="btn btn-default btn-xs btn-danger" >Delete</a></td>'
                             html += "</tr>";
                         }
                         console.log(html);

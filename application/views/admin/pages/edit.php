@@ -12,7 +12,7 @@ echo form_open_multipart('', $attributes);
             <div class="form-group">
                 <label for="inputName1" class="col-lg-2 control-label">Template</label>
                 <div class="col-lg-7">
-                    <?php echo form_dropdown('template', array('page' => 'Page', 'news_archive' => 'News archive', 'homepage' => 'Homepage', 'service' => 'Service'), $this->input->post('template') ? $this->input->post('template') : $page->template,'class=form-control'); ?>
+                    <?php echo form_dropdown('template', array('page' => 'Page', 'news' => 'News', 'homepage' => 'Homepage', 'service' => 'Service'), $this->input->post('template') ? $this->input->post('template') : $page->template,'class=form-control'); ?>
                 </div>
             </div>
             <div class="form-group">

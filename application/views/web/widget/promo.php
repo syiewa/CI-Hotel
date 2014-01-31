@@ -1,10 +1,4 @@
-<div class="row">
-    <div class='col-md-offset-2 col-md-8 text-center'>
-        <h2>Responsive Quote Carousel BS3</h2>
-    </div>
-</div>
-<div class='row'>
-    <div class='col-md-offset-1 col-md-10'>
+    <div class='col-md-7'>
         <div class="carousel slide" data-ride="carousel" id="quote-carousel">
             <!-- Bottom Carousel Indicators -->
             <ol class="carousel-indicators">
@@ -65,4 +59,3 @@
             <a data-slide="next" href="#quote-carousel" class="right carousel-control"><i class="fa fa-chevron-right"></i></a>
         </div>                          
     </div>
-</div>

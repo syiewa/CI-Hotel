@@ -82,12 +82,12 @@ function _toaktif($url = null, $id = null, $str = 0) {
     return $im;
 }
 
-function _tobooking($url = null, $idclass = null , $id = null, $str = 0) {
+function _tobooking($url = null, $idclass = null, $id = null, $str = 0) {
     $im = "";
     if ($str == "0") {
-        $im = '<a href = ' . site_url($url .$idclass .'/' . $id . '/1') . ' class="btn btn-default btn-xs btn-warning">Kosong</a>';
+        $im = '<a href = ' . site_url($url . $idclass . '/' . $id . '/1') . ' class="btn btn-default btn-xs btn-warning">Kosong</a>';
     } elseif ($str == "1") {
-        $im = '<a href = ' . site_url($url .$idclass .'/'  . $id . '/0') . ' class="btn btn-default btn-xs btn-success">Booked</a>';
+        $im = '<a href = ' . site_url($url . $idclass . '/' . $id . '/0') . ' class="btn btn-default btn-xs btn-success">Booked</a>';
     }
     return $im;
 }
@@ -108,36 +108,6 @@ function getselectedfas($id = null, $str = null) {
         $ck = "checked";
     }
     return $ck;
-}
-
-function isLogin() {
-    $CI = & get_instance();
-    if ($CI->session->userdata('is_login') == TRUE) {
-        return TRUE;
-    } else {
-        return FALSE;
-    }
-}
-
-function UserLogin() {
-    $CI = & get_instance();
-    if (isLogin() != TRUE) {
-        echo "<script> alert('anda tidak mempunyai hak akses!!')</script>";
-        redirect('login/login');
-    }
-}
-
-function cekAdminLogin() {
-    $CI = & get_instance();
-    if (isLogin() == TRUE) {
-        if ($CI->session->userdata('level_user') != 1) {
-            $CI->session->set_flashdata('message', 'Anda tidak memiliki hak akses halaman Administrator');
-            redirect('login/login');
-        }
-    } else {
-        $CI->session->set_flashdata('message', 'Anda tidak memiliki hak akses halaman Administrator');
-        redirect('login/login');
-    }
 }
 
 function add_meta_title($string) {
@@ -163,6 +133,15 @@ function attr($attributes = array()) {
     $data = array('class', 'id', 'name', 'data-validation', 'data-validation-length', 'data-validation-error-msg');
     $newarray = array_combine($data, $attributes);
     return $newarray;
+}
+
+function limit_to_numwords($string, $numwords) {
+    $excerpt = explode(' ', $string, $numwords + 1);
+    if (count($excerpt) >= $numwords) {
+        array_pop($excerpt);
+    }
+    $excerpt = implode(' ', $excerpt);
+    return $excerpt;
 }
 
 ?>

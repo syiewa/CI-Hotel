@@ -41,8 +41,12 @@ Class Pages extends Frontend_Controller {
         $this->load->model('m_news');
         $this->load->model('m_promo');
         $this->data['promo'] = $this->m_promo->get_promokelas();
-        $this->data['news'] = $this->m_news->get_all(); 
+        $this->data['news'] = $this->m_news->get_all();
         $this->data['slides'] = $this->m_slide->get_all();
+    }
+
+    private function _news() {
+        
     }
 
     private function _page() {

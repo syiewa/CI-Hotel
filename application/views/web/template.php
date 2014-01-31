@@ -62,7 +62,7 @@
             </div>
             <!-- End Content -->
             <!-- Head tags to include FontAwesome -->
-            <?php $this->load->view('web/widget/promo'); ?>
+            
             
             <!-- Footer -->
             <div class="row">
