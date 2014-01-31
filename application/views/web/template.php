@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="<?php echo base_url('assets/css/jcrop.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/fancybox/jquery.fancybox.css'); ?>" type="text/css" media="screen" />
         <link rel="stylesheet" href="<?php echo base_url('assets/fancybox/helpers/jquery.fancybox-thumbs.css'); ?>" type="text/css" media="screen" />
+         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
         <script src="<?php echo base_url('assets/js/jquery.js'); ?>" ></script>
         <script src="<?php echo base_url('assets/js/jquery-ui.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
@@ -60,7 +61,9 @@
                 </div>
             </div>
             <!-- End Content -->
-
+            <!-- Head tags to include FontAwesome -->
+            <?php $this->load->view('web/widget/promo'); ?>
+            
             <!-- Footer -->
             <div class="row">
                 <hr>
