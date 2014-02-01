@@ -20,6 +20,7 @@ class Order extends Admin_Controller {
         $this->load->model('m_order');
         $this->load->model('m_kelas');
         $this->load->model('m_user');
+        $this->load->model('m_provinsi');
     }
 
     public function index() {
@@ -61,6 +62,43 @@ class Order extends Admin_Controller {
             );
             echo json_encode($data);
         }
+    }
+
+    public function details($id) {
+        $this->load->model('m_room');
+        $this->data['order'] = $this->m_order->get($id);
+        $this->data['kelas'] = $this->m_kelas->get($this->data['order']->class_id);
+        $this->data['room'] = $this->m_room->get_dropdown($this->data['order']->class_id);
+        $this->data['guest'] = $this->m_user->get($this->data['order']->guest_id);
+        $this->data['kota'] = $this->m_provinsi->get($this->data['guest']->kota);
+        $this->data['provinsi'] = $this->m_provinsi->get($this->data['guest']->provinsi);
+        $this->data['cc'] = $this->m_order->get_cc($this->data['order']->cc_id);
+        $this->data['status'] = $this->m_order->status[$this->data['order']->order_status];
+        if ($this->input->post('submit')) {
+            $status = $this->input->post('order_status');
+            if ($status == 0) {
+                $idroom = $this->input->post('room');
+                if ($this->m_room->update(array('status' => 1), $idroom)) {
+                    if ($this->m_order->update(array('order_status' => 1), $id)) {
+                        $this->session->set_flashdata('success', 'Order Approved');
+                        redirect('admin/order/details/' . $id);
+                    }
+                }
+            } elseif ($status == 1) {
+                if ($this->m_order->update(array('order_status' => 2), $id)) {
+                    $this->session->set_flashdata('success', 'Order Completed');
+                    redirect('admin/order/details/' . $id);
+                }
+            }
+        }
+        if ($this->input->post('cancel')) {
+            if ($this->m_order->update(array('order_status' => 3), $id)) {
+                $this->session->set_flashdata('warning', 'Order Canceled');
+                redirect('admin/order/details/' . $id);
+            }
+        }
+        $this->data['content'] = 'admin/orders/details';
+        $this->load->view($this->template, $this->data);
     }
 
 //    public function ajax_page($offset = 0) {

@@ -152,7 +152,6 @@ Class Booking extends Frontend_Controller {
                 );
                 if ($this->ion_auth->register($username, $password, $email, $additional_data)) {
                     $data['user_id'] = $this->m_user->getid_users($email);
-                    $this->session->set_flashdata('message', $this->ion_auth->messages());
                 } else {
                     $this->session->set_flashdata('error', $this->ion_auth->errors());
                     redirect('booking/guest');
@@ -213,11 +212,12 @@ Class Booking extends Frontend_Controller {
         $data_cc['cc_date'] = date('Y-m-d', strtotime($date = '01-' . implode('-', $this->input->post('date', TRUE))));
         $data_cc['cc_userid'] = $idguest;
         if ($this->m_order->insert_cc($data_cc)) {
+            $idcc= $this->db->insert_id();
             $data_order = array(
                 'guest_id' => $idguest,
                 'class_id' => $this->session->userdata('idclass'),
                 'tgl_order' => date('Y-m-d'),
-                'payment_id' => '1',
+                'cc_id' => $idcc,
                 'payment_total' => $this->cart->total(),
                 'order_status' => 0,
                 'check_in' => date('Y-m-d', strtotime($this->session->userdata('from'))),

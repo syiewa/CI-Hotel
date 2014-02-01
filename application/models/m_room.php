@@ -45,6 +45,14 @@ class M_room extends MY_Model {
         return $data->result();
     }
 
+    public function get_dropdown($idclass) {
+        $data = array();
+        foreach (parent::get_many_by_array(array('idclass' => $idclass, 'status' => 0)) as $row) {
+            $data[$row['idrooms']] = $row['numbers'];
+        }
+        return $data;
+    }
+
 }
 
 ?>

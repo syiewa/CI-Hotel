@@ -57,7 +57,7 @@
             <!-- End Sidebar -->
             <!-- Content -->
                 <div id="page-wrapper">
-                    <div class="col-lg-12">
+                    <div class="col-md-12">
                         <?php echo validation_errors('<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>', '</div>'); ?>
                         <?php
                         if ($this->session->flashdata('success')) {

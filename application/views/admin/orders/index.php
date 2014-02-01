@@ -102,7 +102,7 @@
                             html += '<td>' + data[i].class_title + '</td>';
                             html += '<td>' + data[i].tgl_order + '</td>';
                             html += '<td>' + returnedData['status'][data[i].order_status] + '</td>';
-                            html += '<td><a href="' + base_url + '/detail/' + data[i].order_id + '" class="btn btn-default btn-xs btn-primary" >Detail</a> ';
+                            html += '<td><a href="' + base_url + '/details/' + data[i].order_id + '" class="btn btn-default btn-xs btn-primary" >Detail</a> ';
                             html += '<a href="' + base_url + '/delete/' + data[i].order_id + '" class="btn btn-default btn-xs btn-danger" >Delete</a></td>'
                             html += "</tr>";
                         }

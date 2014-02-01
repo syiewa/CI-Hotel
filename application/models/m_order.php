@@ -41,7 +41,7 @@ class M_order extends MY_Model {
         c.title AS class_title, 
         g.cc_type,
         `tgl_order`,
-        `payment_id`, 
+        `cc_id`, 
         `payment_total`, 
         `order_status`, 
         `check_in`, 
@@ -74,6 +74,11 @@ class M_order extends MY_Model {
         } else {
             return FALSE;
         }
+    }
+
+    public function get_cc($id) {
+        $q = $this->db->get_where($this->tabel_cc, array('id_cc' => $id));
+        return $q->row();
     }
 
 }
