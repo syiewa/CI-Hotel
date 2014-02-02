@@ -18,6 +18,7 @@ class Users extends Admin_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('m_user');
+        $this->load->model('m_provinsi');
     }
 
     public function index() {
@@ -127,12 +128,29 @@ class Users extends Admin_Controller {
         }
     }
 
-    public function edit_user($id) {
-        $this->data['meta_title'] = "Edit User";
-        $this->data['content'] = 'auth/edit_user';
+    public function address() {
+        $data = $this->m_user->array_from_post(array(
+            'alamat', 'kota', 'provinsi', 'negara', 'user_id', 'zip'
+        ));
+        if ($this->m_user->get_by(array('user_id' => $data['user_id']))) {
+            $this->m_user->update_by(array('user_id' => $data['user_id']), $data);
+            $this->session->set_flashdata('success', 'Data Saved');
+            redirect('admin/users/edit_user/' . $data['user_id'], 'refresh');
+        } else {
+            $this->m_user->insert($data);
+            $this->session->set_flashdata('success', 'Data Saved');
+            redirect('admin/users/edit_user/' . $data['user_id'], 'refresh');
+        }
+    }
 
-        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
-            redirect('auth', 'refresh');
+    public function edit_user($id) {
+        $this->data['meta_title'] = "Edit Profile";
+        $this->data['content'] = 'admin/users/edit_user';
+        $this->data['provinsi'] = $this->m_provinsi->get_provinsi();
+        $this->data['address'] = $this->m_user->get_by(array('user_id' => $id));
+
+        if (!$this->ion_auth->logged_in()) {
+            redirect('admin', 'refresh');
         }
 
         $user = $this->ion_auth->user($id)->row();
@@ -143,22 +161,17 @@ class Users extends Admin_Controller {
         $this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required|xss_clean');
         $this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required|xss_clean');
         $this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required|xss_clean');
-        $this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required|xss_clean');
         $this->form_validation->set_rules('groups', $this->lang->line('edit_user_validation_groups_label'), 'xss_clean');
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-            if ($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post('id')) {
-                show_error($this->lang->line('error_csrf'));
-            }
 
             $data = array(
+                'prefix_name' => $this->input->post('prefix_name'),
                 'first_name' => $this->input->post('first_name'),
                 'last_name' => $this->input->post('last_name'),
-                'company' => $this->input->post('company'),
                 'phone' => $this->input->post('phone'),
             );
-
             //Update the groups user belongs to
             $groupData = $this->input->post('groups');
 
@@ -181,11 +194,15 @@ class Users extends Admin_Controller {
 
             if ($this->form_validation->run() === TRUE) {
                 $this->ion_auth->update($user->id, $data);
-
+                $username = array(
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name']
+                );
+                $this->session->set_userdata($username);
                 //check to see if we are creating the user
                 //redirect them back to the admin page
-                $this->session->set_flashdata('message', "User Saved");
-                redirect("admin/users", 'refresh');
+                $this->session->set_flashdata('success', "User Saved");
+                redirect("admin/users/edit_user/" . $id, 'refresh');
             }
         }
 
@@ -199,39 +216,43 @@ class Users extends Admin_Controller {
         $this->data['user'] = $user;
         $this->data['groups'] = $groups;
         $this->data['currentGroups'] = $currentGroups;
-
+        $this->data['prefix_name'] = array(
+            'name' => 'prefix_name',
+            'id' => 'prefix_name',
+            'class' => 'form-control',
+            'value' => $this->form_validation->set_value('prefix_name', $user->prefix_name),
+        );
         $this->data['first_name'] = array(
             'name' => 'first_name',
             'id' => 'first_name',
+            'class' => 'form-control',
             'type' => 'text',
             'value' => $this->form_validation->set_value('first_name', $user->first_name),
         );
         $this->data['last_name'] = array(
             'name' => 'last_name',
             'id' => 'last_name',
+            'class' => 'form-control',
             'type' => 'text',
             'value' => $this->form_validation->set_value('last_name', $user->last_name),
-        );
-        $this->data['company'] = array(
-            'name' => 'company',
-            'id' => 'company',
-            'type' => 'text',
-            'value' => $this->form_validation->set_value('company', $user->company),
         );
         $this->data['phone'] = array(
             'name' => 'phone',
             'id' => 'phone',
+            'class' => 'form-control',
             'type' => 'text',
             'value' => $this->form_validation->set_value('phone', $user->phone),
         );
         $this->data['password'] = array(
             'name' => 'password',
             'id' => 'password',
+            'class' => 'form-control',
             'type' => 'password'
         );
         $this->data['password_confirm'] = array(
             'name' => 'password_confirm',
             'id' => 'password_confirm',
+            'class' => 'form-control',
             'type' => 'password'
         );
 
@@ -300,12 +321,7 @@ class Users extends Admin_Controller {
     }
 
     public function _valid_csrf_nonce() {
-        if ($this->input->post($this->session->flashdata('csrfkey')) !== FALSE &&
-                $this->input->post($this->session->flashdata('csrfkey')) == $this->session->flashdata('csrfvalue')) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+        return TRUE;
     }
 
     public function _render_page($view, $data = null, $render = false) {
@@ -316,6 +332,14 @@ class Users extends Admin_Controller {
 
         if (!$render)
             return $view_html;
+    }
+
+    public function list_dropdown() {
+        $this->load->model('m_provinsi');
+        $id = $this->input->post('tnmnt');
+        $cct = $this->input->post('csrf_test_name');
+        $this->data['kota'] = $this->m_provinsi->get_kota($id);
+        $this->load->view('web/booking/kota', $this->data);
     }
 
 }

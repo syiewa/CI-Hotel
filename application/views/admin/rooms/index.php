@@ -75,6 +75,7 @@
                     <th>Nama Kamar</th>
                     <th>Kelas</th>    
                     <th>Status</th>
+                    <th>Booked By</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,7 +84,12 @@
                         <tr>
                             <td><?php echo $r->numbers; ?></td>
                             <td><?php echo $kelasget->title; ?></td>
-                            <td><?php echo _tobooking('admin/rooms/aktif/',$r->idclass,$r->idrooms,$r->status); ?></td>
+                            <td><?php echo _tobooking('admin/rooms/aktif/', $r->idclass, $r->idrooms, $r->status); ?></td>
+                            <td>
+                                <?php if ($r->guest_id != 0): ?>
+                                    <?php echo $r->nama_depan . ' ' . $r->nama_belakang; ?>
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

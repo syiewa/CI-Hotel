@@ -33,6 +33,11 @@ class M_room extends MY_Model {
         return $data->result();
     }
 
+    public function get_many_by($id) {
+        $q = $this->db->query('SELECT * FROM (`rooms`) LEFT JOIN `guest` g ON `g`.`id` = `rooms`.`guest_id` WHERE `idclass` = ' . $id . ' ORDER BY `rooms`.`idrooms` ASC');
+        return $q->result();
+    }
+
     public function get_room($id = null) {
         $data = $this->db->query(
                 'SELECT r.* , c.price , c.`title` , 

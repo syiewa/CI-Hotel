@@ -24,7 +24,7 @@
 			<td><?php echo ($user->active) ? '<a href="'.site_url('admin/users/deactivate/'. $user->id).'" class="btn btn-success btn-xs" data-toggle="modal" data-target="#telo">Active
 </a>' : '<a href="'.site_url('admin/users/activate/'. $user->id).'" class="btn btn-default btn-xs">In-Active
 </a>';?></td>
-			<td><?php echo anchor("auth/edit_user/".$user->id, 'Edit') ;?></td>
+			<td><?php echo anchor("admin/users/edit_user/".$user->id, 'Edit') ;?></td>
 		</tr>
 	<?php endforeach;?>
 </table>

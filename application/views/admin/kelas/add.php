@@ -55,7 +55,7 @@ echo form_open_multipart('admin/kelas/add', $attributes);
                 <label for="inputName" class="col-lg-2 control-label">Deskripsi</label>
                 <div class="col-lg-8">
                     <?php
-                    $attr = attr(array('form-control tinymce', 'input_desc', 'description', 'length', '3-1000', 'Harga harus berisi 3-1000 karakter'));
+                    $attr = attr(array('form-control', 'input_desc', 'description', 'length', '3-1000', 'Harga harus berisi 3-1000 karakter'));
                     ?>
                     <?php echo form_textarea($attr); ?>
                 </div>

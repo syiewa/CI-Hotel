@@ -78,7 +78,7 @@ class Order extends Admin_Controller {
             $status = $this->input->post('order_status');
             if ($status == 0) {
                 $idroom = $this->input->post('room');
-                if ($this->m_room->update(array('status' => 1), $idroom)) {
+                if ($this->m_room->update(array('status' => 1, 'guest_id' => $this->data['order']->guest_id), $idroom)) {
                     if ($this->m_order->update(array('order_status' => 1), $id)) {
                         $this->session->set_flashdata('success', 'Order Approved');
                         redirect('admin/order/details/' . $id);
@@ -99,6 +99,14 @@ class Order extends Admin_Controller {
         }
         $this->data['content'] = 'admin/orders/details';
         $this->load->view($this->template, $this->data);
+    }
+
+    public function delete($id) {
+        $id || show(404);
+        if ($this->m_order->delete($id)) {
+            $this->session->set_flashdata('warning', 'Order deleted');
+            redirect('admin/order/');
+        }
     }
 
 //    public function ajax_page($offset = 0) {

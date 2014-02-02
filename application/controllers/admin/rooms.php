@@ -26,7 +26,7 @@ class Rooms extends Admin_Controller {
         if (isset($_GET['id'])) {
             $this->data['kelasget'] = $this->m_kelas->get($_GET['id']);
             $this->data['room'] = $this->m_room->get_by(array('idclass' => $_GET['id']));
-            $this->data['rooms'] = $this->m_room->get_many_by(array('idclass' => $_GET['id']));
+            $this->data['rooms'] = $this->m_room->get_many_by($_GET['id']);
             $this->data['jumlah'] = count($this->data['rooms']);
         }
 
@@ -46,10 +46,10 @@ class Rooms extends Admin_Controller {
         $this->load->view($this->template, $this->data);
     }
 
-    public function aktif($idclass = 0 ,$id = 0, $aktif = 0) {
+    public function aktif($idclass = 0, $id = 0, $aktif = 0) {
         $id OR redirect(site_url('admin/rooms'));
-        $this->m_room->update(array('status' => $aktif), $id);
-        redirect(site_url('admin/rooms?id='.$idclass));
+        $this->m_room->update(array('status' => $aktif, 'guest_id' => 0), $id);
+        redirect(site_url('admin/rooms?id=' . $idclass));
     }
 
 }
