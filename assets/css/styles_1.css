@@ -1,3 +1,39 @@
+.separator-line {
+    border: none;
+    height: 15px;
+    width: 103%;
+    margin-bottom: 0px;
+    margin-top: 5px;
+    margin-left: -15px;
+    background: url(../img/separator.png) repeat;
+}
+.carousel-caption {
+    color: #747474;
+    left: 20px;
+    bottom: 20px;
+    padding: 20px 20px 5px 20px;
+    position: absolute;
+    background: #252525;
+    width: 35%;	
+    opacity: 0.9;
+    filter: alpha(opacity=90);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+}
+
+.carousel-caption h3 {
+    color: #a1a37f;
+    font-size: 24px;
+    padding-bottom: 5px;
+    color: #f7f7f7;
+    margin-bottom: 0;
+}
+
+.carousel-caption p {
+    padding-bottom: 0px;
+    padding-top: 5px;
+    color: #bcbcbc;
+}
+
 .shape{    
     border-style: solid; border-width: 0 90px 60px 0; float:right; height: 0px; width: 0px;
     -ms-transform:rotate(360deg); /* IE 9 */

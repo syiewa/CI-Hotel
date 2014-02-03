@@ -1,4 +1,4 @@
-    <div class='col-md-7'>
+    <div class='col-md-12'>
         <div class="carousel slide" data-ride="carousel" id="quote-carousel">
             <!-- Bottom Carousel Indicators -->
             <ol class="carousel-indicators">
@@ -14,7 +14,7 @@
                 <div class="item active">
                     <blockquote>
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-md-offset-1 col-sm-9">
                                 <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit!</p>
                                 <small>Someone famous</small>
                             </div>
@@ -25,7 +25,7 @@
                 <div class="item">
                     <blockquote>
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-md-offset-1 col-sm-9">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam auctor nec lacus ut tempor. Mauris.</p>
                                 <small>Someone famous</small>
                             </div>
@@ -36,7 +36,7 @@
                 <div class="item">
                     <blockquote>
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-md-offset-1 col-sm-9">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut rutrum elit in arcu blandit, eget pretium nisl accumsan. Sed ultricies commodo tortor, eu pretium mauris.</p>
                                 <small>Someone famous</small>
                             </div>
