@@ -63,8 +63,12 @@
         <?php
         switch ($order->order_status) {
             case 0;
-                echo '<label for="exampleInputEmail2">Select Room : </label>' . form_dropdown('room', $room, '', 'class="form-control"');
-                echo ' ' . form_submit('submit', 'Approve!', 'class="btn btn-primary"');
+                if ($room) {
+                    echo '<label for="exampleInputEmail2">Select Room : </label>' . form_dropdown('room', $room, '', 'class="form-control"');
+                    echo ' ' . form_submit('submit', 'Approve!', 'class="btn btn-primary"');
+                } else {
+                    echo '<span class="label label-danger">There is no available rooms!!</span>';
+                }
                 break;
             case 1;
                 echo form_submit('submit', 'Complete!', 'class="btn btn-success"');

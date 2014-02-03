@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="<?php echo base_url('assets/css/jcrop.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/fancybox/jquery.fancybox.css'); ?>" type="text/css" media="screen" />
         <link rel="stylesheet" href="<?php echo base_url('assets/fancybox/helpers/jquery.fancybox-thumbs.css'); ?>" type="text/css" media="screen" />
+        <link rel="stylesheet" href="<?php echo base_url('assets/css/sinister.css'); ?>" type="text/css" media="screen" />
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
         <script src="<?php echo base_url('assets/js/jquery.js'); ?>" ></script>
         <script src="<?php echo base_url('assets/js/jquery-ui.js'); ?>"></script>
@@ -27,6 +28,39 @@
         <script type="text/javascript" src="<?php echo base_url('assets/fancybox/helpers/jquery.fancybox-thumbs.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/respond.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/html5shiv.js'); ?>"></script>
+        <style>
+            .ImageWrapper .ImageOverlayH {
+                background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+                bottom: 0;
+                display: block;
+                height: 100%;
+                left: 0;
+                opacity: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+                transition: all 0.2s ease 0s;
+                width: 100%;
+            }
+            .ImageWrapper:hover .ImageOverlayH {
+                opacity: 1;
+            }
+
+            .ImageWrapper .StyleH {
+                visibility: hidden;
+                margin: 0;
+                opacity: 0;
+                position: absolute;
+                text-align: center;
+                width: 100%;
+                top: 50%;
+                margin-top: -20px;
+            }
+            .ImageWrapper:hover .StyleH {
+                opacity: 1;
+                visibility: visible;
+            }
+        </style>
     </head>
 
     <body>
