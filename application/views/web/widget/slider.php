@@ -30,4 +30,5 @@
                 <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
                     <span class="icon-next"></span>
                 </a>
+                
             </div>

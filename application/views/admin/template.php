@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-responsive.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/sb-admin.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-wysihtml5.css'); ?>">
-        <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+        <link rel="stylesheet" href="<?php echo base_url('assets/css/morris-0.4.3.min.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/datepicker.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/jcrop.css'); ?>">
@@ -27,7 +27,6 @@
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
         <script src="<?php echo base_url('assets/js/jcrop.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/jquery.mjs.nestedSortable.js'); ?>"></script>
-<!--        <script type="text/javascript" src="<?php echo base_url('assets/js/tiny_mce/tiny_mce.js'); ?>"></script>-->
         <script type="text/javascript" src="<?php echo base_url('assets/fancybox/jquery.fancybox.pack.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/fancybox/helpers/jquery.fancybox-thumbs.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/respond.js'); ?>"></script>

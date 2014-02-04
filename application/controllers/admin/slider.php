@@ -71,6 +71,7 @@ class slider extends Admin_Controller {
                 redirect('admin/slider');
             }
         }
+        echo 2;
         $this->data['content'] = 'admin/slider/add';
         $this->load->view('admin/modal', $this->data);
     }

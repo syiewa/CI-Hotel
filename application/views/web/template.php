@@ -16,14 +16,13 @@
         <link rel="stylesheet" href="<?php echo base_url('assets/fancybox/jquery.fancybox.css'); ?>" type="text/css" media="screen" />
         <link rel="stylesheet" href="<?php echo base_url('assets/fancybox/helpers/jquery.fancybox-thumbs.css'); ?>" type="text/css" media="screen" />
         <link rel="stylesheet" href="<?php echo base_url('assets/css/sinister.css'); ?>" type="text/css" media="screen" />
-        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css'); ?>">
         <script src="<?php echo base_url('assets/js/jquery.js'); ?>" ></script>
         <script src="<?php echo base_url('assets/js/jquery-ui.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/jquery.form-validator.min.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/jcrop.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/jquery.mjs.nestedSortable.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('assets/js/tiny_mce/tiny_mce.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/fancybox/jquery.fancybox.pack.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/fancybox/helpers/jquery.fancybox-thumbs.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/respond.js'); ?>"></script>

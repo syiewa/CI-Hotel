@@ -47,7 +47,7 @@
                 <div class="col-md-4">
                     <h5><i><?php echo $new->title; ?></h5>
                     <img class="img-responsive" src="<?php echo empty($new->featurephoto) || $new->featurephoto == "" ? 'http://placehold.it/300x100&text=News' : base_url('assets/img/thumbnails/' . $new->featurephoto); ?>" alt="<?php echo $new->title; ?>">
-                    <p><?php echo limit_to_numwords(strip_tags($new->post_entry), 25); ?><a href="map_properties.html" class="pull-right">more...</a></p>
+                    <p><?php echo limit_to_numwords(strip_tags($new->post_entry), 25); ?><a href="<?php echo site_url('news'); ?>" class="pull-right">more...</a></p>
                 </div>
             <?php endforeach; ?>
         </div>
