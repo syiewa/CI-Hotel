@@ -71,7 +71,7 @@ class Order extends Admin_Controller {
         $this->data['room'] = $this->m_room->get_dropdown($this->data['order']->class_id);
         $this->data['guest'] = $this->m_user->get($this->data['order']->guest_id);
         $this->data['kota'] = $this->m_provinsi->get($this->data['guest']->kota);
-        $this->data['provinsi'] = $this->m_provinsi->get($this->data['guest']->provinsi);
+        $this->data['provinsi'] = $this->m_provinsi->get_provinsi_id($this->data['guest']->provinsi);
         $this->data['cc'] = $this->m_order->get_cc($this->data['order']->cc_id);
         $this->data['status'] = $this->m_order->status[$this->data['order']->order_status];
         if ($this->input->post('submit')) {

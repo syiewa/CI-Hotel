@@ -22,6 +22,13 @@ class M_provinsi extends MY_Model {
         return $data;
     }
 
+    public function get_provinsi_id($id) {
+        $data = array();
+        $this->db->order_by('lokasi_ID', 'esc');
+        $data = parent::get_by(array('lokasi_kabupatenkota' => 0, 'lokasi_kecamatan' => 0, 'lokasi_kelurahan' => 0, 'lokasi_propinsi' => $id));
+        return $data;
+    }
+
     public function get_allkota() {
         $data = array();
         $this->db->order_by('lokasi_ID', 'esc');
